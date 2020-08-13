@@ -1,0 +1,9 @@
+DIM = 42
+
+
+INEQUALITIES_SECTION
+ +1x1 +1x2 +1x3 +1x4 +1x5 +1x6 <= 1
+ +1x1 +1x8 +1x15 +1x22 +1x29 +1x36 -1x37 -1x38 -1x39 -1x40 -1x41 -1x42 <= 5
+
+END
+

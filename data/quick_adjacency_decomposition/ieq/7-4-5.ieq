@@ -1,0 +1,9 @@
+DIM = 28
+
+
+INEQUALITIES_SECTION
+ +1x1 +1x6 +1x11 +1x16 -1x17 -1x18 -1x19 -1x20 <= 3
+ +1x1 +1x2 +1x3 +1x4 <= 1
+
+END
+

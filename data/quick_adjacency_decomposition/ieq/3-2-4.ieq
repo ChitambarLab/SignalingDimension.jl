@@ -1,0 +1,10 @@
+DIM = 9
+
+
+INEQUALITIES_SECTION
+ +1x1 +1x2 +1x6 -1x7 -1x8 -1x9 <= 1
+ +1x1 +1x2 +1x3 <= 1
+ +2x1 +1x2 +1x5 +2x6 -2x7 -1x8 -2x9 <= 2
+
+END
+

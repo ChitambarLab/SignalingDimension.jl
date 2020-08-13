@@ -1,0 +1,9 @@
+DIM = 22
+
+
+INEQUALITIES_SECTION
+ +1x1 +1x2 <= 1
+ +1x1 +1x4 -1x5 -1x6 <= 1
+
+END
+
