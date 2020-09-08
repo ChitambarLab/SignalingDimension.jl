@@ -1,5 +1,7 @@
 module PrepareAndMeasureAnalysis
 
-# Write your package code here.
+using BellScenario
+
+include("./affinely_independent_enumerations.jl")
 
 end
