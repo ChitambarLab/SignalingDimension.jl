@@ -4,8 +4,10 @@ authors = ["Brian Doolittle <brian.d.doolittle@gmail.com>"]
 version = "0.1.0"
 
 [deps]
+BellScenario = "4e58fcc1-4405-48af-b0f2-42df636d9190"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
+QBase = "e52e8ede-12bf-4731-8af7-b01f6064cb11"
 
 [compat]
 julia = "1"
