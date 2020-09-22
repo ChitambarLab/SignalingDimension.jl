@@ -36,12 +36,12 @@ end
 
     @testset "simple examples" begin
         @test aff_ind_error_game_strategies(4,2,3) == [
-            [0 1 1 1; 1 0 0 0; 0 0 0 0; 0 0 0 0],[0 1 1 1; 0 0 0 0; 1 0 0 0; 0 0 0 0],
-            [1 1 1 0; 0 0 0 0; 0 0 0 0; 0 0 0 1],[0 1 0 0; 1 0 1 1; 0 0 0 0; 0 0 0 0],
-            [0 0 0 0; 1 0 1 1; 0 1 0 0; 0 0 0 0],[0 0 0 0; 1 1 1 0; 0 0 0 0; 0 0 0 1],
-            [0 0 1 0; 0 0 0 0; 1 1 0 1; 0 0 0 0],[0 0 0 0; 0 0 1 0; 1 1 0 1; 0 0 0 0],
+            [0 1 0 1; 1 0 1 0; 0 0 0 0; 0 0 0 0],[0 0 1 1; 0 0 0 0; 1 1 0 0; 0 0 0 0],
+            [1 1 1 0; 0 0 0 0; 0 0 0 0; 0 0 0 1],[0 1 1 0; 1 0 0 1; 0 0 0 0; 0 0 0 0],
+            [0 0 0 0; 0 0 1 1; 1 1 0 0; 0 0 0 0],[0 0 0 0; 1 1 1 0; 0 0 0 0; 0 0 0 1],
+            [0 1 1 0; 0 0 0 0; 1 0 0 1; 0 0 0 0],[0 0 0 0; 1 0 1 0; 0 1 0 1; 0 0 0 0],
             [0 0 0 0; 0 0 0 0; 1 1 1 0; 0 0 0 1],[0 1 1 0; 0 0 0 0; 0 0 0 0; 1 0 0 1],
-            [0 0 0 0; 1 0 1 0; 0 0 0 0; 0 1 0 1],[0 0 0 0; 0 0 0 0; 1 1 0 0; 0 0 1 1]
+            [0 0 0 0; 1 0 1 0; 0 0 0 0; 0 1 0 1],[0 0 0 0; 0 0 0 0; 1 1 0 0; 0 0 1 1],
         ]
     end
 
@@ -49,7 +49,6 @@ end
         for N in 4:20
             for d in 2:N-2
                 for error_size in 3:N-d+1
-
                     strats = aff_ind_error_game_strategies(N,d,error_size)
                     error_game = ones(Int64, error_size, error_size) .- Matrix{Int64}(I, error_size, error_size)
 
@@ -69,6 +68,13 @@ end
 
 
 @testset "_aff_ind_vecs()" begin
+
+    @testset "base cases" begin
+        @test PrepareAndMeasureAnalysis._aff_ind_vecs(0,1) == [[1]]
+        @test PrepareAndMeasureAnalysis._aff_ind_vecs(1,0) == [[0]]
+        @test PrepareAndMeasureAnalysis._aff_ind_vecs(3,0) == [[0,0,0]]
+        @test PrepareAndMeasureAnalysis._aff_ind_vecs(0,3) == [[1,1,1]]
+    end
 
     @testset "simple examples" begin
         @test PrepareAndMeasureAnalysis._aff_ind_vecs(3,4) == [
