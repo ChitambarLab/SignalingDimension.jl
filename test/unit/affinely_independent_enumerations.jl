@@ -18,10 +18,11 @@ using PrepareAndMeasureAnalysis
         for N in 3:12
             for d in 2:N-1
                 strats = aff_ind_success_game_strategies(N,d)
+                succ_game = success_game(N,d)
 
                 @test all(s ->
                     rank(s) == d
-                    && tr(s) == d
+                    && succ_game[:]'*s[:] == succ_game.β
                     && DeterministicStrategy(s) isa BellScenario.DeterministicStrategy,
                 strats)
 
@@ -48,13 +49,13 @@ end
     @testset "scanning over simple cases" begin
         for N in 4:20
             for d in 2:N-2
-                for error_size in 3:N-d+1
-                    strats = aff_ind_error_game_strategies(N,d,error_size)
-                    error_game = ones(Int64, error_size, error_size) .- Matrix{Int64}(I, error_size, error_size)
+                for ε in 3:N-d+1
+                    strats = aff_ind_error_game_strategies(N, d, ε)
+                    err_game = error_game(N,d,ε)
 
                     @test all(s ->
                         rank(s) == d
-                        && error_size + d - 2 == sum(error_game[:] .* s[1:error_size,1:error_size][:]) + tr(s[error_size+1:end,error_size+1:end])
+                        && err_game[:]' * s[:] == err_game.β
                         && DeterministicStrategy(s) isa BellScenario.DeterministicStrategy,
                     strats)
 
@@ -80,6 +81,10 @@ end
         @test PrepareAndMeasureAnalysis._aff_ind_vecs(3,4) == [
             [1,0,0,0,1,1,1],[0,1,0,0,1,1,1],[0,0,1,0,1,1,1],[0,0,0,1,1,1,1],
             [0,0,1,1,0,1,1],[0,0,1,1,1,0,1],[0,0,1,1,1,1,0]
+        ]
+        @test PrepareAndMeasureAnalysis._aff_ind_vecs(1,5) == [
+            [1,0,1,1,1,1],[0,1,1,1,1,1],[1,1,0,1,1,1],
+            [1,1,1,0,1,1],[1,1,1,1,0,1],[1,1,1,1,1,0]
         ]
     end
 
