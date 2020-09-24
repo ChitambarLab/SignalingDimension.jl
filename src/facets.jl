@@ -1,4 +1,4 @@
-export success_game, error_game, ambiguous_game
+export success_game, error_game, ambiguous_game, generalized_error_game
 
 """
     success_game( N :: Int64, d :: Int64 ) :: BellGame
@@ -68,4 +68,37 @@ function ambiguous_game(N :: Int64, d :: Int64) :: BellGame
     succ_game = (N-d)*Matrix{Int64}(I, N-1, N-1)
 
     BellGame( cat(succ_game, ones(Int64, 1, N-1), dims = 1), d*(N-d))
+end
+
+"""
+    generalized_error_game( N :: Int64, d :: Int64, k :: Int64 ) :: BellGame
+
+Constructs the generalized error game for the specified parameters:
+* `N` is the number of outputs
+* `d` is the signaling dimension
+* `k` is the number of non-zero terms in each column
+
+A `DomainError` is satisfied if the following requirements aren't satisfied:
+* `(N - k) ≥ d ≥ 2`
+* `(N - 1) ≥ k ≥ 1`
+* `N ≥ 3`
+"""
+function generalized_error_game(N :: Int64, d :: Int64, k :: Int64) :: BellGame
+    if !(N - k ≥ d ≥ 2)
+        throw(DomainError(d, "Input d must satisfy `(N - k) ≥ d ≥ 2`"))
+    elseif !(N - 1 ≥ k ≥ 1)
+        throw(DomainError(k, "Input k must satisfy `(N - 1) ≥ k ≥ 1`"))
+    elseif !(N ≥ 3)
+        throw(DomainError(N, "Input N must satisfy `N ≥ 3`"))
+    end
+
+    err_game = hcat(map( combo -> begin
+        a = zeros(Int64, N)
+        a[combo] .= 1
+        return a
+    end, combinations(1:N, k))...)
+
+    max_score = sum(map(i -> binomial(N-i, k-1), 1:d))
+
+    BellGame(err_game, max_score)
 end

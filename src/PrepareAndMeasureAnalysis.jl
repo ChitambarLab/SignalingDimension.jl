@@ -1,6 +1,7 @@
 module PrepareAndMeasureAnalysis
 
 using LinearAlgebra
+using Combinatorics
 using BellScenario
 
 include("./facets.jl")

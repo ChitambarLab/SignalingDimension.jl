@@ -112,4 +112,86 @@ end
     end
 end
 
+@testset "generalized_error_game()" begin
+    @testset "success_game generalization" begin
+        k = 1
+
+        for N in 3:6
+            for d in 2:N-1
+                gen_err_game = generalized_error_game(N, d, k)
+
+                succ_game = success_game(N, d)
+
+                @test gen_err_game isa BellGame
+                @test gen_err_game == succ_game
+                @test gen_err_game.β == succ_game.β
+            end
+        end
+    end
+
+    @testset "errors" begin
+        @test_throws DomainError generalized_error_game(2,2,1)
+        @test_throws DomainError generalized_error_game(5,2,5)
+        @test_throws DomainError generalized_error_game(5,2,0)
+        @test_throws DomainError generalized_error_game(5,4,2)
+        @test_throws DomainError generalized_error_game(5,1,2)
+    end
+
+    @testset "simple non-trivial cases" begin
+        @testset "6-2-4 polytope" begin
+            gen_err_game = generalized_error_game(4, 2, 2)
+
+            @test gen_err_game isa BellGame
+            @test gen_err_game == [
+                1 1 1 0 0 0;
+                1 0 0 1 1 0;
+                0 1 0 1 0 1;
+                0 0 1 0 1 1
+            ]
+            @test gen_err_game.β == 5
+        end
+
+        @testset "10-2-5 polytope" begin
+            gen_err_game1 = generalized_error_game(5, 2, 2)
+
+            @test gen_err_game1 isa BellGame
+            @test gen_err_game1 == [
+                1 1 1 1 0 0 0 0 0 0;
+                1 0 0 0 1 1 1 0 0 0;
+                0 1 0 0 1 0 0 1 1 0;
+                0 0 1 0 0 1 0 1 0 1;
+                0 0 0 1 0 0 1 0 1 1;
+            ]
+            @test gen_err_game1.β == 7
+
+            gen_err_game2 = generalized_error_game(5,2,3)
+
+            @test gen_err_game2 isa BellGame
+            @test gen_err_game2 == [
+                1 1 1 1 1 1 0 0 0 0;
+                1 1 1 0 0 0 1 1 1 0;
+                1 0 0 1 1 0 1 1 0 1;
+                0 1 0 1 0 1 1 0 1 1;
+                0 0 1 0 1 1 0 1 1 1;
+            ]
+            @test gen_err_game2.β == 9
+        end
+
+        @testset "10-3-5 polytope" begin
+            gen_err_game = generalized_error_game(5,3,2)
+
+            @test gen_err_game isa BellGame
+            @test gen_err_game == [
+                1 1 1 1 0 0 0 0 0 0;
+                1 0 0 0 1 1 1 0 0 0;
+                0 1 0 0 1 0 0 1 1 0;
+                0 0 1 0 0 1 0 1 0 1;
+                0 0 0 1 0 0 1 0 1 1;
+            ]
+
+            @test gen_err_game.β == 9
+        end
+    end
+end
+
 end
