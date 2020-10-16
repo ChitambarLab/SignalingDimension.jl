@@ -106,4 +106,40 @@ end
 
 end
 
+@testset "aff_ind_generalized_error_game_strategies()" begin
+    @testset "k = 2, d = N-k" begin
+        for N in 4:15
+            k = 2
+            d = N-k
+
+            game = generalized_error_game(N,d,k)
+            strats = aff_ind_generalized_error_game_strategies_k2(N,d,k)
+
+            @test all(s -> sum(sum(game.*s)) == game.β, strats)
+            @test all(s -> rank(s) == d, strats)
+            @test all(s -> is_deterministic(s), strats)
+
+            @test length(strats) == (N-1)*binomial(N,k)
+            @test LocalPolytope.dimension(strats) == (N-1)*binomial(N,k) - 1
+        end
+    end
+
+    @testset "d = 2, k = N-d" begin
+        for N in 4:15
+            d = 2
+            k = N-d
+
+            game = generalized_error_game(N,d,k)
+            strats = aff_ind_generalized_error_game_strategies_d2(N,d,k)
+
+            @test all(s -> sum(sum(game.*s)) == game.β, strats)
+            @test all(s -> rank(s) == d, strats)
+            @test all(s -> is_deterministic(s), strats)
+
+            @test length(strats) == (N-1)*binomial(N,k)
+            @test LocalPolytope.dimension(strats) == (N-1)*binomial(N,k) - 1
+        end
+    end
+end
+
 end
