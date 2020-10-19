@@ -107,13 +107,51 @@ end
 end
 
 @testset "aff_ind_generalized_error_game_strategies()" begin
+    @testset "N = k + d: scanning over cases" begin
+        for N in 6:10
+            for d in 3:N-3
+                k = N - d
+
+                strats = aff_ind_generalized_error_game_strategies(N,d,k)
+                game = generalized_error_game(N,d,k)
+
+                strats = strats[filter(i -> isassigned(strats,i), 1:length(strats))]
+
+                @test all(s -> sum(sum(game.*s)) == game.β, strats)
+                @test all(s -> rank(s) == d, strats)
+                @test all(s -> is_deterministic(s), strats)
+
+                @test length(strats) == (N-1)*binomial(N,k)
+                @test LocalPolytope.dimension(strats) == (N-1)*binomial(N,k) - 1
+            end
+        end
+    end
+
+    @testset "N = k + d: spot check" begin
+        N = 11
+        k = 7
+        d = 4
+
+        strats = aff_ind_generalized_error_game_strategies(N,d,k)
+        game = generalized_error_game(N,d,k)
+
+        strats = strats[filter(i -> isassigned(strats,i), 1:length(strats))]
+
+        @test all(s -> sum(sum(game.*s)) == game.β, strats)
+        @test all(s -> rank(s) == d, strats)
+        @test all(s -> is_deterministic(s), strats)
+
+        @test length(strats) == (N-1)*binomial(N,k)
+        @test LocalPolytope.dimension(strats) == (N-1)*binomial(N,k) - 1
+    end
+
     @testset "k = 2, d = N-k" begin
         for N in 4:15
             k = 2
             d = N-k
 
             game = generalized_error_game(N,d,k)
-            strats = aff_ind_generalized_error_game_strategies_k2(N,d,k)
+            strats = PrepareAndMeasureAnalysis._aff_ind_generalized_error_game_strategies_k2(N,d,k)
 
             @test all(s -> sum(sum(game.*s)) == game.β, strats)
             @test all(s -> rank(s) == d, strats)
@@ -130,7 +168,7 @@ end
             k = N-d
 
             game = generalized_error_game(N,d,k)
-            strats = aff_ind_generalized_error_game_strategies_d2(N,d,k)
+            strats = PrepareAndMeasureAnalysis._aff_ind_generalized_error_game_strategies_d2(N,d,k)
 
             @test all(s -> sum(sum(game.*s)) == game.β, strats)
             @test all(s -> rank(s) == d, strats)

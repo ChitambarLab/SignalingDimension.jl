@@ -1,6 +1,7 @@
 export aff_ind_success_game_strategies, aff_ind_error_game_strategies
 
-export aff_ind_generalized_error_game_strategies_d2, aff_ind_generalized_error_game_strategies_k2
+export aff_ind_generalized_error_game_strategies
+
 """
     aff_ind_success_game_strategies( N :: Int64, d :: Int64 ) :: Vector{Matrix{Int64}}
 
@@ -165,17 +166,153 @@ function aff_ind_error_game_strategies(N :: Int64, d :: Int64, error_size :: Int
 end
 
 """
-    aff_ind_generalized_error_game_strategies_k2(
+    aff_ind_generalized_error_game_strategies(
         N :: Int64, d :: Int64, k :: Int64
     ) :: Vector{Matrix{Int64}}
 
+Enumerates an affinely independent set of vertices for the generalized error game.
+The vertices are `N x binomial(N,k)`, rank-`d`, column stochastic matrices.
+This function is restricted to games where `N = d + k`.
+
+Valid inputs are `N ≥ 4`, `d ≥ 2`, and `k ≥ 2`.
+"""
+function aff_ind_generalized_error_game_strategies(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
+    if !(N == k + d)
+        throw(DomainError(N, "`N = k + d` must be satisfied"))
+    elseif !( N ≥ 4 && d ≥ 2 && k ≥ 2 )
+        throw(DomainError((N, k, d), "`N ≥ 4`, `d ≥ 2`, and `k ≥ 2` must be satisfied"))
+    end
+
+    if d == 2
+        return _aff_ind_generalized_error_game_strategies_d2(N, d, k)
+    elseif k == 2
+        return _aff_ind_generalized_error_game_strategies_k2(N, d, k)
+    else
+        matrices = Vector{Matrix{Int64}}(undef, (N-1)*binomial(N,k))
+        matrix_id = 1
+
+        # getting affinely independent matrices in the bottom right subblock
+        br_subblock_matrices = aff_ind_generalized_error_game_strategies(N-1, d-1, k)
+
+        # expanding bottom right subblock strategies with constant top row
+        for br_subblock in br_subblock_matrices
+            m = zeros(Int64, N, binomial(N,k))
+            m[2:end, (binomial(N-1,k-1)+1):end] = br_subblock
+            m[1, 1:(binomial(N-1,k-1))] .= 1
+
+            matrices[matrix_id] = m
+            matrix_id += 1
+        end
+
+        br_subblock_game = generalized_error_game(N-1,d-1,k)
+
+        # placing a 1 in each 0 element of top row
+        for combo in combinations(1:N-1, d-1)
+            m = zeros(Int64, N, binomial(N,k))
+            m[1, 1:(binomial(N-1,k-1))] .= 1
+
+            for combo_id in combo
+                m[1+combo_id, (binomial(N-1,k-1)+1):end] = br_subblock_game[combo_id,:]
+
+                for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+                    if sum(m[:,col_id]) > 1
+                        m[1+combo_id, col_id] = 0
+                    end
+                end
+            end
+
+            for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+                if sum(m[:,col_id]) == 0
+                    m[1,col_id] = 1
+                end
+            end
+
+            matrices[matrix_id] = m
+            matrix_id += 1
+        end
+
+        bl_subblock_game = generalized_error_game(N-1,d-1,k-1)
+
+        # placing a 0 in each 1 element of the top row
+        for col_id in 1:binomial(N-1,k-1)
+            m = zeros(Int64, N, binomial(N,k))
+            m[1,filter(i -> i != col_id, 1:binomial(N-1,k-1))] .= 1
+
+            target_row_id = findfirst(i -> i == 1, bl_subblock_game[:,col_id]) + 1
+
+            m[target_row_id, col_id] = 1
+
+            max_row_id = (target_row_id <= d) ? d : target_row_id
+
+            for row_id in [2:d-1..., max_row_id]
+                m[row_id, (binomial(N-1,k-1)+1):end] = br_subblock_game[row_id-1,:]
+
+                for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+                    if sum(m[:,col_id]) > 1
+                        m[row_id, col_id] = 0
+                    end
+                end
+            end
+
+            for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+                if sum(m[:,col_id]) == 0
+                    m[max_row_id, col_id] = 1
+                end
+            end
+
+            matrices[matrix_id] = m
+            matrix_id += 1
+        end
+
+        # affinely independent matrices for bottom left subblock
+        bl_subblock_matrices = aff_ind_generalized_error_game_strategies(N-1,d,k-1)
+
+        # enumerating strategies in bottom left subblock not using top row
+        for bl_subblock in bl_subblock_matrices
+            m = zeros(Int64, N, binomial(N,k))
+
+            m[2:end, 1:binomial(N-1,k-1)] = bl_subblock
+
+            non_zero_row_ids = filter(i -> sum(bl_subblock[i,1:end]) > 0, 1:N-1)
+
+            for row_id in non_zero_row_ids
+                m[1+row_id, (binomial(N-1,k-1)+1):end] = br_subblock_game[row_id,:]
+
+                for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+                    if sum(m[:,col_id]) > 1
+                        m[1+row_id, col_id] = 0
+                    end
+                end
+            end
+
+            for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+                if sum(m[:,col_id]) == 0
+                    m[non_zero_row_ids[end], col_id] = 1
+                end
+            end
+
+            matrices[matrix_id] = m
+            matrix_id += 1
+        end
+
+
+        return matrices
+    end
+end
+
+"""
+    _aff_ind_generalized_error_game_strategies_k2(
+        N :: Int64, d :: Int64, k :: Int64
+    ) :: Vector{Matrix{Int64}}
+
+Helper method for aff_ind_generalized_error_game_strategies.
 Enumerates an affinely independent set of vertices for the generalized error game.
 The vertices are `N x binomial(N,k)`, rank-`d`, column stochastic matrices.
 This function is restricted to `k = 2` and `N = d + k`.
 
 Valid inputs are `N > 4`, `k = 2`, and `d = N - k`.
 """
-function aff_ind_generalized_error_game_strategies_k2(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
+function _aff_ind_generalized_error_game_strategies_k2(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
     if !(k == 2)
         throw(DomainError(k, "k > 2 not supported by this function"))
     elseif !(N == k+d)
@@ -183,13 +320,13 @@ function aff_ind_generalized_error_game_strategies_k2(N :: Int64, d :: Int64, k 
     end
 
     if N == 4 && d == 2
-        return aff_ind_generalized_error_game_strategies_d2(N, d, k)
+        return _aff_ind_generalized_error_game_strategies_d2(N, d, k)
     else
         matrices = Vector{Matrix{Int64}}(undef, (N-1)*binomial(N,k))
         matrix_id = 1
 
         # expanding bottom right subblock strategies with constant top row
-        br_subblock_matrices = aff_ind_generalized_error_game_strategies_k2(N-1, d-1, k)
+        br_subblock_matrices = _aff_ind_generalized_error_game_strategies_k2(N-1, d-1, k)
 
         for br_subblock in br_subblock_matrices
             m = zeros(Int64, N, binomial(N,k))
@@ -224,7 +361,7 @@ function aff_ind_generalized_error_game_strategies_k2(N :: Int64, d :: Int64, k 
             matrix_id += 1
         end
 
-        # enumerating all  d-success game strategies
+        # enumerating all d-success game strategies
         subblock_game = generalized_error_game(N-1,d-1,k)
 
         for combo in combinations(1:N-1, d)
@@ -283,17 +420,18 @@ function aff_ind_generalized_error_game_strategies_k2(N :: Int64, d :: Int64, k 
 end
 
 """
-    aff_ind_generalized_error_game_strategies_d2(
+    _aff_ind_generalized_error_game_strategies_d2(
         N :: Int64, d :: Int64, k :: Int64
     ) :: Vector{Matrix{Int64}}
 
+Helper method for aff_ind_generalized_error_game_strategies.
 Enumerates an affinely independent set of vertices for the generalized error game.
 The vertices are `N x binomial(N,k)`, rank-`d`, column stochastic matrices.
 This function is restricted to games where `d = 2` and `N = d + k`.
 
 Valid inputs are `N > 4`, `d = 2`, and `k = N - d`.
 """
-function aff_ind_generalized_error_game_strategies_d2(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
+function _aff_ind_generalized_error_game_strategies_d2(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
     if !(d==2)
         throw(DomainError(d, "d > 2 not implemented yet"))
     elseif !(N == k+d)
