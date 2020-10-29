@@ -180,4 +180,58 @@ end
     end
 end
 
+@testset "aff_ind_ambiguous_game()" begin
+    @testset "simplest example" begin
+        strats = aff_ind_ambiguous_game_strategies(4,2)
+
+        @test strats[1] == [1 1 0;0 0 0;0 0 1;0 0 0]
+        @test strats[2] == [1 0 1;0 1 0;0 0 0;0 0 0]
+        @test strats[3] == [0 0 0;1 1 0;0 0 1;0 0 0]
+        @test strats[4] == [1 0 0;0 1 1;0 0 0;0 0 0]
+        @test strats[5] == [0 0 0;0 1 0;1 0 1;0 0 0]
+        @test strats[6] == [1 0 0;0 0 0;0 1 1;0 0 0]
+        @test strats[7] == [0 0 0;0 1 0;0 0 0;1 0 1]
+        @test strats[8] == [1 0 0;0 0 0;0 0 0;0 1 1]
+        @test strats[9] == [0 0 0;0 0 0;0 0 1;1 1 0]
+    end
+
+    @testset "scanning through cases" begin
+        for N in 4:30
+            for d in 2:N-2
+                strats = aff_ind_ambiguous_game_strategies(N,d)
+                game = ambiguous_game(N,d)
+
+                @test all(s -> sum(game[:].*s[:]) == game.β, strats)
+                @test all(s -> rank(s) == d, strats)
+                @test all(s -> is_deterministic(s), strats)
+
+                @test length(strats) == (N-1)*(N-1)
+                @test LocalPolytope.dimension(strats) == (N-1)*(N-1) - 1
+            end
+        end
+    end
+
+    @testset "spot checks" begin
+        @testset "N = 100, d = 77" begin
+            N = 50
+            d = 27
+
+            strats = aff_ind_ambiguous_game_strategies(N,d)
+            game = ambiguous_game(N,d)
+
+            @test all(s -> sum(game[:].*s[:]) == game.β, strats)
+            @test all(s -> rank(s) == d, strats)
+            @test all(s -> is_deterministic(s), strats)
+
+            @test length(strats) == (N-1)*(N-1)
+            @test LocalPolytope.dimension(strats) == (N-1)*(N-1) - 1
+        end
+    end
+
+    @testset "domain errors" begin
+        @test_throws DomainError aff_ind_ambiguous_game_strategies(3,2)
+        @test_throws DomainError aff_ind_ambiguous_game_strategies(4,3)
+    end
+end
+
 end

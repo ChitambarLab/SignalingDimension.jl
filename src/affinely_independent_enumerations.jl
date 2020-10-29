@@ -1,5 +1,7 @@
 export aff_ind_success_game_strategies, aff_ind_error_game_strategies
 
+export aff_ind_ambiguous_game_strategies
+
 export aff_ind_generalized_error_game_strategies
 
 """
@@ -40,6 +42,58 @@ function aff_ind_success_game_strategies(N :: Int64, d :: Int64) :: Vector{Matri
     end
 
     return matrices
+end
+
+"""
+    aff_ind_ambiguous_game_strategies(
+        N :: Int64,
+        d :: Int64
+    ) :: Vector{Matrix{Int64}}
+
+Enumerates an affinely independent set of deterministic, stochastic, `N x (N-1)`
+rank-`d` strategies which saturate the [`ambiguous_game`](@ref). The existence
+of the enumeration proves that the ambiguous game is a facet of the signaling
+polytope
+
+A `DomainError` is thrown if the inputs don't satisfy the following requirements:
+* `N ≥ 4`
+* `(N - 2) ≥ d ≥ 2`
+"""
+function aff_ind_ambiguous_game_strategies(N :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
+    if !(N ≥ 4)
+        throw(DomainError(N, "N must satisfy `N ≥ 4`"))
+    elseif !(N-2 ≥ d ≥ 2)
+        throw(DomainError(d, "d must satisfy `N-2 ≥ d ≥ 2`"))
+    end
+
+    matrices = Vector{Matrix{Int64}}(undef, (N-1)*(N-1))
+    matrix_id = 1
+
+    success_game_strats = aff_ind_success_game_strategies(N-1, d)
+
+    for strat in success_game_strats
+        m = cat(strat, zeros(Int64,(1,N-1)), dims=1)
+
+        matrices[matrix_id] = m
+        matrix_id += 1
+    end
+
+    vecs = _aff_ind_vecs(d-1, N-d)
+    for vec in vecs
+        m = zeros(Int64, (N,N-1))
+        m[N,:] = vec
+
+        for id in 1:(N-1)
+            if vec[id] == 0
+                m[id,id] = 1
+            end
+        end
+
+        matrices[matrix_id] = m
+        matrix_id += 1
+    end
+
+    matrices
 end
 
 """
