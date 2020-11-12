@@ -194,4 +194,27 @@ end
     end
 end
 
+@testset "non_negativity_game()" begin
+    @testset "simple 3x3 case" begin
+        game = non_negativity_game(3,3)
+
+        @test game isa BellGame
+        @test game == [1 0 0;1 0 0;0 0 0]
+        @test game.β == 1
+    end
+
+    @testset "simple 5x5 case" begin
+        game = non_negativity_game(5,5)
+
+        @test game isa BellGame
+        @test game == [1 0 0 0 0;1 0 0 0 0;1 0 0 0 0;1 0 0 0 0;0 0 0 0 0]
+        @test game.β == 1
+    end
+
+    @testset "DomainErrors" begin
+        @test_throws DomainError non_negativity_game(1, 5)
+        @test_throws DomainError non_negativity_game(5, 1)
+    end
+end
+
 end

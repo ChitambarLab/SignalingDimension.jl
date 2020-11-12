@@ -234,4 +234,41 @@ end
     end
 end
 
+@testset "aff_ind_negativity_game_strategies()" begin
+    @testset "simple 3x3 cases" begin
+        strategies = aff_ind_non_negativity_game_strategies(3,3)
+
+        @test strategies == [
+            [1 1 1;0 0 0;0 0 0],
+            [1 0 1;0 0 0;0 1 0],
+            [1 1 0;0 0 0;0 0 1],
+            [0 0 0;1 1 1;0 0 0],
+            [0 0 0;1 0 1;0 1 0],
+            [0 0 0;1 1 0;0 0 1],
+        ]
+    end
+
+    @testset "scanning through cases" begin
+        for num_inputs in 2:30
+            for num_outputs in 2:30
+                game = non_negativity_game(num_outputs, num_inputs)
+                strats = aff_ind_non_negativity_game_strategies(num_outputs, num_inputs)
+
+                @test all(s -> sum(game[:].*s[:]) == game.β, strats)
+                @test all(s -> rank(s) <= 2, strats)
+                @test all(s -> is_deterministic(s), strats)
+
+                @test length(strats) == (num_outputs-1)*(num_inputs)
+                @test LocalPolytope.dimension(strats) == (num_outputs-1)*(num_inputs) - 1
+
+            end
+        end
+    end
+
+    @testset "DomainErrors" begin
+        @test_throws DomainError non_negativity_game(1, 5)
+        @test_throws DomainError non_negativity_game(5, 1)
+    end
+end
+
 end

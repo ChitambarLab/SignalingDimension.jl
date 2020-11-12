@@ -1,5 +1,7 @@
 export aff_ind_success_game_strategies, aff_ind_error_game_strategies
 
+export aff_ind_non_negativity_game_strategies
+
 export aff_ind_ambiguous_game_strategies
 
 export aff_ind_generalized_error_game_strategies
@@ -42,6 +44,49 @@ function aff_ind_success_game_strategies(N :: Int64, d :: Int64) :: Vector{Matri
     end
 
     return matrices
+end
+
+"""
+    aff_ind_non_negativity_game_strategies(
+        num_outputs :: Int64,
+        num_inputs :: Int64
+    ) :: Vector{Matrix{Int64}}
+
+Enumerates an affinely independent set of deterministic, stochastic,
+`num_outputs x num_inputs` matrices that satisfy the [`non_negativity_game`](@ref)
+with equality.
+
+A valid input requires `N > 2` and `N > d > 1`.
+"""
+function aff_ind_non_negativity_game_strategies(num_outputs :: Int64, num_inputs :: Int64) :: Vector{Matrix{Int64}}
+    if !(num_outputs > 1)
+        throw(DomainError(num_outputs, "Inputs must satisfy `num_outputs > 1`"))
+    elseif !(num_inputs > 1)
+        throw(DomainError(num_inputs, "Inputs must satisfy `num_inputs > 1`"))
+    end
+
+    matrices = Vector{Matrix{Int64}}(undef, (num_outputs-1)*(num_inputs))
+
+    matrix_id = 1
+    for row_id in 1:(num_outputs-1)
+        m1 = zeros(Int64, num_outputs, num_inputs)
+        m1[row_id,:] .= 1
+
+        matrices[matrix_id] = m1
+        matrix_id += 1
+
+        for col_id in 2:num_inputs
+            m2 = zeros(Int64, num_outputs, num_inputs)
+            m2[row_id,:] .= 1
+            m2[row_id,col_id] = 0
+            m2[num_outputs,col_id] = 1
+
+            matrices[matrix_id] = m2
+            matrix_id += 1
+        end
+    end
+
+    matrices
 end
 
 """

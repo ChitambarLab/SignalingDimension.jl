@@ -1,4 +1,4 @@
-export success_game, error_game, ambiguous_game, generalized_error_game
+export success_game, error_game, ambiguous_game, generalized_error_game, non_negativity_game
 
 """
     success_game( N :: Int64, d :: Int64 ) :: BellGame
@@ -101,4 +101,24 @@ function generalized_error_game(N :: Int64, d :: Int64, k :: Int64) :: BellGame
     max_score = sum(map(i -> binomial(N-i, k-1), 1:d))
 
     BellGame(err_game, max_score)
+end
+
+"""
+    non_negativity_game( num_outputs :: Int64, num_inputs :: Int64 ) :: BellGame
+
+Constructs the non-negativity game for a channel with `num_outputs` and `num_inputs`.
+
+A `DomainError` is thrown if `num_outputs` or `num_inputs` is not greater than 1.
+"""
+function non_negativity_game(num_outputs :: Int64, num_inputs :: Int64) :: BellGame
+    if !(num_outputs > 1)
+        throw(DomainError(num_outputs, "Inputs must satisfy `num_outputs > 1`"))
+    elseif !(num_inputs > 1)
+        throw(DomainError(num_inputs, "Inputs must satisfy `num_inputs > 1`"))
+    end
+
+    m = zeros(Int64, num_outputs, num_inputs)
+    m[1:end-1,1] .= 1
+
+    BellGame(m, 1)
 end
