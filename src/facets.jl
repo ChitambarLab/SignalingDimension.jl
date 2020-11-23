@@ -1,4 +1,5 @@
 export success_game, error_game, ambiguous_game, generalized_error_game, non_negativity_game
+export coarse_grained_input_ambiguous_game
 
 """
     success_game( N :: Int64, d :: Int64 ) :: BellGame
@@ -121,4 +122,28 @@ function non_negativity_game(num_outputs :: Int64, num_inputs :: Int64) :: BellG
     m[1:end-1,1] .= 1
 
     BellGame(m, 1)
+end
+
+"""
+    coarse_grained_input_ambiguous_game(
+        num_outputs :: Int64,
+        d :: Int64
+    ) :: BellGame
+
+Constructs a canonical form for a input coarse-grained ambiguous game.
+
+A `DomainError` is thrown if the inputs don't satisfy the following requirements:
+* `num_outputs ≥ 4`
+* `(num_outputs - 2) ≥ d ≥ 2`
+"""
+function coarse_grained_input_ambiguous_game(num_outputs :: Int64, d :: Int64) :: BellGame
+    G_Q = ambiguous_game(num_outputs, d)
+
+    game = zeros(Int64,num_outputs,num_outputs)
+    game[1:num_outputs,1:end-1] = G_Q
+    game[num_outputs-1,num_outputs] = game[num_outputs-1,num_outputs-1] - 1
+    game[num_outputs-1,num_outputs-1] = 1
+
+
+    BellGame(game, G_Q.β)
 end

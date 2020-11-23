@@ -271,4 +271,22 @@ end
     end
 end
 
+@testset "aff_ind_coarse_grained_input_ambiguous_game_strategies()" begin
+    @testset "scanning through cases" begin
+        for n in 4:20
+            for d in 2:n-2
+                game = coarse_grained_input_ambiguous_game(n,d)
+                strats = aff_ind_coarse_grained_input_ambiguous_game_strategies(n,d)
+
+                @test all(s -> sum(game[:].*s[:]) == game.β, strats)
+                @test all(s -> rank(s) <= d, strats)
+                @test all(s -> is_deterministic(s), strats)
+
+                @test length(strats) == (n-1)*n
+                @test LocalPolytope.dimension(strats) == (n-1)*n - 1
+            end
+        end
+    end
+end
+
 end

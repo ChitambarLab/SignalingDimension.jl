@@ -6,6 +6,8 @@ export aff_ind_ambiguous_game_strategies
 
 export aff_ind_generalized_error_game_strategies
 
+export aff_ind_coarse_grained_input_ambiguous_game_strategies
+
 """
     aff_ind_success_game_strategies( N :: Int64, d :: Int64 ) :: Vector{Matrix{Int64}}
 
@@ -137,6 +139,73 @@ function aff_ind_ambiguous_game_strategies(N :: Int64, d :: Int64) :: Vector{Mat
         matrices[matrix_id] = m
         matrix_id += 1
     end
+
+    matrices
+end
+
+"""
+    aff_ind_coarse_grained_input_ambiguous_game_strategies(
+        n :: Int64,
+        d :: Int64
+    ) :: Vector{Matrix{Int64}}
+
+Enumerates an affinely independent set of deterministic, stochastic, `n x n`
+rank-`d` strategies which saturate the [`coarse_grained_input_ambiguous_game`](@ref).
+The existence of the enumeration proves that the input coarse-graining lifting mechanism
+produces facets of the signaling polytope.
+
+A `DomainError` is thrown if the inputs don't satisfy the following requirements:
+* `n ≥ 4`
+* `(n - 2) ≥ d ≥ 2`
+"""
+function aff_ind_coarse_grained_input_ambiguous_game_strategies(n :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
+    if !(n ≥ 4)
+        throw(DomainError(N, "n must satisfy `n ≥ 4`"))
+    elseif !(n-2 ≥ d ≥ 2)
+        throw(DomainError(d, "d must satisfy `n-2 ≥ d ≥ 2`"))
+    end
+
+    matrices = Vector{Matrix{Int64}}(undef, (n*(n-1)))
+    matrix_id = 1
+
+    for strat in aff_ind_ambiguous_game_strategies(n,d)
+        target_rows = findall(i -> i ≠ 0, sum.(eachrow(strat)))
+
+        target_row = (n-1) in target_rows ? (n-1) : min(target_rows...)
+
+        m = zeros(Int64, n,n)
+        m[1:n,1:n-1] = strat
+        m[target_row,n] = 1
+
+        matrices[matrix_id] = m
+        matrix_id += 1
+    end
+
+    for target_row in filter(i -> i ≠ n-1, 2:n)
+        m = zeros(Int64, n,n)
+
+        max_d = target_row in 1:d-1 ? d : d-1
+        for id in 1:max_d
+            m[id,id] = 1
+        end
+
+        m[target_row,max_d+1:end] .= 1
+
+        matrices[matrix_id] = m
+        matrix_id += 1
+    end
+
+    m = zeros(Int64 ,n,n)
+
+    for id in 1:d-2
+        m[id,id] = 1
+    end
+
+    m[n,d-1:n-1] .= 1
+    m[n-1,n] = 1
+
+
+    matrices[matrix_id] = m
 
     matrices
 end

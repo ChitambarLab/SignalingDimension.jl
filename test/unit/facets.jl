@@ -217,4 +217,27 @@ end
     end
 end
 
+@testset "coarse_grained_input_ambiguous_game()" begin
+    @testset "simple 4x4 case" begin
+        game = coarse_grained_input_ambiguous_game(4,2)
+
+        @test game isa BellGame
+        @test game == [2 0 0 0;0 2 0 0;0 0 1 1;1 1 1 0]
+        @test game.β == 4
+    end
+
+    @testset "simple 6x6 case" begin
+        game = coarse_grained_input_ambiguous_game(6,2)
+
+        @test game isa BellGame
+        @test game == [4 0 0 0 0 0;0 4 0 0 0 0;0 0 4 0 0 0;0 0 0 4 0 0;0 0 0 0 1 3;1 1 1 1 1 0]
+        @test game.β == 8
+    end
+
+    @testset "errors" begin
+        @test_throws DomainError coarse_grained_input_ambiguous_game(6,5)
+        @test_throws DomainError coarse_grained_input_ambiguous_game(3,1)
+    end
+end
+
 end
