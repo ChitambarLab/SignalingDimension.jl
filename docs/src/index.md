@@ -2,7 +2,9 @@
 CurrentModule = PrepareAndMeasureAnalysis
 ```
 
-# PrepareAndMeasureAnalysis
+# Simulation Cost of a Quantum Channel
+
+
 
 ```@index
 ```

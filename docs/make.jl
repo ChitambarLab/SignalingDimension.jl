@@ -13,6 +13,21 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Signaling Correlations" => [
+            "Classical Channels" => "SignalingCorrelations/classical_channels.md",
+            "Quantum Channels" => "SignalingCorrelations/quantum_channels.md",
+            "Signaling Dimension" => "SignalingCorrelations/signaling_dimension.md",
+        ],
+        "Signaling Polytope" => [
+            "Overview" => "SignalingPolytope/overview.md",
+            "Vertices" => "SignalingPolytope/vertices.md",
+            "Computing Facets" => "SignalingPolytope/facets.md",
+            "General Facets" => "SignalingPolytope/general_facets.md",
+            "Facet Proofs" => "SignalingPolyope/affinely_independent_enumerations.md",
+        ],
+        "Certifying Signaling Dimension" => [
+            "Device-Independent Test for Signaling Dimension"  => "CertifyingSignalingDimension/device-independent_test.md",
+        ],
     ],
 )
 
