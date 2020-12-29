@@ -1,8 +1,8 @@
 ```@meta
-CurrentModule = PrepareAndMeasureAnalysis
+CurrentModule = SignalingDimension
 ```
 
-# Simulation Cost of a Quantum Channel
+# Signaling Dimension
 
 
 
@@ -10,5 +10,5 @@ CurrentModule = PrepareAndMeasureAnalysis
 ```
 
 ```@autodocs
-Modules = [PrepareAndMeasureAnalysis]
+Modules = [SignalingDimension]
 ```

@@ -1,4 +1,4 @@
-name = "PrepareAndMeasureAnalysis"
+name = "SignalingDimension"
 uuid = "919d85ee-88dd-442f-8fd3-70ffad5bfc3f"
 authors = ["Brian Doolittle <brian.d.doolittle@gmail.com>"]
 version = "0.1.0"

@@ -1,14 +1,14 @@
-using PrepareAndMeasureAnalysis
+using SignalingDimension
 using Documenter
 
 makedocs(;
-    modules=[PrepareAndMeasureAnalysis],
+    modules=[SignalingDimension],
     authors="Brian Doolittle <brian.d.doolittle@gmail.com> and contributors",
-    repo="https://github.com/ChitambarLab/PrepareAndMeasureAnalysis.jl/blob/{commit}{path}#L{line}",
-    sitename="PrepareAndMeasureAnalysis.jl",
+    repo="https://github.com/ChitambarLab/SignalingDimension.jl/blob/{commit}{path}#L{line}",
+    sitename="SignalingDimension.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://ChitambarLab.github.io/PrepareAndMeasureAnalysis.jl",
+        canonical="https://ChitambarLab.github.io/SignalingDimension.jl",
         assets=String[],
     ),
     pages=[
@@ -32,5 +32,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/ChitambarLab/PrepareAndMeasureAnalysis.jl",
+    repo="github.com/ChitambarLab/SignalingDimension.jl",
 )
