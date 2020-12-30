@@ -4,7 +4,7 @@ using BellScenario
 
 @testset "./src/affinely_independent_enumerations.jl" begin
 
-using PrepareAndMeasureAnalysis
+using SignalingDimension
 
 @testset "aff_inf_success_game_strategies()" begin
     @testset "simple examples" begin
@@ -71,18 +71,18 @@ end
 @testset "_aff_ind_vecs()" begin
 
     @testset "base cases" begin
-        @test PrepareAndMeasureAnalysis._aff_ind_vecs(0,1) == [[1]]
-        @test PrepareAndMeasureAnalysis._aff_ind_vecs(1,0) == [[0]]
-        @test PrepareAndMeasureAnalysis._aff_ind_vecs(3,0) == [[0,0,0]]
-        @test PrepareAndMeasureAnalysis._aff_ind_vecs(0,3) == [[1,1,1]]
+        @test SignalingDimension._aff_ind_vecs(0,1) == [[1]]
+        @test SignalingDimension._aff_ind_vecs(1,0) == [[0]]
+        @test SignalingDimension._aff_ind_vecs(3,0) == [[0,0,0]]
+        @test SignalingDimension._aff_ind_vecs(0,3) == [[1,1,1]]
     end
 
     @testset "simple examples" begin
-        @test PrepareAndMeasureAnalysis._aff_ind_vecs(3,4) == [
+        @test SignalingDimension._aff_ind_vecs(3,4) == [
             [1,0,0,0,1,1,1],[0,1,0,0,1,1,1],[0,0,1,0,1,1,1],[0,0,0,1,1,1,1],
             [0,0,1,1,0,1,1],[0,0,1,1,1,0,1],[0,0,1,1,1,1,0]
         ]
-        @test PrepareAndMeasureAnalysis._aff_ind_vecs(1,5) == [
+        @test SignalingDimension._aff_ind_vecs(1,5) == [
             [1,0,1,1,1,1],[0,1,1,1,1,1],[1,1,0,1,1,1],
             [1,1,1,0,1,1],[1,1,1,1,0,1],[1,1,1,1,1,0]
         ]
@@ -91,7 +91,7 @@ end
     @time @testset "scanning over simple cases" begin
         for num_zeros in 1:20
             for num_ones in 1:20
-                vecs = PrepareAndMeasureAnalysis._aff_ind_vecs(num_zeros,num_ones)
+                vecs = SignalingDimension._aff_ind_vecs(num_zeros,num_ones)
 
                 @test all( v ->
                     length(filter(isequal(0), v)) == num_zeros
@@ -151,7 +151,7 @@ end
             d = N-k
 
             game = generalized_error_game(N,d,k)
-            strats = PrepareAndMeasureAnalysis._aff_ind_generalized_error_game_strategies_k2(N,d,k)
+            strats = SignalingDimension._aff_ind_generalized_error_game_strategies_k2(N,d,k)
 
             @test all(s -> sum(sum(game.*s)) == game.β, strats)
             @test all(s -> rank(s) == d, strats)
@@ -168,7 +168,7 @@ end
             k = N-d
 
             game = generalized_error_game(N,d,k)
-            strats = PrepareAndMeasureAnalysis._aff_ind_generalized_error_game_strategies_d2(N,d,k)
+            strats = SignalingDimension._aff_ind_generalized_error_game_strategies_d2(N,d,k)
 
             @test all(s -> sum(sum(game.*s)) == game.β, strats)
             @test all(s -> rank(s) == d, strats)

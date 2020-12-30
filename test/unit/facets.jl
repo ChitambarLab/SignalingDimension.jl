@@ -2,7 +2,7 @@ using Test, BellScenario
 
 @testset "./src/facets.jl" begin
 
-using PrepareAndMeasureAnalysis
+using SignalingDimension
 
 @testset "success_game()" begin
     @testset "trivial case" begin
