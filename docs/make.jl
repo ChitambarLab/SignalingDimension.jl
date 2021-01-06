@@ -9,25 +9,20 @@ makedocs(;
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://ChitambarLab.github.io/SignalingDimension.jl",
-        assets=String[],
+        assets=String["assets/custom.css"],
     ),
     pages=[
         "Home" => "index.md",
-        "Signaling Correlations" => [
-            "Classical Channels" => "SignalingCorrelations/classical_channels.md",
-            "Quantum Channels" => "SignalingCorrelations/quantum_channels.md",
-            "Signaling Dimension" => "SignalingCorrelations/signaling_dimension.md",
-        ],
+        "Signaling Correlations" => "signaling_correlations.md",
+        "Signaling Dimension" => "signaling_dimension.md",
         "Signaling Polytope" => [
             "Overview" => "SignalingPolytope/overview.md",
             "Vertices" => "SignalingPolytope/vertices.md",
             "Computing Facets" => "SignalingPolytope/facets.md",
             "General Facets" => "SignalingPolytope/general_facets.md",
-            "Facet Proofs" => "SignalingPolyope/affinely_independent_enumerations.md",
+            "Facet Proofs" => "SignalingPolytope/affinely_independent_enumerations.md",
         ],
-        "Certifying Signaling Dimension" => [
-            "Device-Independent Test for Signaling Dimension"  => "CertifyingSignalingDimension/device-independent_test.md",
-        ],
+        "Certifying Signaling Dimension" => "certifying_signaling_dimension.md",
     ],
 )
 
