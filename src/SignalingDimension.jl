@@ -1,4 +1,7 @@
-module PrepareAndMeasureAnalysis
+"""
+
+"""
+module SignalingDimension
 
 using LinearAlgebra
 using Combinatorics

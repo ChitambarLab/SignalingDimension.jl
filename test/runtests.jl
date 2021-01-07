@@ -1,10 +1,10 @@
 using Test
 
-println("importing PrepareAndMeasureAnalysis.jl")
-@time using PrepareAndMeasureAnalysis
+println("importing SignalingDimension.jl")
+@time using SignalingDimension
 
 function _test_runner()
-    @testset "PrepareAndMeasureAnalysis.jl" begin
+    @testset "SignalingDimension.jl" begin
         @testset "unit tests:" begin
             println("running unit tests.")
             for test in readdir("./test/unit/")
@@ -18,12 +18,12 @@ function _test_runner()
     end
 end
 
-# Pkg.test("PrepareAndMeasureAnalysis") runs from ./test directory. Development tests from root.
+# Pkg.test("SignalingDimension") runs from ./test directory. Development tests from root.
 dir = pwd()
 if occursin(r".*test$", dir)
     cd(_test_runner, "../")
-elseif occursin(r".*PrepareAndMeasureAnalysis", dir)
+elseif occursin(r".*SignalingDimension", dir)
     _test_runner()
 else
-    error("runtests.jl is currently running from the $(pwd()) directory with contents $(readdir()). runtests.jl must be run from the ./PrepareAndMeasureAnalysis.jl or ./PrepareAndMeasureAnalysis.jl/test directories.")
+    error("runtests.jl is currently running from the $(pwd()) directory with contents $(readdir()). runtests.jl must be run from the ./SignalingDimension.jl or ./SignalingDimension.jl/test directories.")
 end
