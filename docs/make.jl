@@ -1,6 +1,9 @@
 using SignalingDimension
 using Documenter
 
+using BellScenario
+using QBase
+
 makedocs(;
     modules=[SignalingDimension],
     authors="Brian Doolittle <brian.d.doolittle@gmail.com> and contributors",
