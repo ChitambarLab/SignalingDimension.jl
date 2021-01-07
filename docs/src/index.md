@@ -59,7 +59,7 @@ Depth = 2
 
 ## Acknowledgements
 
-Development of BellScenario.jl was made possible by the advisory of Dr. Eric Chitambar and general support from the Physics Department at the University of Illinois Urbana-Champaign. Funding was provided by NSF Award 1914440.
+Development of SignalingDimension.jl was made possible by the advisory of Dr. Eric Chitambar and general support from the Physics Department at the University of Illinois Urbana-Champaign. Funding was provided by NSF Award 1914440.
 
 ## Citing
 
@@ -67,4 +67,4 @@ To reference this work, see [`CITATION.bib`](https://github.com/ChitambarLab/Sig
 
 ## Licensing
 
-BellScenario.jl is released under the MIT License.
+SignalingDimension.jl is released under the MIT License.
