@@ -45,11 +45,11 @@ julia> using Pkg; Pkg.add("QBase")
 
 ## Project Structure
 
-`data/` - Computated bounds of the signaling polytope.
-`docs/` - [Documentation](https://chitambarlab.github.io/SignalingDimension.jl/dev/) source code.
-`src/` - Software for certifying signaling dimension.
-`test/` - Unit tests for code in `src/`.
-`script/` - Code for data computation and verification.
+* `data/` - Computated bounds of the signaling polytope.
+* `docs/` - [Documentation](https://chitambarlab.github.io/SignalingDimension.jl/dev/) source code.
+* `src/` - Software for certifying signaling dimension.
+* `test/` - Unit tests for code in `src/`.
+* `script/` - Code for data computation and verification.
 
 ## Acknowledgements
 
