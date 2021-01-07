@@ -1,3 +1,5 @@
+ <img src="docs/src/assets/logo.png" alt="logo" width="200"> 
+
 # SignalingDimension.jl
 
 *Certify the classical simulation cost of signaling systems.*
