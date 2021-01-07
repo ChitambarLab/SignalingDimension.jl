@@ -1,0 +1,441 @@
+
+
+
+log for /home/runner/.julia/artifacts/b0627bab322e166a7ea3c9aa777f00551e7c4fdd/bin/xporta -T ./porta_tmp/traf_tmp.poi 
+
+input file ./porta_tmp/traf_tmp.poi o.k.
+dimension              :    6 
+number of cone-points  :    0 
+number of conv-points  :   21 
+
+GAUSS - ELIMINATION:
+| iter- |     # equa |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |            |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |            |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|     7 |          7 |        1 |    1 |   n |   0.35 |      49 |      0.00 |      0.00 |
+|     6 |          6 |        2 |    1 |   n |   0.35 |      49 |      0.00 |      0.00 |
+|     5 |          5 |        3 |    1 |   n |   0.41 |      49 |      0.00 |      0.00 |
+|     4 |          4 |        4 |    1 |   n |   0.38 |      49 |      0.00 |      0.00 |
+|     3 |          3 |        5 |    1 |   n |   0.40 |      49 |      0.00 |      0.00 |
+|     2 |          2 |        6 |    1 |   n |   0.42 |      49 |      0.00 |      0.00 |
+|     1 |          1 |        7 |    1 |   n |   0.43 |      49 |      0.00 |      0.00 |
+
+FOURIER - MOTZKIN - ELIMINATION:
+| iter- |      upper |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |      bound |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |     # ineq |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|    14 |          8 |        8 |    1 |   n |   0.16 |     846 |      0.00 |      0.00 |
+|    13 |         12 |       10 |    2 |   n |   0.21 |     846 |      0.00 |      0.00 |
+|    12 |         13 |       10 |    1 |   n |   0.21 |     846 |      0.00 |      0.00 |
+|    11 |         12 |        9 |    1 |   n |   0.21 |     846 |      0.00 |      0.00 |
+|    10 |         10 |       10 |    1 |   n |   0.22 |     846 |      0.00 |      0.00 |
+|     9 |         18 |       16 |    2 |   n |   0.32 |     846 |      0.00 |      0.00 |
+|     8 |         23 |       16 |    1 |   n |   0.32 |     846 |      0.00 |      0.00 |
+|     7 |         22 |       15 |    1 |   n |   0.32 |     846 |      0.00 |      0.00 |
+|     6 |         23 |       15 |    2 |   n |   0.34 |     846 |      0.00 |      0.00 |
+|     5 |         25 |       15 |    2 |   n |   0.38 |     846 |      0.00 |      0.00 |
+|     4 |         25 |       15 |    2 |   n |   0.39 |     846 |      0.00 |      0.00 |
+|     3 |         23 |       15 |    2 |   n |   0.41 |     846 |      0.00 |      0.00 |
+|     2 |         27 |       15 |    2 |   n |   0.44 |     846 |      0.00 |      0.00 |
+|     1 |         27 |       15 |    2 |   n |   0.46 |     846 |      0.00 |      0.00 |
+
+sum of inequalities over all iterations :    184
+maximal number of inequalities          :     16
+
+transformation to integer values 
+sorting system 
+
+number of equations    :    0 
+number of inequalities :   15 
+
+output written to file ./porta_tmp/traf_tmp.poi.ieq
+
+
+
+
+log for /home/runner/.julia/artifacts/b0627bab322e166a7ea3c9aa777f00551e7c4fdd/bin/xporta -T ./porta_tmp/traf_tmp.poi 
+
+input file ./porta_tmp/traf_tmp.poi o.k.
+dimension              :   12 
+number of cone-points  :    0 
+number of conv-points  :   24 
+
+GAUSS - ELIMINATION:
+| iter- |     # equa |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |            |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |            |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|    13 |         13 |        1 |    1 |   n |   0.25 |      61 |      0.00 |      0.00 |
+|    12 |         12 |        2 |    1 |   n |   0.25 |      61 |      0.00 |      0.00 |
+|    11 |         11 |        3 |    1 |   n |   0.25 |      61 |      0.00 |      0.00 |
+|    10 |         10 |        4 |    1 |   n |   0.24 |      61 |      0.00 |      0.00 |
+|     9 |          9 |        5 |    2 |   n |   0.30 |      61 |      0.00 |      0.00 |
+|     8 |          8 |        6 |    2 |   n |   0.26 |      61 |      0.00 |      0.00 |
+|     7 |          7 |        7 |    2 |   n |   0.29 |      61 |      0.00 |      0.00 |
+|     6 |          6 |        8 |    1 |   n |   0.29 |      61 |      0.00 |      0.00 |
+|     5 |          5 |        9 |    1 |   n |   0.28 |      61 |      0.00 |      0.00 |
+|     4 |          4 |       10 |    1 |   n |   0.30 |      61 |      0.00 |      0.00 |
+|     3 |          3 |       11 |    2 |   n |   0.34 |      61 |      0.00 |      0.00 |
+|     2 |          2 |       12 |    2 |   n |   0.31 |      61 |      0.00 |      0.00 |
+ variable 1 eliminated - finite equation found
+|     1 |          1 |       13 |    2 |   n |   0.35 |      61 |      0.00 |      0.00 |
+
+FOURIER - MOTZKIN - ELIMINATION:
+| iter- |      upper |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |      bound |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |     # ineq |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|    12 |         13 |       13 |    1 |   n |   0.09 |     853 |      0.00 |      0.00 |
+|    11 |         14 |       14 |    1 |   n |   0.10 |     853 |      0.00 |      0.00 |
+|    10 |         15 |       15 |    1 |   n |   0.11 |     853 |      0.00 |      0.00 |
+|     9 |         19 |       17 |    1 |   n |   0.13 |     853 |      0.00 |      0.00 |
+|     8 |         21 |       17 |    1 |   n |   0.14 |     853 |      0.00 |      0.00 |
+|     7 |         29 |       28 |    2 |   n |   0.22 |     853 |      0.00 |      0.00 |
+|     6 |         52 |       26 |    2 |   n |   0.22 |     853 |      0.00 |      0.00 |
+|     5 |         34 |       27 |    2 |   n |   0.23 |     853 |      0.00 |      0.00 |
+|     4 |         59 |       40 |    2 |   n |   0.29 |     854 |      0.00 |      0.00 |
+|     3 |        172 |       58 |    2 |   n |   0.34 |     855 |      0.00 |      0.00 |
+|     2 |        256 |       53 |    2 |   n |   0.33 |     855 |      0.00 |      0.00 |
+|     1 |        206 |       48 |    2 |   n |   0.32 |     855 |      0.00 |      0.00 |
+
+sum of inequalities over all iterations :    356
+maximal number of inequalities          :     58
+
+transformation to integer values 
+sorting system 
+transformation to integer values 
+sorting system 
+
+number of equations    :    1 
+number of inequalities :   48 
+
+output written to file ./porta_tmp/traf_tmp.poi.ieq
+
+
+
+
+log for /home/runner/.julia/artifacts/b0627bab322e166a7ea3c9aa777f00551e7c4fdd/bin/xporta -T ./porta_tmp/traf_tmp.poi 
+
+input file ./porta_tmp/traf_tmp.poi o.k.
+dimension              :   12 
+number of cone-points  :    0 
+number of conv-points  :   14 
+
+GAUSS - ELIMINATION:
+| iter- |     # equa |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |            |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |            |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|    13 |         13 |        1 |    1 |   n |   0.23 |      55 |      0.00 |      0.00 |
+|    12 |         12 |        2 |    1 |   n |   0.24 |      55 |      0.00 |      0.00 |
+|    11 |         11 |        3 |    1 |   n |   0.24 |      55 |      0.00 |      0.00 |
+|    10 |         10 |        4 |    1 |   n |   0.23 |      55 |      0.00 |      0.00 |
+|     9 |          9 |        5 |    2 |   n |   0.29 |      55 |      0.00 |      0.00 |
+|     8 |          8 |        6 |    2 |   n |   0.27 |      55 |      0.00 |      0.00 |
+|     7 |          7 |        7 |    2 |   n |   0.33 |      55 |      0.00 |      0.00 |
+|     6 |          6 |        8 |    2 |   n |   0.33 |      55 |      0.00 |      0.00 |
+|     5 |          5 |        9 |    2 |   n |   0.30 |      55 |      0.00 |      0.00 |
+|     4 |          4 |       10 |    2 |   n |   0.32 |      55 |      0.00 |      0.00 |
+|     3 |          3 |       11 |    2 |   n |   0.30 |      55 |      0.00 |      0.00 |
+|     2 |          2 |       12 |    2 |   n |   0.41 |      55 |      0.00 |      0.00 |
+ variable 1 eliminated - finite equation found
+|     1 |          1 |       13 |    2 |   n |   0.32 |      55 |      0.00 |      0.00 |
+
+FOURIER - MOTZKIN - ELIMINATION:
+| iter- |      upper |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |      bound |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |     # ineq |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|     2 |         13 |       13 |    1 |   n |   0.09 |     849 |      0.00 |      0.00 |
+|     1 |         17 |       16 |    1 |   n |   0.12 |     849 |      0.00 |      0.00 |
+
+sum of inequalities over all iterations :     29
+maximal number of inequalities          :     16
+
+transformation to integer values 
+sorting system 
+transformation to integer values 
+sorting system 
+
+number of equations    :    1 
+number of inequalities :   16 
+
+./porta_tmp/traf_tmp.poi.ieq moved into ./porta_tmp/traf_tmp.poi.ieq%
+output written to file ./porta_tmp/traf_tmp.poi.ieq
+
+
+
+
+log for /home/runner/.julia/artifacts/b0627bab322e166a7ea3c9aa777f00551e7c4fdd/bin/xporta -T ./porta_tmp/traf_tmp.poi 
+
+input file ./porta_tmp/traf_tmp.poi o.k.
+dimension              :   12 
+number of cone-points  :    0 
+number of conv-points  :   18 
+
+GAUSS - ELIMINATION:
+| iter- |     # equa |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |            |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |            |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|    13 |         13 |        1 |    1 |   n |   0.24 |      57 |      0.00 |      0.00 |
+|    12 |         12 |        2 |    1 |   n |   0.24 |      57 |      0.00 |      0.00 |
+|    11 |         11 |        3 |    1 |   n |   0.24 |      57 |      0.00 |      0.00 |
+|    10 |         10 |        4 |    1 |   n |   0.24 |      57 |      0.00 |      0.00 |
+|     9 |          9 |        5 |    2 |   n |   0.28 |      57 |      0.00 |      0.00 |
+|     8 |          8 |        6 |    1 |   n |   0.23 |      57 |      0.00 |      0.00 |
+|     7 |          7 |        7 |    1 |   n |   0.23 |      57 |      0.00 |      0.00 |
+|     6 |          6 |        8 |    1 |   n |   0.21 |      57 |      0.00 |      0.00 |
+|     5 |          5 |        9 |    1 |   n |   0.22 |      57 |      0.00 |      0.00 |
+|     4 |          4 |       10 |    1 |   n |   0.25 |      57 |      0.00 |      0.00 |
+|     3 |          3 |       11 |    1 |   n |   0.31 |      57 |      0.00 |      0.00 |
+|     2 |          2 |       12 |    1 |   n |   0.32 |      57 |      0.00 |      0.00 |
+ variable 1 eliminated - finite equation found
+|     1 |          1 |       13 |    2 |   n |   0.35 |      57 |      0.00 |      0.00 |
+
+FOURIER - MOTZKIN - ELIMINATION:
+| iter- |      upper |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |      bound |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |     # ineq |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|     6 |         13 |       13 |    1 |   n |   0.09 |     851 |      0.00 |      0.00 |
+|     5 |         14 |       14 |    1 |   n |   0.10 |     851 |      0.00 |      0.00 |
+|     4 |         18 |       16 |    1 |   n |   0.12 |     851 |      0.00 |      0.00 |
+|     3 |         20 |       16 |    1 |   n |   0.13 |     851 |      0.00 |      0.00 |
+|     2 |         25 |       21 |    1 |   n |   0.18 |     851 |      0.00 |      0.00 |
+|     1 |         37 |       23 |    1 |   n |   0.20 |     851 |      0.00 |      0.00 |
+
+sum of inequalities over all iterations :    103
+maximal number of inequalities          :     23
+
+transformation to integer values 
+sorting system 
+transformation to integer values 
+sorting system 
+
+number of equations    :    1 
+number of inequalities :   23 
+
+./porta_tmp/traf_tmp.poi.ieq moved into ./porta_tmp/traf_tmp.poi.ieq%
+output written to file ./porta_tmp/traf_tmp.poi.ieq
+
+
+
+
+log for /home/runner/.julia/artifacts/b0627bab322e166a7ea3c9aa777f00551e7c4fdd/bin/xporta -T ./porta_tmp/traf_tmp.poi 
+
+input file ./porta_tmp/traf_tmp.poi o.k.
+dimension              :   12 
+number of cone-points  :    0 
+number of conv-points  :   18 
+
+GAUSS - ELIMINATION:
+| iter- |     # equa |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |            |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |            |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|    13 |         13 |        1 |    1 |   n |   0.22 |      57 |      0.00 |      0.00 |
+|    12 |         12 |        2 |    1 |   n |   0.22 |      57 |      0.00 |      0.00 |
+|    11 |         11 |        3 |    1 |   n |   0.21 |      57 |      0.00 |      0.00 |
+|    10 |         10 |        4 |    1 |   n |   0.22 |      57 |      0.00 |      0.00 |
+|     9 |          9 |        5 |    2 |   n |   0.29 |      57 |      0.00 |      0.00 |
+|     8 |          8 |        6 |    1 |   n |   0.26 |      57 |      0.00 |      0.00 |
+|     7 |          7 |        7 |    1 |   n |   0.24 |      57 |      0.00 |      0.00 |
+|     6 |          6 |        8 |    2 |   n |   0.28 |      57 |      0.00 |      0.00 |
+|     5 |          5 |        9 |    1 |   n |   0.30 |      57 |      0.00 |      0.00 |
+|     4 |          4 |       10 |    1 |   n |   0.31 |      57 |      0.00 |      0.00 |
+|     3 |          3 |       11 |    1 |   n |   0.28 |      57 |      0.00 |      0.00 |
+|     2 |          2 |       12 |    1 |   n |   0.26 |      57 |      0.00 |      0.00 |
+ variable 1 eliminated - finite equation found
+|     1 |          1 |       13 |    1 |   n |   0.25 |      57 |      0.00 |      0.00 |
+
+FOURIER - MOTZKIN - ELIMINATION:
+| iter- |      upper |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |      bound |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |     # ineq |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|     6 |         13 |       13 |    1 |   n |   0.09 |     851 |      0.00 |      0.00 |
+|     5 |         14 |       14 |    1 |   n |   0.10 |     851 |      0.00 |      0.00 |
+|     4 |         16 |       15 |    1 |   n |   0.11 |     851 |      0.00 |      0.00 |
+|     3 |         21 |       18 |    2 |   n |   0.15 |     851 |      0.00 |      0.00 |
+|     2 |         32 |       25 |    2 |   n |   0.20 |     851 |      0.00 |      0.00 |
+|     1 |         45 |       26 |    2 |   n |   0.20 |     851 |      0.00 |      0.00 |
+
+sum of inequalities over all iterations :    111
+maximal number of inequalities          :     26
+
+transformation to integer values 
+sorting system 
+transformation to integer values 
+sorting system 
+
+number of equations    :    1 
+number of inequalities :   26 
+
+./porta_tmp/traf_tmp.poi.ieq moved into ./porta_tmp/traf_tmp.poi.ieq%
+output written to file ./porta_tmp/traf_tmp.poi.ieq
+
+
+
+
+log for /home/runner/.julia/artifacts/b0627bab322e166a7ea3c9aa777f00551e7c4fdd/bin/xporta -T ./porta_tmp/traf_tmp.poi 
+
+input file ./porta_tmp/traf_tmp.poi o.k.
+dimension              :   12 
+number of cone-points  :    0 
+number of conv-points  :   20 
+
+GAUSS - ELIMINATION:
+| iter- |     # equa |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |            |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |            |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|    13 |         13 |        1 |    1 |   n |   0.23 |      59 |      0.00 |      0.00 |
+|    12 |         12 |        2 |    1 |   n |   0.23 |      59 |      0.00 |      0.00 |
+|    11 |         11 |        3 |    1 |   n |   0.23 |      59 |      0.00 |      0.00 |
+|    10 |         10 |        4 |    1 |   n |   0.23 |      59 |      0.00 |      0.00 |
+|     9 |          9 |        5 |    2 |   n |   0.27 |      59 |      0.00 |      0.00 |
+|     8 |          8 |        6 |    1 |   n |   0.25 |      59 |      0.00 |      0.00 |
+|     7 |          7 |        7 |    1 |   n |   0.31 |      59 |      0.00 |      0.00 |
+|     6 |          6 |        8 |    1 |   n |   0.28 |      59 |      0.00 |      0.00 |
+|     5 |          5 |        9 |    1 |   n |   0.28 |      59 |      0.00 |      0.00 |
+|     4 |          4 |       10 |    1 |   n |   0.28 |      59 |      0.00 |      0.00 |
+|     3 |          3 |       11 |    1 |   n |   0.28 |      59 |      0.00 |      0.00 |
+|     2 |          2 |       12 |    1 |   n |   0.27 |      59 |      0.00 |      0.00 |
+ variable 1 eliminated - finite equation found
+|     1 |          1 |       13 |    1 |   n |   0.31 |      59 |      0.00 |      0.00 |
+
+FOURIER - MOTZKIN - ELIMINATION:
+| iter- |      upper |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |      bound |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |     # ineq |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|     8 |         13 |       13 |    1 |   n |   0.09 |     851 |      0.00 |      0.00 |
+|     7 |         14 |       14 |    1 |   n |   0.10 |     851 |      0.00 |      0.00 |
+|     6 |         15 |       15 |    1 |   n |   0.11 |     851 |      0.00 |      0.00 |
+|     5 |         19 |       17 |    1 |   n |   0.13 |     852 |      0.00 |      0.00 |
+|     4 |         21 |       17 |    1 |   n |   0.14 |     852 |      0.00 |      0.00 |
+|     3 |         23 |       22 |    1 |   n |   0.20 |     852 |      0.00 |      0.00 |
+|     2 |         37 |       24 |    1 |   n |   0.22 |     852 |      0.00 |      0.00 |
+|     1 |         40 |       26 |    1 |   n |   0.24 |     852 |      0.00 |      0.00 |
+
+sum of inequalities over all iterations :    148
+maximal number of inequalities          :     26
+
+transformation to integer values 
+sorting system 
+transformation to integer values 
+sorting system 
+
+number of equations    :    1 
+number of inequalities :   26 
+
+./porta_tmp/traf_tmp.poi.ieq moved into ./porta_tmp/traf_tmp.poi.ieq%
+output written to file ./porta_tmp/traf_tmp.poi.ieq
+
+
+
+
+log for /home/runner/.julia/artifacts/b0627bab322e166a7ea3c9aa777f00551e7c4fdd/bin/xporta -T ./porta_tmp/traf_tmp.poi 
+
+input file ./porta_tmp/traf_tmp.poi o.k.
+dimension              :   12 
+number of cone-points  :    0 
+number of conv-points  :   66 
+
+GAUSS - ELIMINATION:
+| iter- |     # equa |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |            |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |            |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|    13 |         13 |        1 |    1 |   n |   0.25 |      87 |      0.00 |      0.00 |
+ variable 2 eliminated - finite equation found
+|    12 |         12 |        2 |    1 |   n |   0.27 |      88 |      0.00 |      0.00 |
+|    11 |         11 |        3 |    1 |   n |   0.26 |      88 |      0.00 |      0.00 |
+|    10 |         10 |        4 |    1 |   n |   0.30 |      88 |      0.00 |      0.00 |
+|     9 |          9 |        5 |    1 |   n |   0.29 |      88 |      0.00 |      0.00 |
+|     8 |          8 |        6 |    1 |   n |   0.27 |      88 |      0.00 |      0.00 |
+|     7 |          7 |        7 |    2 |   n |   0.33 |      88 |      0.00 |      0.00 |
+|     6 |          6 |        8 |    2 |   n |   0.33 |      88 |      0.00 |      0.00 |
+|     5 |          5 |        9 |    2 |   n |   0.30 |      88 |      0.00 |      0.00 |
+|     4 |          4 |       10 |    2 |   n |   0.31 |      88 |      0.00 |      0.00 |
+|     3 |          3 |       11 |    2 |   n |   0.30 |      88 |      0.00 |      0.00 |
+|     2 |          2 |       12 |    2 |   n |   0.29 |      88 |      0.00 |      0.00 |
+|     1 |          1 |       13 |    2 |   n |   0.30 |      88 |      0.00 |      0.00 |
+
+FOURIER - MOTZKIN - ELIMINATION:
+| iter- |      upper |  # ineq  |   max| long|   non- |     mem |  cpu-time | real-time |
+| ation |      bound |          |  bit-|arith|  zeros |    used |      used |      used |
+|       |     # ineq |          |length|metic|   in % |   in kB |    in sec |    in sec |
+|-------|------------|----------|------|-----|--------|---------|-----------|-----------|
+|    54 |         13 |       13 |    1 |   n |   0.09 |     870 |      0.00 |      0.00 |
+|    53 |         14 |       13 |    1 |   n |   0.09 |     870 |      0.00 |      0.00 |
+|    52 |         15 |       15 |    2 |   n |   0.12 |     870 |      0.00 |      0.00 |
+|    51 |         17 |       14 |    1 |   n |   0.11 |     870 |      0.00 |      0.00 |
+|    50 |         15 |       15 |    1 |   n |   0.12 |     870 |      0.00 |      0.00 |
+|    49 |         18 |       18 |    1 |   n |   0.14 |     870 |      0.00 |      0.00 |
+|    48 |         21 |       17 |    2 |   n |   0.14 |     870 |      0.00 |      0.00 |
+|    47 |         19 |       16 |    1 |   n |   0.13 |     870 |      0.00 |      0.00 |
+|    46 |         31 |       28 |    2 |   n |   0.22 |     871 |      0.00 |      0.00 |
+|    45 |         50 |       26 |    2 |   n |   0.22 |     871 |      0.00 |      0.00 |
+|    44 |         40 |       24 |    2 |   n |   0.22 |     871 |      0.00 |      0.00 |
+|    43 |         32 |       25 |    2 |   n |   0.22 |     871 |      0.00 |      0.00 |
+|    42 |         35 |       27 |    2 |   n |   0.25 |     871 |      0.00 |      0.00 |
+|    41 |         51 |       24 |    2 |   n |   0.22 |     871 |      0.00 |      0.00 |
+|    40 |         33 |       23 |    1 |   n |   0.22 |     871 |      0.00 |      0.00 |
+|    39 |         24 |       24 |    1 |   n |   0.22 |     871 |      0.00 |      0.00 |
+|    38 |         27 |       27 |    1 |   n |   0.22 |     871 |      0.00 |      0.00 |
+|    37 |         30 |       26 |    2 |   n |   0.22 |     871 |      0.00 |      0.00 |
+|    36 |         28 |       25 |    1 |   n |   0.22 |     871 |      0.00 |      0.00 |
+|    35 |         67 |       64 |    2 |   n |   0.36 |     872 |      0.00 |      0.00 |
+|    34 |        140 |       62 |    2 |   n |   0.36 |     872 |      0.00 |      0.00 |
+|    33 |        112 |       60 |    2 |   n |   0.36 |     872 |      0.00 |      0.00 |
+|    32 |         86 |       61 |    2 |   n |   0.36 |     872 |      0.00 |      0.00 |
+|    31 |         98 |       72 |    2 |   n |   0.40 |     872 |      0.00 |      0.00 |
+|    30 |        384 |       60 |    2 |   n |   0.37 |     872 |      0.00 |      0.00 |
+|    29 |         96 |       59 |    1 |   n |   0.37 |     872 |      0.00 |      0.00 |
+|    28 |        191 |       71 |    2 |   n |   0.44 |     873 |      0.00 |      0.00 |
+|    27 |        347 |       91 |    2 |   n |   0.49 |     873 |      0.00 |      0.00 |
+|    26 |        739 |       83 |    2 |   n |   0.47 |     874 |      0.00 |      0.00 |
+|    25 |        503 |      115 |    2 |   n |   0.50 |     874 |      0.00 |      0.00 |
+|    24 |       1147 |      111 |    2 |   n |   0.51 |     875 |      0.00 |      0.01 |
+|    23 |       1143 |      123 |    3 |   n |   0.53 |     875 |      0.00 |      0.01 |
+|    22 |       1347 |       99 |    2 |   n |   0.51 |     875 |      0.00 |      0.01 |
+|    21 |        729 |      123 |    2 |   n |   0.59 |     875 |      0.00 |      0.01 |
+|    20 |       1215 |      169 |    3 |   n |   0.64 |     877 |      0.00 |      0.01 |
+|    19 |       3067 |      155 |    2 |   n |   0.62 |     877 |      0.00 |      0.01 |
+|    18 |       1793 |      219 |    3 |   n |   0.65 |     879 |      0.00 |      0.01 |
+|    17 |       4755 |      212 |    3 |   n |   0.65 |     880 |      0.00 |      0.01 |
+|    16 |       4706 |      234 |    3 |   n |   0.67 |     880 |      0.00 |      0.01 |
+|    15 |       5382 |      195 |    2 |   n |   0.66 |     880 |      0.00 |      0.01 |
+|    14 |       2551 |      224 |    3 |   n |   0.66 |     880 |      0.00 |      0.01 |
+|    13 |       3332 |      251 |    3 |   n |   0.69 |     880 |      0.00 |      0.01 |
+|    12 |       5307 |      274 |    3 |   n |   0.70 |     882 |      0.00 |      0.01 |
+|    11 |       4724 |      308 |    3 |   n |   0.72 |     883 |      0.00 |      0.01 |
+|    10 |       3350 |      341 |    3 |   n |   0.72 |     884 |      0.00 |      0.01 |
+|     9 |       8814 |      340 |    3 |   n |   0.72 |     884 |      0.00 |      0.01 |
+|     8 |       7956 |      344 |    3 |   n |   0.73 |     884 |      0.01 |      0.01 |
+|     7 |       5303 |      393 |    3 |   n |   0.73 |     886 |      0.01 |      0.01 |
+|     6 |       7943 |      413 |    3 |   n |   0.74 |     887 |      0.01 |      0.02 |
+|     5 |      13055 |      428 |    3 |   n |   0.74 |     888 |      0.01 |      0.02 |
+|     4 |      11348 |      448 |    3 |   n |   0.75 |     889 |      0.01 |      0.02 |
+|     3 |       6982 |      470 |    3 |   n |   0.75 |     889 |      0.01 |      0.02 |
+|     2 |      16885 |      441 |    3 |   n |   0.75 |     889 |      0.01 |      0.02 |
+|     1 |      13923 |      417 |    3 |   n |   0.74 |     889 |      0.01 |      0.02 |
+
+sum of inequalities over all iterations :   7930
+maximal number of inequalities          :    470
+
+transformation to integer values 
+sorting system 
+transformation to integer values 
+sorting system 
+
+number of equations    :    1 
+number of inequalities :  417 
+
+./porta_tmp/traf_tmp.poi.ieq moved into ./porta_tmp/traf_tmp.poi.ieq%
+output written to file ./porta_tmp/traf_tmp.poi.ieq
+
