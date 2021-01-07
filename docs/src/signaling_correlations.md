@@ -67,9 +67,9 @@ P(y|x) = \sum_{\lambda\in\Lambda}q(\lambda) \sum_{m\in[d]}R_\lambda(y|m)T_\lambd
 The complete set of classical signaling correlations are denoted ``\mathcal{C}_d^{n \to n'}``.
 Any classical local signaling strategy ``\mathbf{P}`` satisfies ``\mathbf{P}\in\mathcal{C}_d^{n \to n'}\subset \mathcal{P}^{n \to n'}``.
 The set ``\mathcal{C}_d^{n \to n'}`` forms a convex polytope regarded as the *signaling polytope*.
-More details on the structure of the signaling polytope are found in the [Signaling Polytope - Overview](@ref) section.
+More details on the structure of the signaling polytope are found in the [Signaling Polytope: Overview](@ref) section.
 
-### Code Example of Classical Signaling without Shared Randomness
+### Code Example: Classical Signaling without Shared Randomness
 ```@example classical_channel_local_random
 using BellScenario
 
@@ -85,7 +85,7 @@ R = Strategy([0 0;0 1;1 0])    # receiver strategy
 S = *(R, T, scenario)    # `Strategy` matrix multiplication : S = R*T
 ```
 
-### Code Example of Classical Signaling with Shared Randomness
+### Code Example: Classical Signaling with Shared Randomness
 ```@example classical_channel_shared_random
 using BellScenario
 
@@ -149,7 +149,7 @@ As input this method requires states and POVMs to be represented by
 and [`QBase.Obserbables.AbstractPOVM`](https://chitambarlab.github.io/QBase.jl/stable/submodules/Observables/#QBase.Observables.AbstractPOVM)
 defined in the [QBase.jl](https://chitambarlab.github.io/QBase.jl/stable/) package
 
-### Code Example of Signaling Over Quantum Channel
+### Code Example: Signaling Over Quantum Channel
 
 ```@example quantum_signaling_channel
 using BellScenario

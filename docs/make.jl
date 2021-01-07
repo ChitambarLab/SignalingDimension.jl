@@ -17,10 +17,7 @@ makedocs(;
         "Signaling Dimension" => "signaling_dimension.md",
         "Signaling Polytope" => [
             "Overview" => "SignalingPolytope/overview.md",
-            "Vertices" => "SignalingPolytope/vertices.md",
-            "Computing Facets" => "SignalingPolytope/facets.md",
             "General Facets" => "SignalingPolytope/general_facets.md",
-            "Facet Proofs" => "SignalingPolytope/affinely_independent_enumerations.md",
         ],
         "Certifying Signaling Dimension" => "certifying_signaling_dimension.md",
     ],

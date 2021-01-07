@@ -40,7 +40,7 @@ the signaling ``\mathcal{C}_d^{n \to n'}``.
 The [`BellScenario.LocalPolytope`](https://chitambarlab.github.io/BellScenario.jl/stable/LocalPolytope/overview/#BellScenario.LocalPolytope)
 module provides tools for computing the bounds of the signaling polytope.
 However, these computation challenging and rapidly become infeasible.
-The polytope computations will be discussed in detail in the [Signaling Polytope - Overview](@ref) section.
+The polytope computations will be discussed in detail in the [Signaling Polytope: Overview](@ref) section.
 
 To bypass the challenges of polytope computations, lower and upper bounds can efficiently be
 placed on the signaling dimension.
