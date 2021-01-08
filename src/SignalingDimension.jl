@@ -26,5 +26,6 @@ using BellScenario
 
 include("./facets.jl")
 include("./affinely_independent_enumerations.jl")
+include("./certifying_signaling_dimension.jl")
 
 end
