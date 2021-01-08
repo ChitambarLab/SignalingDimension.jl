@@ -2,6 +2,10 @@
 
 ## Lower Bounds
 
+```@docs
+maximum_likelihood_lower_bound
+```
+
 ## Upper Bounds
 
 ## Quantum Channels
