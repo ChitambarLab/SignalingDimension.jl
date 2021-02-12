@@ -1,4 +1,4 @@
- <img src="docs/src/assets/logo.png" alt="logo" width="200"> 
+ <img src="docs/src/assets/logo.png" alt="logo" width="200">
 
 # SignalingDimension.jl
 
@@ -9,9 +9,8 @@ This Julia package is the software companion piece to [Testing the Classical Sim
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://ChitambarLab.github.io/SignalingDimension.jl/dev/)
 
 ## Features
-* Methods to test the signaling dimension of a communication system.
+* Methods to certify the signaling dimension of quantum and classical systems.
 * A catalog of Bell inequalities for witnessing signaling dimension.
-* Verification of Bell inequalities.
 
 ## Overview
 
@@ -21,11 +20,9 @@ to compare the performance of quantum and classical systems.
 The signaling dimension quantifies the performance of a communication channel by the
 minimal amount of classical communication needed to simulate the channel.
 
-The signaling dimension of a channel makes no assumptions of the underlying physics
-and is therefore, a device-independent measure applicable to quantum and classical
-systems alike.
+This device-independent framework makes no assumptions about the underlying physics
+allowing for direct comparisons between quantum and classical  systems.
 
-This software provides tests that certify the signaling dimension of a channel.
 
 ## Quick Start
 

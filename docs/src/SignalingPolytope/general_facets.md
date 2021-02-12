@@ -12,11 +12,11 @@ We provide several tight Bell inequality which bound general signaling polytopes
 
 ```@docs
 non_negativity_game
-success_game
-ambiguous_game
-error_game
-generalized_error_game
-coarse_grained_input_ambiguous_game
+maximum_likelihood_game
+ambiguous_guessing_game
+anti_guessing_game
+k_guessing_game
+coarse_grained_input_ambiguous_guessing_game
 ```
 
 ### Affinely Independent Enumerations
@@ -26,12 +26,12 @@ vertices must be shown to satisfy ``\gamma = \langle \mathbf{G}, \mathbf{V} \ran
 These enumerations a demonstrated with the following methods.
 
 ```@docs
-aff_ind_success_game_strategies
+aff_ind_maximum_likelihood_game_strategies
 aff_ind_non_negativity_game_strategies
-aff_ind_ambiguous_game_strategies
-aff_ind_coarse_grained_input_ambiguous_game_strategies
-aff_ind_error_game_strategies
-aff_ind_generalized_error_game_strategies
+aff_ind_ambiguous_guessing_game_strategies
+aff_ind_coarse_grained_input_ambiguous_guessing_game_strategies
+aff_ind_anti_guessing_game_strategies
+aff_ind_k_guessing_game_strategies
 ```
 
 ### Verification

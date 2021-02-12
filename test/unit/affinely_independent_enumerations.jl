@@ -6,9 +6,9 @@ using BellScenario
 
 using SignalingDimension
 
-@testset "aff_inf_success_game_strategies()" begin
+@testset "aff_inf_maximum_likelihood_game_strategies()" begin
     @testset "simple examples" begin
-        @test aff_ind_success_game_strategies(3,2) == [
+        @test aff_ind_maximum_likelihood_game_strategies(3,2) == [
             [1 1 0;0 0 0;0 0 1],[1 0 1;0 1 0;0 0 0],[0 0 0;1 1 0;0 0 1],
             [1 0 0;0 1 1;0 0 0],[0 0 0;0 1 0;1 0 1],[1 0 0;0 0 0;0 1 1]
         ]
@@ -17,8 +17,8 @@ using SignalingDimension
     @testset "scanning over simple examples" begin
         for N in 3:12
             for d in 2:N-1
-                strats = aff_ind_success_game_strategies(N,d)
-                succ_game = success_game(N,d)
+                strats = aff_ind_maximum_likelihood_game_strategies(N,d)
+                succ_game = maximum_likelihood_game(N,d)
 
                 @test all(s ->
                     rank(s) == d
@@ -33,10 +33,10 @@ using SignalingDimension
     end
 end
 
-@testset "aff_ind_error_game_strategies()" begin
+@testset "aff_ind_anti_guessing_game_strategies()" begin
 
     @testset "simple examples" begin
-        @test aff_ind_error_game_strategies(4,2,3) == [
+        @test aff_ind_anti_guessing_game_strategies(4,2,3) == [
             [0 1 0 1; 1 0 1 0; 0 0 0 0; 0 0 0 0],[0 0 1 1; 0 0 0 0; 1 1 0 0; 0 0 0 0],
             [1 1 1 0; 0 0 0 0; 0 0 0 0; 0 0 0 1],[0 1 1 0; 1 0 0 1; 0 0 0 0; 0 0 0 0],
             [0 0 0 0; 0 0 1 1; 1 1 0 0; 0 0 0 0],[0 0 0 0; 1 1 1 0; 0 0 0 0; 0 0 0 1],
@@ -50,8 +50,8 @@ end
         for N in 4:20
             for d in 2:N-2
                 for ε in 3:N-d+1
-                    strats = aff_ind_error_game_strategies(N, d, ε)
-                    err_game = error_game(N,d,ε)
+                    strats = aff_ind_anti_guessing_game_strategies(N, d, ε)
+                    err_game = anti_guessing_game(N,d,ε)
 
                     @test all(s ->
                         rank(s) == d
@@ -106,14 +106,14 @@ end
 
 end
 
-@testset "aff_ind_generalized_error_game_strategies()" begin
+@testset "aff_ind_k_guessing_game_strategies()" begin
     @testset "N = k + d: scanning over cases" begin
         for N in 6:10
             for d in 3:N-3
                 k = N - d
 
-                strats = aff_ind_generalized_error_game_strategies(N,d,k)
-                game = generalized_error_game(N,d,k)
+                strats = aff_ind_k_guessing_game_strategies(N,d,k)
+                game = k_guessing_game(N,d,k)
 
                 strats = strats[filter(i -> isassigned(strats,i), 1:length(strats))]
 
@@ -132,8 +132,8 @@ end
         k = 7
         d = 4
 
-        strats = aff_ind_generalized_error_game_strategies(N,d,k)
-        game = generalized_error_game(N,d,k)
+        strats = aff_ind_k_guessing_game_strategies(N,d,k)
+        game = k_guessing_game(N,d,k)
 
         strats = strats[filter(i -> isassigned(strats,i), 1:length(strats))]
 
@@ -150,8 +150,8 @@ end
             k = 2
             d = N-k
 
-            game = generalized_error_game(N,d,k)
-            strats = SignalingDimension._aff_ind_generalized_error_game_strategies_k2(N,d,k)
+            game = k_guessing_game(N,d,k)
+            strats = SignalingDimension._aff_ind_k_guessing_game_strategies_k2(N,d,k)
 
             @test all(s -> sum(sum(game.*s)) == game.β, strats)
             @test all(s -> rank(s) == d, strats)
@@ -167,8 +167,8 @@ end
             d = 2
             k = N-d
 
-            game = generalized_error_game(N,d,k)
-            strats = SignalingDimension._aff_ind_generalized_error_game_strategies_d2(N,d,k)
+            game = k_guessing_game(N,d,k)
+            strats = SignalingDimension._aff_ind_k_guessing_game_strategies_d2(N,d,k)
 
             @test all(s -> sum(sum(game.*s)) == game.β, strats)
             @test all(s -> rank(s) == d, strats)
@@ -180,9 +180,9 @@ end
     end
 end
 
-@testset "aff_ind_ambiguous_game()" begin
+@testset "aff_ind_ambiguous_guessing_game()" begin
     @testset "simplest example" begin
-        strats = aff_ind_ambiguous_game_strategies(4,2)
+        strats = aff_ind_ambiguous_guessing_game_strategies(4,2)
 
         @test strats[1] == [1 1 0;0 0 0;0 0 1;0 0 0]
         @test strats[2] == [1 0 1;0 1 0;0 0 0;0 0 0]
@@ -198,8 +198,8 @@ end
     @testset "scanning through cases" begin
         for N in 4:30
             for d in 2:N-2
-                strats = aff_ind_ambiguous_game_strategies(N,d)
-                game = ambiguous_game(N,d)
+                strats = aff_ind_ambiguous_guessing_game_strategies(N,d)
+                game = ambiguous_guessing_game(N,d)
 
                 @test all(s -> sum(game[:].*s[:]) == game.β, strats)
                 @test all(s -> rank(s) == d, strats)
@@ -216,8 +216,8 @@ end
             N = 50
             d = 27
 
-            strats = aff_ind_ambiguous_game_strategies(N,d)
-            game = ambiguous_game(N,d)
+            strats = aff_ind_ambiguous_guessing_game_strategies(N,d)
+            game = ambiguous_guessing_game(N,d)
 
             @test all(s -> sum(game[:].*s[:]) == game.β, strats)
             @test all(s -> rank(s) == d, strats)
@@ -229,8 +229,8 @@ end
     end
 
     @testset "domain errors" begin
-        @test_throws DomainError aff_ind_ambiguous_game_strategies(3,2)
-        @test_throws DomainError aff_ind_ambiguous_game_strategies(4,3)
+        @test_throws DomainError aff_ind_ambiguous_guessing_game_strategies(3,2)
+        @test_throws DomainError aff_ind_ambiguous_guessing_game_strategies(4,3)
     end
 end
 
@@ -271,12 +271,12 @@ end
     end
 end
 
-@testset "aff_ind_coarse_grained_input_ambiguous_game_strategies()" begin
+@testset "aff_ind_coarse_grained_input_ambiguous_guessing_game_strategies()" begin
     @testset "scanning through cases" begin
         for n in 4:20
             for d in 2:n-2
-                game = coarse_grained_input_ambiguous_game(n,d)
-                strats = aff_ind_coarse_grained_input_ambiguous_game_strategies(n,d)
+                game = coarse_grained_input_ambiguous_guessing_game(n,d)
+                strats = aff_ind_coarse_grained_input_ambiguous_guessing_game_strategies(n,d)
 
                 @test all(s -> sum(game[:].*s[:]) == game.β, strats)
                 @test all(s -> rank(s) <= d, strats)

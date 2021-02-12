@@ -4,9 +4,9 @@ using Test, BellScenario
 
 using SignalingDimension
 
-@testset "success_game()" begin
+@testset "maximum_likelihood_game()" begin
     @testset "trivial case" begin
-        game = success_game(3,2)
+        game = maximum_likelihood_game(3,2)
 
         @test game isa BellGame
         @test game == [1 0 0;0 1 0;0 0 1]
@@ -14,7 +14,7 @@ using SignalingDimension
     end
 
     @testset "example case" begin
-        game = success_game(6,4)
+        game = maximum_likelihood_game(6,4)
 
         @test game isa BellGame
         @test game == [
@@ -29,15 +29,15 @@ using SignalingDimension
     end
 
     @testset "errors" begin
-        @test_throws DomainError success_game(2,2)
-        @test_throws DomainError success_game(4,5)
-        @test_throws DomainError success_game(4,1)
+        @test_throws DomainError maximum_likelihood_game(2,2)
+        @test_throws DomainError maximum_likelihood_game(4,5)
+        @test_throws DomainError maximum_likelihood_game(4,1)
     end
 end
 
-@testset "error_game()" begin
+@testset "anti_guessing_game()" begin
     @testset "trivial case" begin
-        game = error_game(4,2,3)
+        game = anti_guessing_game(4,2,3)
 
         @test game isa BellGame
         @test game == [0 1 1 0;1 0 1 0;1 1 0 0;0 0 0 1]
@@ -45,7 +45,7 @@ end
     end
 
     @testset "example case" begin
-        game = error_game(6,3,4)
+        game = anti_guessing_game(6,3,4)
 
         @test game isa BellGame
         @test game == [
@@ -60,18 +60,18 @@ end
     end
 
     @testset "errors" begin
-        @test_throws DomainError error_game(3,2,3)
-        @test_throws DomainError error_game(4,3,3)
-        @test_throws DomainError error_game(4,1,3)
-        @test_throws DomainError error_game(7,4,2)
-        @test_throws DomainError error_game(7,4,2)
-        @test_throws DomainError error_game(7,4,5)
+        @test_throws DomainError anti_guessing_game(3,2,3)
+        @test_throws DomainError anti_guessing_game(4,3,3)
+        @test_throws DomainError anti_guessing_game(4,1,3)
+        @test_throws DomainError anti_guessing_game(7,4,2)
+        @test_throws DomainError anti_guessing_game(7,4,2)
+        @test_throws DomainError anti_guessing_game(7,4,5)
     end
 end
 
-@testset "ambiguous_game()" begin
+@testset "ambiguous_guessing_game()" begin
     @testset "trivial case" begin
-        game = ambiguous_game(4,2)
+        game = ambiguous_guessing_game(4,2)
 
         @test game isa BellGame
         @test game == [2 0 0;0 2 0;0 0 2;1 1 1]
@@ -79,7 +79,7 @@ end
     end
 
     @testset "example cases" begin
-        game1 = ambiguous_game(6,2)
+        game1 = ambiguous_guessing_game(6,2)
 
         @test game1 isa BellGame
         @test game1 == [
@@ -92,7 +92,7 @@ end
         ]
         @test game1.β == 8
 
-        game2 = ambiguous_game(6,4)
+        game2 = ambiguous_guessing_game(6,4)
         @test game2 isa BellGame
         @test game2 == [
             2 0 0 0 0;
@@ -106,21 +106,21 @@ end
     end
 
     @testset "errors" begin
-        @test_throws DomainError ambiguous_game(3,2)
-        @test_throws DomainError ambiguous_game(5,1)
-        @test_throws DomainError ambiguous_game(5,4)
+        @test_throws DomainError ambiguous_guessing_game(3,2)
+        @test_throws DomainError ambiguous_guessing_game(5,1)
+        @test_throws DomainError ambiguous_guessing_game(5,4)
     end
 end
 
-@testset "generalized_error_game()" begin
-    @testset "success_game generalization" begin
+@testset "k_guessing_game()" begin
+    @testset "maximum_likelihood_game generalization" begin
         k = 1
 
         for N in 3:6
             for d in 2:N-1
-                gen_err_game = generalized_error_game(N, d, k)
+                gen_err_game = k_guessing_game(N, d, k)
 
-                succ_game = success_game(N, d)
+                succ_game = maximum_likelihood_game(N, d)
 
                 @test gen_err_game isa BellGame
                 @test gen_err_game == succ_game
@@ -130,16 +130,16 @@ end
     end
 
     @testset "errors" begin
-        @test_throws DomainError generalized_error_game(2,2,1)
-        @test_throws DomainError generalized_error_game(5,2,5)
-        @test_throws DomainError generalized_error_game(5,2,0)
-        @test_throws DomainError generalized_error_game(5,4,2)
-        @test_throws DomainError generalized_error_game(5,1,2)
+        @test_throws DomainError k_guessing_game(2,2,1)
+        @test_throws DomainError k_guessing_game(5,2,5)
+        @test_throws DomainError k_guessing_game(5,2,0)
+        @test_throws DomainError k_guessing_game(5,4,2)
+        @test_throws DomainError k_guessing_game(5,1,2)
     end
 
     @testset "simple non-trivial cases" begin
         @testset "6-2-4 polytope" begin
-            gen_err_game = generalized_error_game(4, 2, 2)
+            gen_err_game = k_guessing_game(4, 2, 2)
 
             @test gen_err_game isa BellGame
             @test gen_err_game == [
@@ -152,7 +152,7 @@ end
         end
 
         @testset "10-2-5 polytope" begin
-            gen_err_game1 = generalized_error_game(5, 2, 2)
+            gen_err_game1 = k_guessing_game(5, 2, 2)
 
             @test gen_err_game1 isa BellGame
             @test gen_err_game1 == [
@@ -164,7 +164,7 @@ end
             ]
             @test gen_err_game1.β == 7
 
-            gen_err_game2 = generalized_error_game(5,2,3)
+            gen_err_game2 = k_guessing_game(5,2,3)
 
             @test gen_err_game2 isa BellGame
             @test gen_err_game2 == [
@@ -178,7 +178,7 @@ end
         end
 
         @testset "10-3-5 polytope" begin
-            gen_err_game = generalized_error_game(5,3,2)
+            gen_err_game = k_guessing_game(5,3,2)
 
             @test gen_err_game isa BellGame
             @test gen_err_game == [
@@ -217,9 +217,9 @@ end
     end
 end
 
-@testset "coarse_grained_input_ambiguous_game()" begin
+@testset "coarse_grained_input_ambiguous_guessing_game()" begin
     @testset "simple 4x4 case" begin
-        game = coarse_grained_input_ambiguous_game(4,2)
+        game = coarse_grained_input_ambiguous_guessing_game(4,2)
 
         @test game isa BellGame
         @test game == [2 0 0 0;0 2 0 0;0 0 1 1;1 1 1 0]
@@ -227,7 +227,7 @@ end
     end
 
     @testset "simple 6x6 case" begin
-        game = coarse_grained_input_ambiguous_game(6,2)
+        game = coarse_grained_input_ambiguous_guessing_game(6,2)
 
         @test game isa BellGame
         @test game == [4 0 0 0 0 0;0 4 0 0 0 0;0 0 4 0 0 0;0 0 0 4 0 0;0 0 0 0 1 3;1 1 1 1 1 0]
@@ -235,8 +235,8 @@ end
     end
 
     @testset "errors" begin
-        @test_throws DomainError coarse_grained_input_ambiguous_game(6,5)
-        @test_throws DomainError coarse_grained_input_ambiguous_game(3,1)
+        @test_throws DomainError coarse_grained_input_ambiguous_guessing_game(6,5)
+        @test_throws DomainError coarse_grained_input_ambiguous_guessing_game(3,1)
     end
 end
 

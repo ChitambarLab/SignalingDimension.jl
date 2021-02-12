@@ -1,8 +1,8 @@
-export success_game, error_game, ambiguous_game, generalized_error_game, non_negativity_game
-export coarse_grained_input_ambiguous_game
+export maximum_likelihood_game, anti_guessing_game, ambiguous_guessing_game, k_guessing_game, non_negativity_game
+export coarse_grained_input_ambiguous_guessing_game
 
 """
-    success_game( N :: Int64, d :: Int64 ) :: BellGame
+    maximum_likelihood_game( N :: Int64, d :: Int64 ) :: BellGame
 
 Constructs the success game bound for the N-d-N polytope.
 
@@ -10,7 +10,7 @@ A `DomainError` is thrown if the following requirements aren't satisfied:
 * `N > 2
 * `N > d > 1`
 """
-function success_game(N :: Int64, d :: Int64) :: BellGame
+function maximum_likelihood_game(N :: Int64, d :: Int64) :: BellGame
     if N ≤ 2
         throw(DomainError(N, "Input N must satisfy `N > 2`"))
     elseif d ≥ N || d < 2
@@ -21,7 +21,7 @@ function success_game(N :: Int64, d :: Int64) :: BellGame
 end
 
 """
-    error_game( N :: Int64, d :: Int64, ε :: Int64 ) :: BellGame
+    anti_guessing_game( N :: Int64, d :: Int64, ε :: Int64 ) :: BellGame
 
 Constructs the error game bound for the N-d-N polytope. Input `ε` sets the size
 of the anti-distinguishability matrix block.
@@ -31,7 +31,7 @@ A `DomainError` is thrown if the following requirements aren't satisfied:
 * `(N - 2) ≥ d ≥ 2`
 * `(N - d + 1) ≥ ε ≥ 3`
 """
-function error_game(N :: Int64, d :: Int64, ε :: Int64) :: BellGame
+function anti_guessing_game(N :: Int64, d :: Int64, ε :: Int64) :: BellGame
     if !(N ≥ 4)
         throw(DomainError(N, "Input N must satisfy `N ≥ 4`"))
     elseif !(N-2 ≥ d ≥ 2)
@@ -51,7 +51,7 @@ function error_game(N :: Int64, d :: Int64, ε :: Int64) :: BellGame
 end
 
 """
-    ambiguous_game( N :: Int64, d :: Int64 ) :: BellGame
+    ambiguous_guessing_game( N :: Int64, d :: Int64 ) :: BellGame
 
 Constructs the ambiguous game for the (N-1)-d-N polytope.
 
@@ -59,7 +59,7 @@ A `DomainError` is thrown if the inputs don't satisfy the following requirements
 * `N ≥ 4`
 * `(N - 2) ≥ d ≥ 2`
 """
-function ambiguous_game(N :: Int64, d :: Int64) :: BellGame
+function ambiguous_guessing_game(N :: Int64, d :: Int64) :: BellGame
     if !(N ≥ 4)
         throw(DomainError(N, "Input N must satisfy `N ≥ 4`"))
     elseif !(N-2 ≥ d ≥ 2)
@@ -72,7 +72,7 @@ function ambiguous_game(N :: Int64, d :: Int64) :: BellGame
 end
 
 """
-    generalized_error_game( N :: Int64, d :: Int64, k :: Int64 ) :: BellGame
+    k_guessing_game( N :: Int64, d :: Int64, k :: Int64 ) :: BellGame
 
 Constructs the generalized error game for the specified parameters:
 * `N` is the number of outputs
@@ -84,7 +84,7 @@ A `DomainError` is satisfied if the following requirements aren't satisfied:
 * `(N - 1) ≥ k ≥ 1`
 * `N ≥ 3`
 """
-function generalized_error_game(N :: Int64, d :: Int64, k :: Int64) :: BellGame
+function k_guessing_game(N :: Int64, d :: Int64, k :: Int64) :: BellGame
     if !(N - k ≥ d ≥ 2)
         throw(DomainError(d, "Input d must satisfy `(N - k) ≥ d ≥ 2`"))
     elseif !(N - 1 ≥ k ≥ 1)
@@ -125,7 +125,7 @@ function non_negativity_game(num_outputs :: Int64, num_inputs :: Int64) :: BellG
 end
 
 """
-    coarse_grained_input_ambiguous_game(
+    coarse_grained_input_ambiguous_guessing_game(
         num_outputs :: Int64,
         d :: Int64
     ) :: BellGame
@@ -136,8 +136,8 @@ A `DomainError` is thrown if the inputs don't satisfy the following requirements
 * `num_outputs ≥ 4`
 * `(num_outputs - 2) ≥ d ≥ 2`
 """
-function coarse_grained_input_ambiguous_game(num_outputs :: Int64, d :: Int64) :: BellGame
-    G_Q = ambiguous_game(num_outputs, d)
+function coarse_grained_input_ambiguous_guessing_game(num_outputs :: Int64, d :: Int64) :: BellGame
+    G_Q = ambiguous_guessing_game(num_outputs, d)
 
     game = zeros(Int64,num_outputs,num_outputs)
     game[1:num_outputs,1:end-1] = G_Q
