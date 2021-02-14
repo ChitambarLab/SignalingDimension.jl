@@ -61,28 +61,29 @@ function ambiguous_lower_bound(P :: BellScenario.AbstractStrategy, num_ambiguous
         throw(DomainError(num_ambiguous_rows, "input `num_ambiguous_rows` must be in range [1, $num_rows]."))
     end
 
+    num_guessing_rows = num_rows - num_ambiguous_rows
+
+    # pre-sort channel by the row sum so that the largest row sum is last.
+    rows_sorted_by_sum = sortslices(P, dims=1, by=sum)
+
+    # sort rows by max-min
+    max_min_diff(row) = max(row...)-min(row...)
+    rows_sorted_by_dif = sortslices(rows_sorted_by_sum, dims=1, by=max_min_diff, rev=true)
+
+    # take k guessing guessing rows with largest max-min
+    ml_sum = (num_guessing_rows > 0) ? sum(y -> max(rows_sorted_by_dif[y,:]...), 1:num_guessing_rows) : 0
+    ambiguous_sum = sum(y -> sum(rows_sorted_by_dif[y,:]), num_guessing_rows+1:num_rows)
+
+    # d > ml_sum
+    d_min = ceil(ml_sum)
+
     lower_bound = 1
-    for d in 1:min(size(P)...)
-        violation_found = false
+    for d in d_min:min(size(P)...)
+        # violation occurs, signaling dimension is greater than d
+        score = ml_sum + ambiguous_sum/(num_cols - d + 1)
 
-        # check each permutation of ML and ambiguous estimation
-        for ambiguous_row_ids in combinations(1:num_rows, num_ambiguous_rows)
-            ML_row_ids = filter(i -> !(i in ambiguous_row_ids), 1:num_rows)
-
-            ML_score = sum(map(row -> max(row...), eachrow(P[ML_row_ids,:])))
-
-            ambiguous_score = sum(P[ambiguous_row_ids,:]) / (num_cols - d + 1)
-
-            # violation occurs, signaling dimension is greater than d
-            score = ML_score + ambiguous_score
-            if score > d && !(score ≈ d)
-                violation_found = true
-                break
-            end
-        end
-
-        # if no violating permutation is found, the lower bound is obtained.
-        if !(violation_found)
+        if (score < d) || (score ≈ d)
+            println(score)
             lower_bound = d
             break
         end
