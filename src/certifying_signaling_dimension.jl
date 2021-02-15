@@ -17,7 +17,9 @@ Since the maximum likelihood facet is present on all signaling polytopes, a lowe
 bound can always be found with efficiency.
 """
 function maximum_likelihood_lower_bound(P :: BellScenario.AbstractStrategy) :: Int64
-    ceil(sum(map(row -> max(row...), eachrow(P))))
+    ml_score = sum(map(row -> max(row...), eachrow(P)))
+
+    isapprox(ml_score%1,0, atol=1e-7) ? round(Int64, ml_score) : ceil(Int64, ml_score)
 end
 
 """
@@ -43,20 +45,7 @@ A priori, it is not clear whether the row sum or max-min difference is the prima
 ordering, therefore, this method checks both.
 """
 function ambiguous_lower_bound(P :: BellScenario.AbstractStrategy) :: Int64
-    (num_rows, num_cols) = size(P)
-
-    sorted_P_by_row_sum = _ambiguous_lower_bound_pre_sort_primary_row_sum(P)
-    sorted_P_by_max_min_diff = _ambiguous_lower_bound_pre_sort_primary_max_min_diff(P)
-
-    ordering_max(k) = max(
-        _ambiguous_lower_bound(sorted_P_by_row_sum, k),
-        _ambiguous_lower_bound(sorted_P_by_max_min_diff, k)
-    )
-
-    lower_bounds = map(ordering_max, 1:num_rows)
-
-    # the largest lower bound is the lower bound of signaling dimension
-    max(lower_bounds...)
+    ambiguous_lower_bound(P, 1:size(P,1))
 end
 
 """
@@ -77,87 +66,75 @@ A `DomainError` is thrown if `k < 1` or `k > size(P)[1]` (number of rows in `P`)
 function ambiguous_lower_bound(P :: BellScenario.AbstractStrategy, k :: Int64) :: Int64
     (num_rows, num_cols) = size(P)
 
-    if !(1 ≤ k ≤ num_rows)
-        throw(DomainError(k, "input `k` must be in range [1, $num_rows]."))
+    ambiguous_lower_bound(P, k:k)
+end
+
+"""
+    ambiguous_lower_bound(P :: BellScenario.Strategy, k_range :: UnitRange{Int64}) :: Int64
+
+Returns the smallest integer `d` such that `P` is contained by all ambiguous polytopes
+with `k in k_range`.
+
+In this method, the rows of channel `P` is sorted to maximize the ambiguous guessing score,
+then the first `k` rows are treated as guessing rows while the remaining are treated as ambiguous.
+
+
+A `DomainError` is thrown if `k_range` is not contained by the range `[1:size(P,1)]`.
+"""
+function ambiguous_lower_bound(P :: BellScenario.AbstractStrategy, k_range :: UnitRange{Int64}) :: Int64
+    (num_rows, num_cols) = size(P)
+
+    k_min = k_range[1]
+    k_max = k_range[end]
+
+    if !(1 ≤ k_min ≤ k_max ≤ num_rows)
+        throw(DomainError(k_range, "input `k_range = k_min:k_max`  must have `1 ≤ k_min ≤  k_max ≤ num_rows`."))
     end
 
-    sorted_P_by_row_sum = _ambiguous_lower_bound_pre_sort_primary_row_sum(P)
-    sorted_P_by_max_min_diff = _ambiguous_lower_bound_pre_sort_primary_max_min_diff(P)
-
-    max(
-        _ambiguous_lower_bound(sorted_P_by_row_sum, k),
-        _ambiguous_lower_bound(sorted_P_by_max_min_diff,k)
-    )
-end
-
-"""
-    _ambiguous_lower_bound_pre_sort_primary_row_sum(P :: AbstractMatrix) :: AbstractMatrix
-
-Sort matrix `P` by
-1. (Primary): The sum of the row.
-2. (Secondary): The difference between the row maximum and minimum.
-"""
-function _ambiguous_lower_bound_pre_sort_primary_row_sum(P :: AbstractMatrix)
-    # pre-sort rows by (max - min)
-    max_min_diff(row) = max(row...)-min(row...)
-    rows_sorted_by_diff = sortslices(P, dims=1, by=max_min_diff, rev=true)
-
-    # sort channel by the row sum so that the largest row sum is last.
-    rows_sorted_by_sum = sortslices(rows_sorted_by_diff, dims=1, by=sum)
-
-    rows_sorted_by_sum
-end
-
-"""
-    _ambiguous_lower_bound_pre_sort_primary_max_min_diff(P :: AbstractMatrix) :: AbstractMatrix
-
-Sort matrix `P` by
-1. (Primary): The difference between the row maximum and minimum.
-2. (Secondary): The sum of the row.
-"""
-function _ambiguous_lower_bound_pre_sort_primary_max_min_diff(P :: AbstractMatrix)
-    # pre-sort channel by the row sum so that the largest row sum is last.
-    rows_sorted_by_sum = sortslices(P, dims=1, by=sum)
-
-    # sort rows by (max - min)
-    max_min_diff(row) = max(row...)-min(row...)
-    rows_sorted_by_diff = sortslices(rows_sorted_by_sum, dims=1, by=max_min_diff, rev=true)
-
-    rows_sorted_by_diff
-end
-
-"""
-    _ambiguous_lower_bound(P :: AbstractMatrix, k :: Int64) :: Int64
-
-Returns the smallest integer `d` such that `P` is contained by the ambiguous guessing
-game with the first `k` rows as guessing rows and the remaining as ambiguous.
-
-* `P` - column stochastic matrix.
-* `k` - number of guessing rows to consider.
-"""
-function _ambiguous_lower_bound(P :: AbstractMatrix, k :: Int64) :: Int64
-    (num_rows,num_cols) = size(P)
-
-    # take k guessing guessing rows with largest max-min
-    ml_sum = (k > 0) ? sum(y -> max(P[y,:]...), 1:k) : 0
-    ambiguous_sum = (k < num_rows) ? sum(y -> sum(P[y,:]), k+1:num_rows) : 0
-
-    # d > ml_sum
-    d_min = ceil(ml_sum)
-
-    # Increment d until no violation occurs.
-    # if violation occurs then signaling dimension is greater than d
     lower_bound = 1
-    for d in d_min:min(size(P)...)
-        score = ml_sum + ambiguous_sum/(num_cols - d + 1)
+    d = 1
+    while d <= min(num_rows, num_cols)
+        P_sorted = _ambiguous_lower_bound_sort(P,d)
 
-        if (score < d) || (score ≈ d)
+        ambiguous_scores = map( k -> begin
+            ml_sum = sum(y -> max(P_sorted[y,:]...), 1:k)
+            ambiguous_sum = (k < num_rows) ? sum(y -> sum(P_sorted[y,:]), k+1:num_rows) : 0
+
+            ambiguous_score = ml_sum + ambiguous_sum/(num_cols - d + 1)
+
+            ambiguous_score
+        end,  k_range)
+
+        (max_ambiguous_score, max_id) = findmax(ambiguous_scores)
+
+        max_k = k_range[max_id]
+        max_ml_sum = sum(y -> max(P_sorted[y,:]...), 1:max_k)
+
+        d_min = isapprox(max_ml_sum%1, 0, atol=1e-7) ? round(Int64, max_ml_sum) : ceil(Int64, max_ml_sum)
+
+        if (max_ambiguous_score < d) || (max_ambiguous_score ≈ d)
             lower_bound = d
             break
+        else
+            d = (d_min > d) ? d_min : d + 1
         end
     end
 
     lower_bound
+end
+
+"""
+    _ambiguous_lower_bound_sort(P :: AbstractMatrix;  d=1::Int64) :: AbstractMatrix
+
+Sort rows matrix ``\\mathbf{P}`` by ``\\max_{x\\in[X]} P(y|x) - \\sum_{x\\in[X]}P(y|x)/(X-d+1)``.
+"""
+function _ambiguous_lower_bound_sort(P :: AbstractMatrix, d::Int64)
+    num_cols = size(P,2)
+
+    max_sum_diff(row) = max(row...)- sum(row)/(num_cols - d + 1)
+    sorted_rows = sortslices(P, dims=1, by=max_sum_diff, rev=true)
+
+    sorted_rows
 end
 
 """

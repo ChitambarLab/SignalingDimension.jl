@@ -8,6 +8,8 @@ using SignalingDimension
     @test 3 == maximum_likelihood_lower_bound(Strategy([1 0 0;0 0.5 0;0 0 0.5;0 0.5 0.5]))
     @test 1 == maximum_likelihood_lower_bound(Strategy(1/5*ones(5,5)))
     @test 2 == maximum_likelihood_lower_bound(DeterministicStrategy([1 0 1 0;0 1 0 1;0 0 0 0;0 0 0 0]))
+
+    @test 1 == maximum_likelihood_lower_bound(Strategy(ones(1000,1000)/1000))
 end
 
 @testset "ambiguous_lower_bound()" begin
@@ -59,10 +61,6 @@ end
                 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1;
             ])
 
-
-            @test 7 == SignalingDimension._ambiguous_lower_bound(P1,8)
-            @test 8 == SignalingDimension._ambiguous_lower_bound(P2,8)
-
             @test 8 == ambiguous_lower_bound(P1,8)
             @test 8 == ambiguous_lower_bound(P2,8)
         end
@@ -70,39 +68,33 @@ end
         @testset "edge case: primary sort by row sum, secondary by max-min diff is optimal" begin
             # primary sort by max - min diff, secondary by row sum
             P1a  = Strategy([
-                0 0.1 0.5 0;
+                0   0.1 0.5 0;
                 0.6 0.6 0.5 1;
-                0 0.3 0 0;
-                0.4 0 0 0;
+                0   0.3 0   0;
+                0.4 0   0   0;
             ])
             P1b = Strategy([
-                0.4 0.4 1 1 1 1 1 1 1 1;
-                0.3 0 0 0 0 0 0 0 0 0;
-                0.3 0 0 0 0 0 0 0 0 0;
-                0 0.3 0 0 0 0 0 0 0 0;
-                0 0.3 0 0 0 0 0 0 0 0;
+                0.4 0.4 1 1;
+                0.3 0   0 0;
+                0.3 0   0 0;
+                0   0.3 0 0;
+                0   0.3 0 0;
             ])
 
             #  primary sort by row sum, secondary by max-min diff
             P2a = Strategy([
-                0 0.3 0 0;
-                0.4 0 0 0;
-                0 0.1 0.5 0;
+                0   0.3 0   0;
+                0.4 0   0   0;
+                0   0.1 0.5 0;
                 0.6 0.6 0.5 1;
             ])
             P2b = Strategy([
-                0.3 0 0 0 0 0 0 0 0 0;
-                0.3 0 0 0 0 0 0 0 0 0;
-                0 0.3 0 0 0 0 0 0 0 0;
-                0 0.3 0 0 0 0 0 0 0 0;
-                0.4 0.4 1 1 1 1 1 1 1 1;
+                0.3 0   0 0;
+                0.3 0   0 0;
+                0   0.3 0 0;
+                0   0.3 0 0;
+                0.4 0.4 1 1;
             ])
-
-            @test 2 == SignalingDimension._ambiguous_lower_bound(P1a,3)
-            @test 3 == SignalingDimension._ambiguous_lower_bound(P2a,3)
-
-            @test 2 == SignalingDimension._ambiguous_lower_bound(P1b,4)
-            @test 3 == SignalingDimension._ambiguous_lower_bound(P2b,4)
 
             @test 3 == ambiguous_lower_bound(P1a,3)
             @test 3 == ambiguous_lower_bound(P2a,3)
