@@ -20,7 +20,7 @@ makedocs(;
         "Signaling Dimension" => "signaling_dimension.md",
         "Signaling Polytope" => [
             "Overview" => "SignalingPolytope/overview.md",
-            "General Facets" => "SignalingPolytope/general_facets.md",
+            "Bell Inequalities" => "SignalingPolytope/bell_inequalities.md",
         ],
         "Certifying Signaling Dimension" => "certifying_signaling_dimension.md",
     ],

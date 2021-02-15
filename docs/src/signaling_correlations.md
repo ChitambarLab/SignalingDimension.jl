@@ -1,48 +1,61 @@
 # Signaling Correlations
 
-The transmission of classical information from Alice to Bob can be described in the
-computational framework of [`BellScenario.jl`](https://chitambarlab.github.io/BellScenario.jl/stable/).
-At the highest-level, a communication channel is a black-box connecting Alice to Bob.
+Consider a device that has a classical input ``x\in\mathcal{X}=[X]`` and classical
+output ``y\in\mathcal{Y}=[Y]`` where ``[N]:=\{1,2,\cdots,N \}`` is a finite set of
+positive integers.
+The device is assumed to be causal, *i.e.* the output set ``\mathcal{Y}`` is computed
+from the input ``\mathcal{X}``, however, no assumptions are made about how ``\mathcal{Y}``
+is  computed  from  ``\mathcal{X}``.
+Hence this device is regarded as a black-box and this description applies to all
+classical technologies as well as many quantum systems used for computation and
+communication.
+Without loss of generality, any such black-box can be described as a *signaling device*
+that transmits classical information from Alice to Bob.
 
-![Signaling Black-Box](assets/images/signaling_black_box.png)
+![Signaling Black-Box](assets/images/signaling_device.png)
 
-The black-box has a classical input ``x\in \mathcal{X}=[n]:=\{1,2,\cdots,n\}``
-and classical output ``y\in\mathcal{Y}=[n']``.
-Without making assumptions about the physical signals used to communicate, the
-behavior of the communication channel is characterized by its conditional probabilities
-``P(y|x)`` referred to as *signaling correlations*.
-These input-output correlations can be organized into a ``n' \times n``
-column stochastic matrix ``\mathbf{P}`` which is represented using children of the
-[`BellScenario.AbstractStrategy`](https://chitambarlab.github.io/BellScenario.jl/dev/BellScenario/strategies/#BellScenario.AbstractStrategy) type.
-The set of all attainable communication channels is denoted ``\mathcal{P}^{n \to n'}``.
+The signaling device is effectively a classical channel with ``X`` inputs and ``Y``
+outputs, however, the signaling process that takes ``\mathcal{X}\to \mathcal{Y}``
+may use non-classical physics *e.g.* quantum physics.
+Making no assumptions about the physical system inside the channel,
+we can characterize its behavior by the conditional probabilities ``P(y|x)``.
+We refer to these probabilities as *signaling correlations* and organize them
+into a column stochastic matrix ``\mathbf{P}`` where ``P(y|x)`` is the
+element in the ``y^{th}`` row and ``x^{th}`` column.
+Hence ``\mathbf{P}`` represents a classical channel with ``X`` inputs and ``Y`` outputs
+and we denote the set of all such classical channels as ``\mathcal{P}^{X\to Y}``.
 
-To evaluate the performance of classical and quantum signaling, the amount communication
-must be taken into consideration.
-This communication process is described by the [`BellScenario.LocalSignaling`](https://chitambarlab.github.io/BellScenario.jl/stable/BellScenario/scenarios/#BellScenario.LocalSignaling)
-scenario which specifies the number of inputs `X`, outputs `Y` and communication `d`.
+The information capacity of a channel will typically be limited.
+In the one-shot setting, we can quantify this value by ``d``, the number of distinct
+classical messages used.
+In a quantum system ``d`` corresponds to the Hilbert space dimension of
+encoded quantum states.
+For example, single bit or qubit communication corresponds to ``d=2``, while for general
+``d`` we specify a single dit or qudit of communication.
+
+To model such signaling devices, we apply the framework of [`BellScenario.jl`](https://chitambarlab.github.io/BellScenario.jl/stable/).
+The signaling device is then described by the [`BellScenario.LocalSignaling`](https://chitambarlab.github.io/BellScenario.jl/stable/BellScenario/scenarios/#BellScenario.LocalSignaling)
+scenario which specifies the number of inputs `X`, outputs `Y` and forward communication `d`.
 
 ```@example local_signaling_scenario
 using BellScenario
 
 X = 3    # num inputs
-Y = 3    # num outputs
-d = 2    # d-dit or d-qudit
+Y = 4    # num outputs
+d = 2    # bit or qubit communication
 
 scenario = LocalSignaling(X, Y, d)
 ```
 
-Note that the `LocalSignaling` scenario type only specifies the black-box configuration.
+Note that the constructed `LocalSignaling` type specifies the black-box configuration.
 
 ## Classical Channels
 
-When classical signals are used to communicate, the amount of communication is specified
-as a *dit*, the number of distinct messages, ``d``, that can be transmitted.
-A dit is the generalization of a bit (``d=2``) where  ``n``-bits of classical communication is
-equivalent to one dit with``d = 2^{n-1}``.
+
 Furthermore, shared randomness can be shared between Alice and Bob (transmitter
 and receiver).
 
-![Classical Local Signaling Scenario](assets/images/classical_signaling_scenario.png)
+![Classical Signaling Device](assets/images/classical_signaling_device.png)
 
 As depicted in the figure, Alice sends a classical message ``m\in[d]`` to Bob.
 The content of ``m`` is determined by the input ``x\in[n]`` and the encoding strategy of
@@ -68,6 +81,9 @@ The complete set of classical signaling correlations are denoted ``\mathcal{C}_d
 Any classical local signaling strategy ``\mathbf{P}`` satisfies ``\mathbf{P}\in\mathcal{C}_d^{n \to n'}\subset \mathcal{P}^{n \to n'}``.
 The set ``\mathcal{C}_d^{n \to n'}`` forms a convex polytope regarded as the *signaling polytope*.
 More details on the structure of the signaling polytope are found in the [Signaling Polytope: Overview](@ref) section.
+
+A classical channel ``\mathbf{P}\in\mathcal{P}^{X\to Y}`` is then represented by
+a [`BellScenario.AbstractStrategy`](https://chitambarlab.github.io/BellScenario.jl/dev/BellScenario/strategies/#BellScenario.AbstractStrategy) type.
 
 ### Code Example: Classical Signaling without Shared Randomness
 ```@example classical_channel_local_random

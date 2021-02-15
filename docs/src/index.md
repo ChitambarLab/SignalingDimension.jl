@@ -8,10 +8,6 @@ CurrentModule = SignalingDimension
 
 This Julia software package is the companion piece to [Testing the Classical Simulation Cost of a Quantum Channel](link to paper).
 
-```@docs
-SignalingDimension
-```
-
 ## Quick Start
 
 * Install Julia: [https://julialang.org/downloads/](https://julialang.org/downloads/)
@@ -21,11 +17,17 @@ SignalingDimension
 julia> using Pkg; Pkg.add("SignalingDimension")
 ```
 
-* Add BellScenario.jl and QBase.jl dependencies:
+* To run the examples, add the [BellScenario.jl](https://github.com/ChitambarLab/BellScenario.jl) and [QBase.jl](https://github.com/ChitambarLab/QBase.jl) dependencies:
 
 ```julia
 julia> using Pkg; Pkg.add("BellScenario")
 julia> using Pkg; Pkg.add("QBase")
+```
+
+## Package Overview
+
+```@docs
+SignalingDimension
 ```
 
 ## Signaling Polytope Data

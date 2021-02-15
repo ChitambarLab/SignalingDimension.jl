@@ -1,22 +1,34 @@
 """
-## Overview
+The advent of quantum technology requires new figures of merit to compare the performance
+of quantum and classical systems.
+Such metrics should be device-independent meaning that they only depend on the statistics
+of a system while making no assumptions about the physics applied within the system.
+Device-independent metrics are important because they allow an observer to learn
+about the inner-workings of uncharacterized or untrusted devices without having
+to investigate the hardware or software used within the device.
 
-With the advent of quantum technology, new figures of merit are needed
-to compare the performance of quantum and classical systems.
+The signaling dimension is a device-independent metric that quantifies the classical
+simulation cost of a device.
+That is, it specifies the minimum amount of noiseless, classical communication
+needed to exactly simulate the input-output statistics of the device in question
+when an unlimited amount of randomness is shared between the transmitter and receiver.
+The signaling dimension is discussed in greater detail in the [Signaling Dimension](@ref)
+section while the supporting definitions and notation are outlined in  the [Signaling Correlations](@ref)
+section.
 
-The signaling dimension quantifies the performance of a communication channel by the
-minimal amount of classical communication needed to simulate the channel.
+The signaling dimension is significant because it applies to computation,
+communication, and memory task.
+In fact, the signaling dimension describes the classical simulation cost of any
+physical system with a classical input and a classical output.
+Hence, it is a versatile metric that can be used to compare quantum and classical
+resources.
 
-The signaling dimension of a channel makes no assumptions of the underlying physics
-and is therefore, a device-independent measure applicable to quantum and classical
-systems alike.
 
-This software provides tests that certify the signaling dimension of a channel.
-
-## Features
-* Methods to test the signaling dimension of a communication system.
-* A catalog of Bell inequalities for witnessing signaling dimension.
-* Verification of Bell inequalities.
+## Features:
+* Tools to compute signaling correlations (see [Signaling Correlations](@ref)).
+* Tools to assist signaling polytope computations (see [Signaling Polytope: Overview](@ref)).
+* A catalog of Bell inequalities for witnessing signaling dimension (see [Signaling Polytope: Bell Inequalities](@ref)).
+* Methods to certify the signaling dimension of signaling systems (see [Certifying Signaling Dimension](@ref)).
 """
 module SignalingDimension
 
