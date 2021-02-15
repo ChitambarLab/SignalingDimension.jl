@@ -91,8 +91,13 @@ function ambiguous_lower_bound(P :: BellScenario.AbstractStrategy, k_range :: Un
         throw(DomainError(k_range, "input `k_range = k_min:k_max`  must have `1 ≤ k_min ≤  k_max ≤ num_rows`."))
     end
 
+    # computing a raw lower bound using maximum likelihood  estimation
+    P_ml_sort = sortslices(P, dims=1, by=row -> max(row...), rev=true)
+    ml_min = sum(y -> max(P_ml_sort[y,:]...), 1:k_min)
+    d_min = isapprox(ml_min%1, 0, atol=1e-7) ? round(Int64, ml_min) : ceil(Int64, ml_min)
+
     lower_bound = 1
-    d = 1
+    d = d_min
     while d <= min(num_rows, num_cols)
         P_sorted = _ambiguous_lower_bound_sort(P,d)
 
@@ -163,16 +168,16 @@ This method relies on the fact:
     bound by maximum likelihood and ambiguous facets.
 """
 function attains_trivial_upper_bound(P :: BellScenario.AbstractStrategy) :: Bool
-    (num_out, num_in) = size(P)
+    (num_rows, num_cols) = size(P)
 
-    d = min(num_out, num_in) - 1
+    d = min(num_rows, num_cols) - 1
 
     κ_ML = maximum_likelihood_lower_bound(P)
     upper_bound_attained = (κ_ML > d)
 
     # if ML estimation doesn't attain the trivial upper bound ambiguous estimation is used
-    if num_out ≥ num_in && !upper_bound_attained
-        κ_ambiguous = ambiguous_lower_bound(P)
+    if num_rows ≥ num_cols && !upper_bound_attained
+        κ_ambiguous = ambiguous_lower_bound(P, num_cols:num_rows)
         upper_bound_attained = (κ_ambiguous > d)
     end
 
