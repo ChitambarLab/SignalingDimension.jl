@@ -6,11 +6,11 @@ export upper_bound, trivial_upper_bound, attains_trivial_upper_bound
     maximum_likelihood_lower_bound( P :: BellScenario.AbstractStrategy ) :: Int64
 
 Uses maximum likelihood estimation to efficiently compute the lower bound of the signaling dimension.
-For a channel ``\\mathbf{P}\\in\\mathcal{P}^{n \\to n'}``, the maximum likelihood
+For a channel ``\\mathbf{P}\\in\\mathcal{P}^{X \\to Y}``, the maximum likelihood
 lower bound on the signaling dimension ``\\kappa(\\mathbf{P})`` is expressed,
 
 ```math
-\\kappa(\\mathbf{P}) \\geq \\sum_{y\\in[n']} \\max_{x\\in[n]} P(y|x).
+\\kappa(\\mathbf{P}) \\geq \\sum_{y\\in[Y]} \\max_{x\\in[X]} P(y|x).
 ```
 
 Since the maximum likelihood facet is present on all signaling polytopes, a lower

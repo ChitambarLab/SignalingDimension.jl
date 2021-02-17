@@ -33,6 +33,8 @@ encoded quantum states.
 For example, single bit or qubit communication corresponds to ``d=2``, while for general
 ``d`` we specify a single dit or qudit of communication.
 
+###  Code Example: The `LocalSignaling` Scenario
+
 To model such signaling devices, we apply the framework of [`BellScenario.jl`](https://chitambarlab.github.io/BellScenario.jl/stable/).
 The signaling device is then described by the [`BellScenario.LocalSignaling`](https://chitambarlab.github.io/BellScenario.jl/stable/BellScenario/scenarios/#BellScenario.LocalSignaling)
 scenario which specifies the number of inputs `X`, outputs `Y` and forward communication `d`.
@@ -76,6 +78,8 @@ as
 P(y|x) = \sum_{\lambda\in\Lambda}q(\lambda)\mathbf{R}_\lambda\mathbf{T}_\lambda  = \sum_{\lambda\in\Lambda}q(\lambda) \sum_{m\in[d]}R_\lambda(y|m)T_\lambda(m|x).
 ```
 
+### Code Example: Classical Signaling Devices
+
 The complete set of classical signaling correlations are denoted ``\mathcal{C}_d^{X \to Y}``.
 Any classical channel ``\mathbf{P}`` satisfies ``\mathbf{P}\in\mathcal{C}_d^{X \to Y}\subset \mathcal{P}^{X \to Y}``.
 The set ``\mathcal{C}_d^{X \to Y}`` forms a convex polytope regarded as the *signaling polytope*.
@@ -83,7 +87,7 @@ More details on the structure of the signaling polytope are found in the [Signal
 In the BellScenario.jl framework a classical channel ``\mathbf{P}\in\mathcal{P}^{X\to Y}`` is then represented by
 a [`BellScenario.AbstractStrategy`](https://chitambarlab.github.io/BellScenario.jl/dev/BellScenario/strategies/#BellScenario.AbstractStrategy) type where a `Strategy` is simply a column stochastic map.
 
-### Code Example: Classical Signaling without Shared Randomness
+#### Code Example: Classical Signaling without Shared Randomness
 ```@example classical_channel_local_random
 using BellScenario
 
@@ -154,20 +158,23 @@ P_{\mathcal{N}}(y|x) = \text{Tr}[\Pi_y \mathcal{N}(\rho_x)],
 for a  given set  of quantum states ``\{\rho_x\}_{x\in\mathcal{X}}`` and POVM ``\{\Pi_y\}_{y\in\mathcal{Y}}``.
 The set of quantum channels generated for any choice of states and POVM is denoted
 ``\mathcal{Q}_{\mathcal{N}}^{X \to Y}`` where ``\mathbf{P}_{\mathcal{N}} \in\mathcal{Q}_{\mathcal{N}}^{X \to Y}\subset \mathcal{P}^{X \to Y}``.
-For a noiseless quantum channel, ``\mathcal{N}`` is simply the ``d`` dimension identity matrix
-and the signaling correlations are constructed as
+For example, a noiseless quantum channel ``\mathcal{N}=\text{id}_d`` where ``\text{id}_d``
+is the ``d \times d`` identity matrix,
+the signaling correlations are constructed as
 
 ```math
-P(y|x) = \text{Tr}[\Pi_y \rho_x].
+P_{\text{id}_d}(y|x) = \text{Tr}[\Pi_y \rho_x],
 ```
+
+while the set of all noiseless channels is denoted ``\mathca{Q}_d^{X \to Y}``.
+
+### Code Example: Signaling Over a Quantum Channel
 
 To numerically construct quantum signaling correlations, `BellScenario.jl` provides a [`quantum_strategy`](https://chitambarlab.github.io/BellScenario.jl/stable/BellScenario/strategies/#BellScenario.quantum_strategy) method.
 As input this method requires states and POVMs to be represented by
 [`QBase.States.AbstractDensityMatrix`](https://chitambarlab.github.io/QBase.jl/stable/submodules/States/#QBase.States.AbstractDensityMatrix)
 and [`QBase.Observables.AbstractPOVM`](https://chitambarlab.github.io/QBase.jl/stable/submodules/Observables/#QBase.Observables.AbstractPOVM)
 as defined in the [QBase.jl](https://chitambarlab.github.io/QBase.jl/stable/) package.
-
-### Code Example: Signaling Over Quantum Channel
 
 ```@example quantum_signaling_channel
 using BellScenario

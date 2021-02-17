@@ -1,5 +1,9 @@
 # Certifying Signaling Dimension
 
+It is difficult to determine the signaling dimension in general cases, however,
+the methods described below assist this certification process by finding upper
+and lower bounds of the signaling dimension.  
+
 ## Bounds
 
 In most cases, it is not feasible to compute the exact signaling of a channel, however,
@@ -25,7 +29,7 @@ upper_bound
 The signaling dimension is a device-independent metric which can be applied to
 quantum and classical channels alike.
 To certify a quantum channel, the signaling correlations must first be obtained.
-This can be done by selecting a set of input states ``\\Psi = \\{\\rho_x\\}`` and
+This can be done by selecting a set of input states ``\Psi = \{\rho_x\}`` and
 using semi-definite programming to optimize the POVM.
 The objective function of the optimization is expressed as a `BellScenario.BellGame`.
 
@@ -40,7 +44,7 @@ using QBase
 
 X = 3    # num inputs
 Y = 3    # num outputs
-d = 2    # d-dit communication
+d = 2    # qudit
 
 scenario = LocalSignaling(X, Y, d)
 
