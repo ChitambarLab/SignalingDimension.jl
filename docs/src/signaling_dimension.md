@@ -8,10 +8,11 @@ As it turns out, shared randomness is an important resource for simulating quant
 systems as there exist qubit system that cannot be simulated by a single bit of
 classical communication, but require shared randomness to perform the simulation [^deVicente2017].
 
-SignalingDimension.jl considers the signaling dimension in the context of signaling
-devices that have classical inputs and outputs.
-Within this framework, the signaling dimension can be certified for quantum and
-classical signaling systems alike.
+!!! note "Note:"
+    SignalingDimension.jl considers the signaling dimension of signaling
+    devices that have classical inputs and outputs (see [Signaling Correlations](@ref)).
+    The signaling dimension can be certified for quantum and
+    classical signaling systems alike.
 
 ## Definition
 
@@ -41,7 +42,7 @@ as well.
 That is, the set of noiseless quantum channels ``\mathcal{Q}_d^{X \to Y}`` with
 Hilbert space dimension ``d`` is contained by the set of noiseless classical channels
 ``\mathcal{C}_d^{X \to  Y}`` and ``\text{Conv}(\mathcal{Q}_d^{X \to Y}) = \mathcal{C}_d^{X \to  Y}``[^Frenkel2015]
-where ``\text{Conv(\cdot)}`` is the convex hull.
+where ``\text{Conv}(\cdot)}`` is the convex hull.
 This result is remarkable because  it implies that ``\kappa(\text{id}_d) = d``;
 that is, classical dit and shared randomness can exactly simulate any quantum channel of
 ``d`` dimensions.
