@@ -77,24 +77,20 @@ Hence the discussed classical simulations cannot faithfully simulate these pheno
 
 ## Certification
 
-A goal of SignalingDimension.jl is to provide computational tools that assist the
-certification of signaling  dimension.
-The  certification process requires a test to  verify the  inclusion (or exclusion)
-of a channel ``\mathbf{P}`` in ``\mathcal{C}_d^{X \to Y}``.
-Since shared randomness is permitted in the classical simulation, ``\mathcal{C}_d^{X \to Y}``
-is tightly bound by a set of linear Bell inequalities.
-Therefore, the exclusion ``\mathbf{P}\notin\mathcal{C}_d^{X \to Y}`` is witnessed
-by a violation of one of these Bell inequalities.
+Certifying the signaling dimension of classical and quantum channels requires
+one to verify whether or not ``\mathbf{P}\in\mathcal{C}_d^{X \to Y}``.
+In general, this is a challenging task and can only be done with certainty in special
+cases.
+The [`SignalingDimension`](@ref) module provides tools that assist the certification
+of signaling dimension.
+We elaborate on these certification procedures in the [Certifying Signaling Dimension](@ref) section.
 
-To compute the Bell inequalities for ``\mathcal{C}_d^{X \to Y}``, SignalingDimension.jl uses the
- [`BellScenario.LocalPolytope`](https://chitambarlab.github.io/BellScenario.jl/stable/LocalPolytope/overview/#BellScenario.LocalPolytope)
-module.
-These computations are discussed in detail in the [Signaling Polytope: Overview](@ref) section.
-Note however that Bell inequality computations rapidly become intractable.
-To bypass these challenges, lower and upper bounds can efficiently be
-placed on the signaling dimension.
-The device-independent tests that certify the signaling dimension of channel are
-discussed in greater detail in the [Certifying Signaling Dimension](@ref) section.
+In principle, the signaling dimension can be witnessed by the Bell inequalities that
+tightly bound the set ``\mathcal{C}_d^{X\to Y}``.
+These Bell inequalities are discussed further in the [Signaling Polytope: Overview](@ref) section.
+Note however that Bell inequality computations rapidly become infeasible.
+As a result, one should only expect to find lower and upper bounds for the signaling
+dimension of a particular system.
 
 ### References
 

@@ -44,7 +44,7 @@ using BellScenario
 
 X = 3    # num inputs
 Y = 4    # num outputs
-d = 2    # bit or qubit communication
+d = 2    # bit or qubit signaling
 
 scenario = LocalSignaling(X, Y, d)
 ```
@@ -93,7 +93,7 @@ using BellScenario
 
 X = 3    # num inputs
 Y = 3    # num outputs
-d = 2    # dit
+d = 2    # dit signaling
 
 scenario = LocalSignaling(X, Y, d)
 
@@ -109,7 +109,7 @@ using BellScenario
 
 X = 3    # num inputs
 Y = 3    # num outputs
-d = 2    # dit
+d = 2    # dit signaling
 
 scenario = LocalSignaling(X, Y, d)
 
@@ -182,7 +182,7 @@ using QBase
 
 X = 3    # num inputs
 Y = 3    # num outputs
-d = 2    # qudit
+d = 2    # qudit signaling
 
 scenario = LocalSignaling(X, Y, d)
 

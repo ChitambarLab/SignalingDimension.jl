@@ -1,39 +1,45 @@
 # Signaling Polytope: Overview
 
-The *signaling polytope* is denoted ``\mathcal{C}_d^{X \to Y}`` and represents
-the set of signaling correlations produced using one-way, noiseless classical communication
-and shared randomness.
-The signaling polytope is a convex polyhedron and therefore, admits two equivalent descriptions.
+Let ``\mathcal{C}_d^{X\to Y}`` denote the  set of classical signaling correlations
+produced using one-way, noiseless classical communication and shared randomness.
+This set is a convex polyhedron that we refer to as the *signaling polytope*.
+As a convex polyhedron, the signaling polytope ``\mathcal{C}_d^{X \to Y}`` admits two equivalent descriptions[^Ziegler2012]:
 
-* **Vertex Description:** The convex-hull of a finite set of extreme-points ``\mathcal{V}_d^{X \to Y}\subset\mathcal{C}_d^{X \to Y}``.
+* **Vertex Description:** Let ``\mathcal{V}_d^{X\to Y}\subset\mathcal{C}_d^{X\to Y}``
+    denote the set of signaling polytope vertices.
+    Then, the signaling polytope is defined as the convex-hull of its vertices ``\mathcal{V}_d^{X\to Y}``,
 
 ```math
-\mathcal{C}_d^{X \to Y} = \text{Conv}(\mathcal{V}_d^{X \to Y})
+    \mathcal{C}_d^{X \to Y} = \text{Conv}(\mathcal{V}_d^{X \to Y}).
 ```
 
-* **Half-space Description:** The intersection of a finite set of half-spaces ``\mathcal{F}_d^{X \to Y}``.
+* **Half-Space Description:** Let ``\mathcal{F}_d^{X \to Y}`` denote the set of
+    closed half-space inequalities on ``\mathbb{R}^{Y \times X}`` that tightly bound
+    the signaling polytope ``\mathcal{C}_d^{X\to Y}``.
+    We  refer to an inequality in ``\mathcal{F}_d^{X \to Y}`` as a *facet*. Then, the signaling
+    polytope is defined as the intersection of all inequalities in ``\mathcal{F}_d^{X\to Y}``,
 
 ```math
-\mathcal{C}_d^{X\to y} = \cap\{\mathcal{F}_d^{X \to y}\}
+    \mathcal{C}_d^{X\to Y} = \cap\{\mathcal{F}_d^{X \to Y}\}.
 ```
 
 The [`BellScenario.LocalPolytope`](https://chitambarlab.github.io/BellScenario.jl/stable/LocalPolytope/overview/#BellScenario.LocalPolytope)
-provides tools for computing each of these representations.
+module provides tools for computing each of these representations.
 
 ## Vertices
 
 A signaling polytope vertex ``\mathbf{V}\in\mathcal{V}_d^{X \to Y}`` must satisfy:
-* ``\text{Rank}(\mathbf{V}) \leq d``
 * Elements ``V(y|x) \in \{0,1\}`` for all ``y\in\mathcal{Y}`` and ``x\in\mathcal{X}``
+* ``\text{Rank}(\mathbf{V}) \leq d``
 
-In total, the number of vertices are counted by
+The total number of vertices in ``\mathcal{V}_d^{X \to Y}`` is then counted by [^DallArno2017]
 
 ```math
 |\mathcal{V}_d^{X \to Y}| = \sum_{c=1}^d \left\{X \atop c \right\}\binom{Y}{c}c!,
 ```
 
-where ``\{ \}`` denotes Stirling's number of the second kind and ``\binom{X}{k}``
-denotes ``X`` ``choose`` ``k`` [^DallArno2017].
+where ``\{\}`` denotes Stirling's number of the second kind and ``\binom{Y}{c}``
+denotes ``Y`` ``choose`` ``c``.
 
 ### Code Example: Counting Vertices
 
@@ -54,16 +60,21 @@ num_vertices = LocalPolytope.num_vertices(scenario)
 
 ### Code Example: Enumerating Vertices
 
-Signaling polytope vertices can be enumerated using the [`BellScenario.LocalPolytope.vertices`](https://chitambarlab.github.io/BellScenario.jl/dev/LocalPolytope/vertices/#BellScenario.LocalPolytope.vertices) method.
-Since the elements of a vertex are 0/1, they designate a [`BellScenario.DeterministicStrategy`](https://chitambarlab.github.io/BellScenario.jl/dev/BellScenario/strategies/#BellScenario.DeterministicStrategy).
-However, `DeterministicStrategy` types contain redundant information because each of
-the columns in the matrix are normalized, ``\sum_{y\in [Y]} P(y|x) = 1``.
-Therefore, the strategy can be represented in a `"normalized"` subspace where the
-``Y``-th row of the matrix is removed.
-Additionally, the polytope transformation software used by the `BellScenario.LocalPolytope`
-module requires a vector input.
-A column-major vectorization of the strategy matrix is then used to represent vertices
-in the `"normalized"` subspace.
+The set of vertices ``\mathcal{V}_d^{X \to Y}`` can be enumerated  using the [`BellScenario.LocalPolytope.vertices`](https://chitambarlab.github.io/BellScenario.jl/dev/LocalPolytope/vertices/#BellScenario.LocalPolytope.vertices) method.
+Since vertices have 0/1 elements, they can be represented by [`BellScenario.DeterministicStrategy`](https://chitambarlab.github.io/BellScenario.jl/dev/BellScenario/strategies/#BellScenario.DeterministicStrategy).
+
+!!! note "Vertex Normalization"
+    The columns of a channel ``\mathbf{P}\in\mathcal{P}^{X \to Y}`` are normalized
+    such that ``\sum_{y=1}^Y P(y|x) = 1`` for all ``x``.
+    Therefore, ``\mathbf{P}`` can be represented in a `"normalized"` subspace where the
+    ``Y``-th row of matrix ``\mathbf{P}`` is removed.
+
+
+!!! note "Vectorization"
+    The polytope transformation software used by the `BellScenario.LocalPolytope`
+    module requires vertices to be represented as vectors.
+    Hence a column-major vectorization is used both vertices and facets in the polytope
+    computations.
 
 ```@example enumerating_signaling_polytope_vertices
 using BellScenario
@@ -78,47 +89,50 @@ scenario = LocalSignaling(X, Y, d)
 # These vertices can be fed directly into polytope transformation methods.
 vertices = LocalPolytope.vertices(scenario)
 
-# Convert each vertex into a `DetermministicStrategy` matrix form.
+# Convert each vertex into a `DeterministicStrategy` matrix form.
 deterministic_strategies = map(v -> convert(DeterministicStrategy, v, scenario), vertices)
 ```
 
 ## Facets
 
-A signaling polytope facet ``(\mathbf{G},\gamma) \in \mathcal{F}_d^{X \to Y}`` is a half-space
-inequality represented by a real ``Y\times X`` matrix ``\mathbf{G}\in \mathbb{R}^{y\times X}``
-containing an inequality upper bound ``\gamma\in \mathbb{R}``.
-A channel ``\mathbf{P}\in\mathcal{P}^{X\to Y}`` is verified against a half-space inequality ``()\mathbf{G},\gamma)``
-through the inner product
+Let the tuple ``(\mathbf{G},\gamma) \in \mathcal{F}_d^{X \to Y}`` designate a facet of
+``\mathcal{C}_d^{X \to Y}`` where ``\mathbf{G}\in \mathbb{R}^{Y\times X}``
+and ``\gamma\in \mathbb{R}``.
+The half-space inequality is then expressed as
 
 ```math
-\gamma \geq \langle \mathbf{G}, \mathbf{P}\rangle = \sum_{x,y}G_{y,x}P(y|x).
+\gamma \geq \langle \mathbf{G}, \mathbf{P}\rangle = \sum_{x,y}G_{y,x}P(y|x)
 ```
 
-If the inequality is not satisfied, then ``\mathbf{P}`` violates facet ``(\mathbf{G},\gamma)``
-and hence, ``\mathbf{P}`` is not included in the signaling polytope.
-
-A facet of ``\mathcal{C}_d^{X \to Y}`` must satisfy:
+where ``\langle\mathbf{G},\mathbf{P}\rangle`` is simply the Euclidean inner product
+with some matrix ``\mathbf{P}\in\mathcal{P}^{X\to Y}``.
+A facet``(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}`` must satisfy:
 * ``\gamma \geq \langle \mathbf{G}, \mathbf{V} \rangle`` for all vertices ``\mathbf{V} \in \mathcal{V}_d^{X \to Y}``.
 * ``\gamma = \langle \mathbf{G}, \mathbf{V} \rangle`` for at least ``X(Y-1)`` affinely independent vertices ``\mathbf{V} \in \mathcal{V}_d^{X \to Y}``.
 
-Within the context of Bell scenarios, facets are equivalent to tight Bell inequalities.
-Hence, their violation witnesses the use of resources of  greater operational value
-than the set of classical resources considered for the particular  signaling polytope
-``\mathcal{C}_d^{X \to Y}``.
-
-Since the vertices of of the signaling polytope have  0/1 elements, ``\mathcal{C}_d^{X\to Y}``
-is an integral polytope with rational facet inequality coefficients.
-Therefore, any facet inequality ``(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}`` can be
-expressed in terms of integer coefficients.
-Furthermore, the normalization constraints on strategies ``\mathbf{P} \in \mathcal{C}_d^{X \to Y}``
-allows matrix ``\mathbf{G}`` to have non-negative entries and bound ``\gamma`` to
-be positive.
+A facet inequaliity ``(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}`` tightly bounds
+the signaling polytope ``\mathcal{C}_d^{X\to Y}``,
+therefore, if ``\gamma \ngeq \langle\mathbf{G},\mathbf{P}\rangle``, then ``\mathbf{P}\notin\mathcal{C}_d^{X \to Y}``.
+Hence the inequalities ``(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}`` can verify
+whether a channel ``\mathbf{P}\in\mathcal{P}^{X\to Y}`` is also contained by the signaling
+polytope ``\mathcal{C}_d^{X \to Y}``.
+Within the context of Bell scenarios, these facets are referred to as tight Bell inequalities.
+Then, the violation of a tight Bell inequality witnesses the use of more communication
+than the ``d`` dit string considered by ``\mathcal{C}_d^{X \to Y}``.
 
 ### Code Example: Complete Facet Enumeration
 
-This standard form for a facet inequality is represented by the [`BellScenario.BellGame`](https://chitambarlab.github.io/BellScenario.jl/dev/BellScenario/games/#BellScenario.BellGame)
-type.
-However, facets are initially computed in a vectorized form in the `"normalized"` subspace.
+A facet inequality is represented by the  [`BellScenario.BellGame`](https://chitambarlab.github.io/BellScenario.jl/dev/BellScenario/games/#BellScenario.BellGame)
+type. Note however, that the polytope computation software represents  mmatrix ``\mathbf{G}``
+with a column-major vectorization in the ``"normalized"`` subspace.
+
+!!! note "Facet Normal Form"
+    For any half-space inequality ``(\mathbf{G},\gamma)``,  ``\gamma`` and ``\mathbf{G}``
+    are not unique.
+    Therefore, a *normal form* must be established for facets.
+    The normal form used in this work is as follows:
+        1. The elements of matrix ``\mathbf{G}`` are non-negative integers and
+        2. The corresponding bound ``\gamma`` is a non-negative integer.
 
 !!! warning "Performance of Facet Computations"
     Facet computations fail to perform for large numbers of vertices and vertices
@@ -130,7 +144,7 @@ using BellScenario
 
 X = 3    # num inputs
 Y = 3    # num outputs
-d = 2    # d-dit signaling
+d = 2    # dit signaling
 
 scenario = LocalSignaling(X, Y, d)
 
@@ -151,30 +165,26 @@ end
 
 ## Adjacency Decomposition
 
-The input and output values a signaling scenario are merely labels.
-Rearranging these labels cannot change the structure of the signaling correlations.
-Therefore, the signaling polytope is invariant to permutations of inputs and outputs[^Rosset2014].
-
-The permutation symmetry of the signaling polytope indicates that there is vertex
-and facet transitivity.
-This means that any permutation of the columns or rows of a strategy
-or game matrix results in a new strategy or game indistinguishable from the original.
+The values of input ``x`` and output ``y`` for a signaling scenario are merely labels.
+Rearranging these labels cannot change the structure of the signaling polytope.
+Hence the signaling polytope is invariant under permutations of inputs and outputs[^Rosset2014].
+This permutation symmetry results in a transitivity of vertices and facets.
+That is, any permutation of a vertex (or facet) is also  a vertex (or facet) of ``\mathcal{C}_d^{X \to Y}``.
+Furthermore, we define a vertex class (facet class) as the set of all vertices
+(facets) generated by taking row/column permutations.
 Hence, there exists a canonical set of generator vertices and facets whose permutations
-describe the entire signaling polytope.
-
-Since the number of permutations scale as factorial of ``X`` and ``Y``, the set
-of generators is dramatic reduction in the number of total vertices and facets needed
+describe the complete set of signaling polytope facets ``\mathcal{F}_d^{X \to Y}``.
+Since the number of permutations scale as ``(X!)`` and ``(Y!)``, the set
+of generators is dramatically reduces in the total number vertices and facets needed
 to describe the polytope.
-The canonical form of a generator facet or vertex is arbitrary and hence lexicographic
-normal form is used as consistent ordering of matrices.
 
-The adjacency decomposition technique [^Christof2001] exploits the permutation symmetry
-of a polytope to compute a canonical set of generator facets.
-
-Advantages of the adjacency decomposition technique:
-* The set of generator facets is much smaller than the complete set of facets reducing the amount of computation and size of output data.
-* The computation does not need to be run to completion because a new generator facet is computed each iteration of the algorithm.
-* The computation can be parallelized.
+Given  the permutation symmetry of singaling polytopes, the adjacency decomposition
+technique [^Christof2001] is an effective algorithm for computing the generator facets
+of a convex polytope.
+Key advantages of the adjacency decomposition technique include:
+* The complete set of facets does not need to be stored in memory, only the generator facets.
+* If not run to completion, a partial list of generator facets is obtained.
+* The computation can be widely parallelized.
 
 ### Code Example: Adjacency Decomposition
 
@@ -183,10 +193,18 @@ signaling polytopes using the [`BellScenario.LocalPolytope.adjacency_decompositi
 Please refer to BellScenario.jl documentation for additional details on the arguments,
 outputs, and implementation of the adjacency decomposition algorithm.
 
+!!! note "Lexicographic Normal Form"
+    The generator facet for a facet class is arbitrary.
+    Therefore, we establish a lexicographic ordering for each permutation in a facet
+    class.
+    The facets computed by `BellScenario.LocalPolytope.adjacency_decompostion`
+    are presented in their *lexicographic normal form* which is maximal in the lexicographic ordering
+    of the facet class.
+
 ```@example
 using BellScenario
 
-X = 4    # num inputs
+X = 6    # num inputs
 Y = 4    # num outputs
 d = 2    # dit signaling
 
@@ -196,18 +214,26 @@ scenario = LocalSignaling(X, Y, d)
 vertices = LocalPolytope.vertices(scenario)
 
 # The adjacency decomposition requires a facet to seed the algorithm.
-facet_seed = BellGame([1 0 0 0;0 1 0 0;0 0 1 0;0 0 0 1], 2)
+facet_seed = BellGame([1 0 0 0 0 0;0 1 0 0 0 0;0 0 1 0 0 0;0 0 0 1 0 0], 2)
 
 # Compute the complete set of generator facets
 adj_dict = LocalPolytope.adjacency_decomposition(vertices, facet_seed, scenario)
 
 # The generator facets are the keys of returned dictionary
 for bell_game in keys(adj_dict)
-    println(bell_game.β, " ≥ ", bell_game.game)
+    println(bell_game.β, " ≥ ", bell_game.game, "\n")
 end
 ```
 
 ### References
-[^DallArno2017]: Dall’Arno, Michele, et al. "No-hypersignaling principle." Physical Review Letters 119.2 (2017): 020401.
-[^Rosset2014]: Rosset, Denis, Jean-Daniel Bancal, and Nicolas Gisin. "Classifying 50 years of Bell inequalities." Journal of Physics A: Mathematical and Theoretical 47.42 (2014): 424022.
-[^Christof2001]: Christof, Thomas, and Gerhard Reinelt. "Decomposition and parallelization techniques for enumerating the facets of combinatorial polytopes." International Journal of Computational Geometry & Applications 11.04 (2001): 423-437.
+[^Ziegler2012]:
+    Ziegler, Günter M. Lectures on polytopes. Vol. 152. Springer Science & Business Media, 2012.
+
+[^DallArno2017]:
+    Dall’Arno, Michele, et al. "No-hypersignaling principle." Physical Review Letters 119.2 (2017): 020401.
+
+[^Rosset2014]:
+    Rosset, Denis, Jean-Daniel Bancal, and Nicolas Gisin. "Classifying 50 years of Bell inequalities." Journal of Physics A: Mathematical and Theoretical 47.42 (2014): 424022.
+
+[^Christof2001]:
+    Christof, Thomas, and Gerhard Reinelt. "Decomposition and parallelization techniques for enumerating the facets of combinatorial polytopes." International Journal of Computational Geometry & Applications 11.04 (2001): 423-437.

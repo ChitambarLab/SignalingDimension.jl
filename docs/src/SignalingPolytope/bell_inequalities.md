@@ -1,9 +1,9 @@
 # Signaling Polytope: Bell Inequalities
 
-The Bell inequalities (facets) of the signaling polytope bound the signaling correlations
+The tight Bell inequalities (facets) of the signaling polytope bound the signaling correlations
 for ``d``-dit classical communication.
-If a channel ``\mathbf{P}\in\mathcal{P}^{n \to n'}`` violates a Bell inequality ``\mathbf{F}\supset \mathcal{C}_d^{n \to n'}``,
-then ``\mathbf{P}\notin\mathcal{C}_d^{n \to n'}``.
+If a channel ``\mathbf{P}\in\mathcal{P}^{X \to Y}`` violates a Bell inequality ``\mathbf{F}\supset \mathcal{C}_d^{X \to Y}``,
+then ``\mathbf{P}\notin\mathcal{C}_d^{X \to Y}``.
 Therefore, the signaling dimension of ``\mathbf{P}`` is greater than ``d``, that is, ``\kappa(\mathbf{P}) > d``.
 
 ## Theoretical Facets
