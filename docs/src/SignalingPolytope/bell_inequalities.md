@@ -1,37 +1,48 @@
 # Signaling Polytope: Bell Inequalities
 
-The tight Bell inequalities (facets) of the signaling polytope bound the signaling correlations
-for ``d``-dit classical communication.
-If a channel ``\mathbf{P}\in\mathcal{P}^{X \to Y}`` violates a Bell inequality ``\mathbf{F}\supset \mathcal{C}_d^{X \to Y}``,
-then ``\mathbf{P}\notin\mathcal{C}_d^{X \to Y}``.
-Therefore, the signaling dimension of ``\mathbf{P}`` is greater than ``d``, that is, ``\kappa(\mathbf{P}) > d``.
+A linear inequality ``\langle\mathbf{G},\mathbf{P}\rangle\leq \gamma`` is defined as a Bell inequality of
+a signaling polytope ``\mathcal{C}_d^{X \to Y}`` if all channels ``\mathbf{P}\in\mathcal{C}_d^{X \to Y}``
+satisfy the Bell inequality, that is,
+
+```math
+    \mathcal{C}_d^{X \to Y}\subset \{\mathbf{P}\in\mathcal{P}^{X \to Y}|\; \langle\mathbf{G},\mathbf{P}\rangle\leq \gamma \}.
+```
+
+A Bell inequality is  denoted by the tuple ``(\mathbf{G},\gamma)`` where ``\mathbf{G}\in\mathbb{R}^{Y\times X}``
+and ``\gamma\in\mathbb{R}`` .
+A signaling polytope Bell inequality ``(\mathbf{G},\gamma)`` is said to be tight
+if it is a facet of the  ``\mathcal{C}_d^{X \to Y}`` signaling polytope see [Facets](@ref) section.
+Tight Bell inequalities of a signaling polytope ``\mathcal{C}_d^{X \to Y}`` are
+important because their violation witnesses the use of more than  ``d`` dit classical
+communication.
+Hence if ``\langle\mathbf{G},\mathbf{P}\rangle\nleq \gamma``, then ``\mathbf{P}\notin \mathcal{C}_d^{X \to  Y}``.
 
 ## Theoretical Facets
 
 We provide several tight Bell inequality which bound general signaling polytopes.
 
 ```@docs
-non_negativity_game
-maximum_likelihood_game
-ambiguous_guessing_game
-anti_guessing_game
-k_guessing_game
-coarse_grained_input_ambiguous_guessing_game
+non_negativity_facet
+maximum_likelihood_facet
+ambiguous_guessing_facet
+anti_guessing_facet
+k_guessing_facet
+coarse_grained_input_ambiguous_guessing_facet
 ```
 
 ### Affinely Independent Enumerations
 
-To prove the tightness of the preceeding facet, a set of ``n(n'-1)`` affinely independent
+To prove the tightness of the preceding facets, a set of ``X(Y -1)`` affinely independent
 vertices must be shown to satisfy ``\gamma = \langle \mathbf{G}, \mathbf{V} \rangle``.
 These enumerations a demonstrated with the following methods.
 
 ```@docs
-aff_ind_maximum_likelihood_game_strategies
-aff_ind_non_negativity_game_strategies
-aff_ind_ambiguous_guessing_game_strategies
-aff_ind_coarse_grained_input_ambiguous_guessing_game_strategies
-aff_ind_anti_guessing_game_strategies
-aff_ind_k_guessing_game_strategies
+aff_ind_maximum_likelihood_vertices
+aff_ind_non_negativity_vertices
+aff_ind_ambiguous_guessing_vertices
+aff_ind_coarse_grained_input_ambiguous_guessing_vertices
+aff_ind_anti_guessing_vertices
+aff_ind_k_guessing_vertices
 ```
 
 ### Verification

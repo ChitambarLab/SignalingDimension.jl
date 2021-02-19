@@ -104,11 +104,11 @@ The half-space inequality is then expressed as
 \gamma \geq \langle \mathbf{G}, \mathbf{P}\rangle = \sum_{x,y}G_{y,x}P(y|x)
 ```
 
-where ``\langle\mathbf{G},\mathbf{P}\rangle`` is simply the Euclidean inner product
+where ``\langle\mathbf{G},\mathbf{P}\rangle`` is the Euclidean inner product
 with some matrix ``\mathbf{P}\in\mathcal{P}^{X\to Y}``.
-A facet``(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}`` must satisfy:
+A facet ``(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}`` must satisfy:
 * ``\gamma \geq \langle \mathbf{G}, \mathbf{V} \rangle`` for all vertices ``\mathbf{V} \in \mathcal{V}_d^{X \to Y}``.
-* ``\gamma = \langle \mathbf{G}, \mathbf{V} \rangle`` for at least ``X(Y-1)`` affinely independent vertices ``\mathbf{V} \in \mathcal{V}_d^{X \to Y}``.
+* ``\gamma = \langle \mathbf{G}, \mathbf{V} \rangle`` for at least ``X(Y-1)`` affinely independent vertices ``\mathcal{V}_d^{X \to Y}``.
 
 A facet inequaliity ``(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}`` tightly bounds
 the signaling polytope ``\mathcal{C}_d^{X\to Y}``,
@@ -116,9 +116,8 @@ therefore, if ``\gamma \ngeq \langle\mathbf{G},\mathbf{P}\rangle``, then ``\math
 Hence the inequalities ``(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}`` can verify
 whether a channel ``\mathbf{P}\in\mathcal{P}^{X\to Y}`` is also contained by the signaling
 polytope ``\mathcal{C}_d^{X \to Y}``.
-Within the context of Bell scenarios, these facets are referred to as tight Bell inequalities.
-Then, the violation of a tight Bell inequality witnesses the use of more communication
-than the ``d`` dit string considered by ``\mathcal{C}_d^{X \to Y}``.
+Within the context of Bell scenarios, these facets are referred to as tight Bell inequalities
+and are discussed in greater detail in the [SignalingPolytope: Bell Inequalities](@ref) section.
 
 ### Code Example: Complete Facet Enumeration
 
