@@ -17,9 +17,10 @@ important because their violation witnesses the use of more than  ``d`` dit clas
 communication.
 Hence if ``\langle\mathbf{G},\mathbf{P}\rangle\nleq \gamma``, then ``\mathbf{P}\notin \mathcal{C}_d^{X \to  Y}``.
 
-## Theoretical Facets
+## Tight Bell Inequalities
 
-We provide several tight Bell inequality which bound general signaling polytopes.
+We provide a catalog of tight Bell inequality which bound general signaling polytopzes.
+See [ref to paper](broken link) for details.
 
 ```@docs
 non_negativity_facet
@@ -32,9 +33,11 @@ coarse_grained_input_ambiguous_guessing_facet
 
 ### Affinely Independent Enumerations
 
-To prove the tightness of the preceding facets, a set of ``X(Y -1)`` affinely independent
-vertices must be shown to satisfy ``\gamma = \langle \mathbf{G}, \mathbf{V} \rangle``.
-These enumerations a demonstrated with the following methods.
+To verify the tightness of a Bell inequality, ``X(Y-1)`` affinely independent
+vertices must be found to satisfy ``\gamma = \langle \mathbf{G}, \mathbf{V} \rangle``.
+We demonstrate these enumerations for the set of facets described above.
+The [`test/unit/affinely_independent_enumerations.jl`](https://github.com/ChitambarLab/SignalingDimension.jl/blob/master/test/unit/affinely_independent_enumerations.jl)
+verify that each of these affinely independent enumerations scale across a wide range of scenarios.
 
 ```@docs
 aff_ind_maximum_likelihood_vertices
@@ -47,8 +50,7 @@ aff_ind_k_guessing_vertices
 
 ### Verification
 
-Unit tests in [`test/unit/affinely_independent_enumerations.jl`] verify that each of
-these affinely independent enumerations scale across a wide range of scenarios.
+
 
 
 ## Computed Facets
