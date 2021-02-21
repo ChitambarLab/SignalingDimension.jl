@@ -12,7 +12,7 @@ communication.
 Without loss of generality, any such black-box can be described as a *signaling device*
 that transmits classical information from Alice to Bob.
 
-![Signaling Black-Box](assets/images/signaling_device.png)
+![Signaling Black-Box](../assets/images/signaling_device.png)
 
 The signaling device is effectively a classical channel with ``X`` inputs and ``Y``
 outputs, however, the signaling process that takes ``\mathcal{X}\to \mathcal{Y}``
@@ -63,7 +63,7 @@ To assist in this protocol, Alice and Bob can use shared randomness to coordinat
 their encoding and decoding maps.
 This noiseless one-way communication protocol is depicted in the following image.
 
-![Classical Signaling Device](assets/images/classical_signaling_device.png)
+![Classical Signaling Device](../assets/images/classical_signaling_device.png)
 
 In the figure, ``T_{\lambda}(m|x)`` and ``R_{\lambda}(y|m)`` are the conditional probabilities
 for the transmitter and receiver.
@@ -142,13 +142,13 @@ The amount of quantum communication is measured by the Hilbert space dimension o
 ``\rho_x``.
 Additionally, the quantum channel ``\mathcal{N}`` performs a completely
 positive trace-preserving (CPTP) map on the density matrix of ``\rho_x`` producing
-a new quantum states ``\mathca{N}(\rho_x)``.
+a new quantum states ``\mathcal{N}(\rho_x)``.
 This quantum communication scheme is depicted in the following figure.
 
-![Quantum Signaling](assets/images/quantum_signaling_device.png)
+![Quantum Signaling](../assets/images/quantum_signaling_device.png)
 
 Note that the inputs and outputs are classical, hence, we discuss the classical
-channel ``\mathbf{P}_{\mamthcal{N}}`` generated using quantum channel ``\mathcal{N}``.
+channel ``\mathbf{P}_{\mathcal{N}}`` generated using quantum channel ``\mathcal{N}``.
 The signaling correlations of a quantum signaling device are then expressed
 
 ```math
@@ -166,7 +166,7 @@ the signaling correlations are constructed as
 P_{\text{id}_d}(y|x) = \text{Tr}[\Pi_y \rho_x],
 ```
 
-while the set of all noiseless channels is denoted ``\mathca{Q}_d^{X \to Y}``.
+while the set of all noiseless channels is denoted ``\mathcal{Q}_d^{X \to Y}``.
 
 ### Code Example: Signaling Over a Quantum Channel
 

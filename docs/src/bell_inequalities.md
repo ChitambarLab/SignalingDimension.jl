@@ -1,4 +1,4 @@
-# Signaling Polytope: Bell Inequalities
+# Bell Inequalities
 
 A linear inequality ``\langle\mathbf{G},\mathbf{P}\rangle\leq \gamma`` is defined as a Bell inequality of
 a signaling polytope ``\mathcal{C}_d^{X \to Y}`` if all channels ``\mathbf{P}\in\mathcal{C}_d^{X \to Y}``

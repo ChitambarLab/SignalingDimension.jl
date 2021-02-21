@@ -32,6 +32,7 @@ using SignalingDimension
     @testset "errors" begin
         @test_throws DomainError ambiguous_guessing_game(LocalSignaling(3,3,4),2)
         @test_throws DomainError ambiguous_guessing_game(LocalSignaling(4,5,2),7)
+    end
 end
 
 @testset "maximum_likelihood_facet()" begin

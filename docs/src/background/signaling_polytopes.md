@@ -1,4 +1,4 @@
-# Signaling Polytope: Overview
+# Signaling Polytopes
 
 Let ``\mathcal{C}_d^{X\to Y}`` denote the  set of classical signaling correlations
 produced using one-way, noiseless classical communication and shared randomness.

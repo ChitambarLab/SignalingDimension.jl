@@ -1,7 +1,39 @@
-export ambiguous_guessing_game
+export k_guessing_game, ambiguous_guessing_game
 
 export maximum_likelihood_facet, anti_guessing_facet, ambiguous_guessing_facet, k_guessing_facet, non_negativity_facet
 export coarse_grained_input_ambiguous_guessing_facet
+
+"""
+    k_guessing_game( scenario :: LocalSignaling, k :: Int64 ) :: BellGame
+
+Constructs the generalized error game for the specified parameters:
+* scenario is a `LocalSignaling(X, Y, d)` type.
+* `k` is the number of non-zero terms in each column
+
+A `DomainError` is satisfied if the following requirements aren't satisfied:
+* `(N - k) ≥ d ≥ 2`
+* `(N - 1) ≥ k ≥ 1`
+* `N ≥ 3`
+"""
+function k_guessing_game(N :: Int64, d :: Int64, k :: Int64) :: BellGame
+    if !(N - k ≥ d ≥ 2)
+        throw(DomainError(d, "Input d must satisfy `(N - k) ≥ d ≥ 2`"))
+    elseif !(N - 1 ≥ k ≥ 1)
+        throw(DomainError(k, "Input k must satisfy `(N - 1) ≥ k ≥ 1`"))
+    elseif !(N ≥ 3)
+        throw(DomainError(N, "Input N must satisfy `N ≥ 3`"))
+    end
+
+    err_game = hcat(map( combo -> begin
+        a = zeros(Int64, N)
+        a[combo] .= 1
+        return a
+    end, combinations(1:N, k))...)
+
+    max_score = sum(map(i -> binomial(N-i, k-1), 1:d))
+
+    BellGame(err_game, max_score)
+end
 
 """
 Ambiguous guessing games are a family of Bell inequalities for signaling polytopes [paper link](broken link).

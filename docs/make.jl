@@ -16,12 +16,12 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
-        "Signaling Correlations" => "signaling_correlations.md",
-        "Signaling Dimension" => "signaling_dimension.md",
-        "Signaling Polytope" => [
-            "Overview" => "SignalingPolytope/overview.md",
-            "Bell Inequalities" => "SignalingPolytope/bell_inequalities.md",
+        "Background" => [
+            "Signaling Correlations" => "background/signaling_correlations.md",
+            "Signaling Polytopes" => "background/signaling_polytopes.md",
+            "Signaling Dimension" => "background/signaling_dimension.md",
         ],
+        "Bell Inequalities" => "bell_inequalities.md",
         "Certifying Signaling Dimension" => "certifying_signaling_dimension.md",
     ],
 )
