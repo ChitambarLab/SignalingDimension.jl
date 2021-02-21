@@ -1,5 +1,71 @@
+export ambiguous_guessing_game
+
 export maximum_likelihood_facet, anti_guessing_facet, ambiguous_guessing_facet, k_guessing_facet, non_negativity_facet
 export coarse_grained_input_ambiguous_guessing_facet
+
+"""
+Ambiguous guessing games are a family of Bell inequalities for signaling polytopes [paper link](broken link).
+An ambiguous guessing game, denoted by ``(\\mathbf{G}_?,\\gamma)``, bounds the
+signaling polytope ``\\mathcal{C}_d^{X \\to Y}``.
+The ``Y \\times X`` matrix ``\\mathbf{G}_?`` is described as having two types of rows:
+* *Guessing Rows*: one column contains a non-zero element of value ``(X - d + 1)``;
+* *Ambiguous Rows*: each column contains a ``1``.
+
+For any integer ``k \\in [0,Y]``` An ambiguous guessing game is defined to have ``k`` guessing rows
+and ``(Y-k)`` ammbiguous rows.
+The upper bound on the  ambiguous guessing game Bell inequality is then ``\\gamma = d(X-d+1)``.
+
+The following method constructs an ambiguous guessing game Bell inequality with `k`
+guessing rows for the `LocalSignaling(X, Y, d)` scenario.
+
+    ambiguous_guessing_game(scenario :: LocalSignaling, k :: Int64) :: BellGame
+
+For exammple,
+```@example ammbiguous_guessing_game
+using BellScenario, SignalingDimension
+
+scenario = LocalSignaling(6, 7, 3)
+k = 4        # num guessing rows
+
+ambiguous_guessing_game(scenario, k)
+```
+
+A `DomainError` is thrown if:
+* `k` does not satisfy `Y ≥ k ≥ 0`
+
+"""
+function ambiguous_guessing_game(scenario :: LocalSignaling, k :: Int64) :: BellGame
+
+    X = scenario.X
+    Y = scenario.Y
+    d = scenario.d
+
+    if !(Y ≥ k ≥ 0)
+        throw(DomainError(k, "num guessing rows `k` should satisfy `Y ≥ k ≥ 0`."))
+    elseif !(min(X,Y) ≥ d ≥ 1)
+        throw(DomainError(d, "`scenario.d` should satisfy `min(X, Y) ≥ d ≥ 1`."))
+    end
+
+    ambiguous_scalar = (X - d + 1)
+
+    γ = d * ambiguous_scalar
+    G = zeros(Int64, Y, X)
+
+    for y in 1:k
+        if y ≤ X
+            G[y,y] = ambiguous_scalar
+        else
+            G[y,X] = ambiguous_scalar
+        end
+    end
+
+    ambiguous_row = ones(Int64, X)
+    for y in (k+1):Y
+        G[y,:] =  ambiguous_row
+    end
+
+    BellGame(G, γ)
+end
 
 """
     maximum_likelihood_facet( N :: Int64, d :: Int64 ) :: BellGame

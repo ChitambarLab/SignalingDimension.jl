@@ -36,7 +36,7 @@ using LinearAlgebra
 using Combinatorics
 using BellScenario
 
-include("./facets.jl")
+include("./bell_inequalities.jl")
 include("./affinely_independent_enumerations.jl")
 include("./certifying_signaling_dimension.jl")
 

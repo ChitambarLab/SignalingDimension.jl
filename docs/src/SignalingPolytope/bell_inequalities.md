@@ -17,6 +17,10 @@ important because their violation witnesses the use of more than  ``d`` dit clas
 communication.
 Hence if ``\langle\mathbf{G},\mathbf{P}\rangle\nleq \gamma``, then ``\mathbf{P}\notin \mathcal{C}_d^{X \to  Y}``.
 
+```@docs
+ambiguous_guessing_game
+```
+
 ## Tight Bell Inequalities
 
 We provide a catalog of tight Bell inequality which bound general signaling polytopzes.

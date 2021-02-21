@@ -1,8 +1,38 @@
 using Test, BellScenario
 
-@testset "./src/facets.jl" begin
+@testset "./src/bell_inequalities.jl" begin
 
 using SignalingDimension
+
+@testset "ambiguous_guessing_game()" begin
+    @testset "varying k" begin
+        scenario = LocalSignaling(3,4,2)
+
+        @test ambiguous_guessing_game(scenario, 0) == [1 1 1;1 1 1;1 1 1;1 1 1]
+        @test ambiguous_guessing_game(scenario, 1) == [2 0 0;1 1 1;1 1 1;1 1 1]
+        @test ambiguous_guessing_game(scenario, 2) == [2 0 0;0 2 0;1 1 1;1 1 1]
+        @test ambiguous_guessing_game(scenario, 3) == [2 0 0;0 2 0;0 0 2;1 1 1]
+        @test ambiguous_guessing_game(scenario, 4) == [2 0 0;0 2 0;0 0 2;0 0 2]
+    end
+
+    @testset "d edge cases" begin
+        BG = ambiguous_guessing_game(LocalSignaling(4,6,4), 4)
+        @test BG == [
+            1 0 0 0;0 1 0 0;0 0 1 0;0 0 0 1;1 1 1 1;1 1 1 1
+        ]
+        @test BG.β == 4
+
+        BG = ambiguous_guessing_game(LocalSignaling(6,4,4), 3)
+        @test BG == [
+            3 0 0 0 0 0;0 3 0 0 0 0;0 0 3 0 0 0;1 1 1 1 1 1
+        ]
+        @test BG.β == 12
+    end
+
+    @testset "errors" begin
+        @test_throws DomainError ambiguous_guessing_game(LocalSignaling(3,3,4),2)
+        @test_throws DomainError ambiguous_guessing_game(LocalSignaling(4,5,2),7)
+end
 
 @testset "maximum_likelihood_facet()" begin
     @testset "trivial case" begin
