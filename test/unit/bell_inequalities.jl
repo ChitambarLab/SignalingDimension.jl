@@ -4,7 +4,57 @@ using Test, BellScenario
 
 using SignalingDimension
 
+@testset "k_guessing_game()" begin
+    @testset "edge cases small Y" begin
+        G_K = k_guessing_game(1,1,1)
+
+        @test G_K == ones(Int64,1,1)
+        @test G_K.β == 1
+
+        G_K = k_guessing_game(1,1,0)
+
+        @test G_K == zeros(Int64,1,1)
+        @test G_K.β == 0
+    end
+
+    @testset "edge cases for k" begin
+        G_K = k_guessing_game(5,2,5)
+
+        @test G_K == ones(Int64, 5, 1)
+        @test G_K.β == 1
+
+        G_K = k_guessing_game(5,2,0)
+
+        @test G_K == zeros(Int64, 5, 1)
+        @test G_K.β == 0
+    end
+
+    @testset "trivial cases" begin
+        G_K = k_guessing_game(4,2,2)
+
+        @test G_K == [1 1 1 0 0 0;1 0 0 1 1 0;0 1 0 1 0 1;0 0 1 0 1 1;]
+        @test G_K.β == 5
+    end
+
+    @testset "LocalSignaling" begin
+        G_K = k_guessing_game(LocalSignaling(6,4,2),2)
+
+        @test G_K == [1 1 1 0 0 0;1 0 0 1 1 0;0 1 0 1 0 1;0 0 1 0 1 1;]
+        @test G_K.β == 5
+    end
+
+    @testset "errors" begin
+        @test_throws DomainError k_guessing_game(4,2,-1)
+        @test_throws DomainError k_guessing_game(4,2,5)
+        @test_throws DomainError k_guessing_game(LocalSignaling(5,4,2),2)
+    end
+end
+
 @testset "ambiguous_guessing_game()" begin
+    @testset "X, Y, d parameters" begin
+        @test ambiguous_guessing_game(3,4,2,2) == [2 0 0;0 2 0;1 1 1;1 1 1]
+    end
+
     @testset "varying k" begin
         scenario = LocalSignaling(3,4,2)
 

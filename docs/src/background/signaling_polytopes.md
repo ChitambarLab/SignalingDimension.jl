@@ -117,7 +117,7 @@ Hence the inequalities ``(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}`` can ver
 whether a channel ``\mathbf{P}\in\mathcal{P}^{X\to Y}`` is also contained by the signaling
 polytope ``\mathcal{C}_d^{X \to Y}``.
 Within the context of Bell scenarios, these facets are referred to as tight Bell inequalities
-and are discussed in greater detail in the [SignalingPolytope: Bell Inequalities](@ref) section.
+and are discussed in greater detail in the [Bell Inequalities](@ref) section.
 
 ### Code Example: Complete Facet Enumeration
 

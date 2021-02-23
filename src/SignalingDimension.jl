@@ -26,8 +26,8 @@ resources.
 
 ## Features:
 * Tools to compute signaling correlations (see [Signaling Correlations](@ref)).
-* Tools to assist signaling polytope computations (see [Signaling Polytope: Overview](@ref)).
-* A catalog of Bell inequalities for witnessing signaling dimension (see [Signaling Polytope: Bell Inequalities](@ref)).
+* Tools to assist signaling polytope computations (see [Signaling Polytopes](@ref)).
+* A catalog of Bell inequalities for witnessing signaling dimension (see [Bell Inequalities](@ref)).
 * Methods to certify the signaling dimension of signaling systems (see [Certifying Signaling Dimension](@ref)).
 """
 module SignalingDimension

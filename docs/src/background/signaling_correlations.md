@@ -83,7 +83,7 @@ P(y|x) = \sum_{\lambda\in\Lambda}q(\lambda)\mathbf{R}_\lambda\mathbf{T}_\lambda 
 The complete set of classical signaling correlations are denoted ``\mathcal{C}_d^{X \to Y}``.
 Any classical channel ``\mathbf{P}`` satisfies ``\mathbf{P}\in\mathcal{C}_d^{X \to Y}\subset \mathcal{P}^{X \to Y}``.
 The set ``\mathcal{C}_d^{X \to Y}`` forms a convex polytope regarded as the *signaling polytope*.
-More details on the structure of the signaling polytope are found in the [Signaling Polytope: Overview](@ref) section.
+More details on the structure of the signaling polytope are found in the [Signaling Polytopes](@ref) section.
 In the BellScenario.jl framework a classical channel ``\mathbf{P}\in\mathcal{P}^{X\to Y}`` is then represented by
 a [`BellScenario.AbstractStrategy`](https://chitambarlab.github.io/BellScenario.jl/dev/BellScenario/strategies/#BellScenario.AbstractStrategy) type where a `Strategy` is simply a column stochastic map.
 

@@ -4,74 +4,155 @@ export maximum_likelihood_facet, anti_guessing_facet, ambiguous_guessing_facet, 
 export coarse_grained_input_ambiguous_guessing_facet
 
 """
-    k_guessing_game( scenario :: LocalSignaling, k :: Int64 ) :: BellGame
+The ``k``-guessing game is a general family of Bell inequalities for signaling polytopes.
+For any integer ``k\\in[0,Y]`` a ``k``-guessing game Bell inequality
+``(\\mathbf{G}_{\\text{K}},\\gamma_{\\text{K}})``
+bounds the signaling polytope ``\\mathcal{C}_d^{\\binom{Y}{k}\\to Y }``.
+The columns of matrix ``\\mathbf{G}_{\\text{K}}\\in \\mathbf{R}^{Y \\times \\binom{Y}{k}}``
+consist of all ``\\binom{Y}{k}`` ways to arrange ``k`` unit elements and ``(Y-k)``
+null elements.
+Hence each input ``x\\in[X]`` corresponds to a unique set of ``k`` correct
+answers out of ``Y`` possible answers.
+The upper bound is  ``\\gamma_{\\text{K}} = \\binom{Y}{k} - \\binom{Y-d}{k}``.
 
-Constructs the generalized error game for the specified parameters:
-* scenario is a `LocalSignaling(X, Y, d)` type.
-* `k` is the number of non-zero terms in each column
+A ``k``-guessing game Bell inequality is constructed with the `k_guessing_game`
+method,
 
-A `DomainError` is satisfied if the following requirements aren't satisfied:
-* `(N - k) ≥ d ≥ 2`
-* `(N - 1) ≥ k ≥ 1`
-* `N ≥ 3`
+```julia
+k_guessing_game(Y :: Int64, d :: Int64, k :: Int64) :: BellGame
+```
+
+Parameters:
+* `Y` - The number of outputs
+* `d` - The signaling dimension
+* `k` - The number of unit elements in each column. Must satisfy `Y ≥ k ≥ 0`.
+
+For example,
+
+```jldoctest k_guessing_game
+using SignalingDimension
+
+G_K = k_guessing_game(6,3,3)
+
+# output
+
+6×20 BellScenario.BellGame:
+ 1  1  1  1  1  1  1  1  1  1  0  0  0  0  0  0  0  0  0  0
+ 1  1  1  1  0  0  0  0  0  0  1  1  1  1  1  1  0  0  0  0
+ 1  0  0  0  1  1  1  0  0  0  1  1  1  0  0  0  1  1  1  0
+ 0  1  0  0  1  0  0  1  1  0  1  0  0  1  1  0  1  1  0  1
+ 0  0  1  0  0  1  0  1  0  1  0  1  0  1  0  1  1  0  1  1
+ 0  0  0  1  0  0  1  0  1  1  0  0  1  0  1  1  0  1  1  1
+```
+
+The upper bound is then
+
+```jldoctest k_guessing_game
+G_K.β
+
+# output
+
+19
+```
+
+The `k_guessing_game` can alternatively take a `BellScenario.LocalSignaling(X, Y, d)` scenario as input.
+
+```julia
+k_guessing_game( scenario :: LocalSignaling, k :: Int64 ) :: BellGame
+```
+
+A `DomainError` is thrown if `scenario.X !=  binomial(scenario.Y, k)`.
 """
-function k_guessing_game(N :: Int64, d :: Int64, k :: Int64) :: BellGame
-    if !(N - k ≥ d ≥ 2)
-        throw(DomainError(d, "Input d must satisfy `(N - k) ≥ d ≥ 2`"))
-    elseif !(N - 1 ≥ k ≥ 1)
-        throw(DomainError(k, "Input k must satisfy `(N - 1) ≥ k ≥ 1`"))
-    elseif !(N ≥ 3)
-        throw(DomainError(N, "Input N must satisfy `N ≥ 3`"))
+function k_guessing_game(scenario :: LocalSignaling, k :: Int64) :: BellGame
+    if scenario.X != binomial(scenario.Y, k)
+        throw(DomainError(scenario.X, "Number of inputs `X` must be `binomial(Y, k)`."))
     end
 
-    err_game = hcat(map( combo -> begin
-        a = zeros(Int64, N)
+    k_guessing_game(scenario.Y, scenario.d, k)
+end
+function k_guessing_game(Y :: Int64, d :: Int64, k :: Int64) :: BellGame
+    if !(Y ≥ k ≥ 0)
+        throw(DomainError(k, "Input k must satisfy `Y  ≥ k ≥ 0`"))
+    end
+
+    game = hcat(map( combo -> begin
+        a = zeros(Int64, Y)
         a[combo] .= 1
         return a
-    end, combinations(1:N, k))...)
+    end, combinations(1:Y, k))...)
 
-    max_score = sum(map(i -> binomial(N-i, k-1), 1:d))
+    max_score = binomial(Y,k) - binomial(Y-d,k) #sum(map(i -> binomial(Y-i, k-1), 1:d))
 
-    BellGame(err_game, max_score)
+    BellGame(game, max_score)
 end
 
 """
 Ambiguous guessing games are a family of Bell inequalities for signaling polytopes [paper link](broken link).
-An ambiguous guessing game, denoted by ``(\\mathbf{G}_?,\\gamma)``, bounds the
+An ambiguous guessing game, denoted by ``(\\mathbf{G}_{\\text{Q}},\\gamma_{\\text{Q}})``, bounds the
 signaling polytope ``\\mathcal{C}_d^{X \\to Y}``.
-The ``Y \\times X`` matrix ``\\mathbf{G}_?`` is described as having two types of rows:
+The ``Y \\times X`` matrix ``\\mathbf{G}_{\\text{Q}}`` is described as having two types of rows:
 * *Guessing Rows*: one column contains a non-zero element of value ``(X - d + 1)``;
 * *Ambiguous Rows*: each column contains a ``1``.
 
-For any integer ``k \\in [0,Y]``` An ambiguous guessing game is defined to have ``k`` guessing rows
+For any integer ``k \\in [0,Y]`` An ambiguous guessing game is defined to have ``k`` guessing rows
 and ``(Y-k)`` ammbiguous rows.
-The upper bound on the  ambiguous guessing game Bell inequality is then ``\\gamma = d(X-d+1)``.
+The upper bound on the  ambiguous guessing game Bell inequality is then ``\\gamma_{\\text{Q}} = d(X-d+1)``.
 
-The following method constructs an ambiguous guessing game Bell inequality with `k`
-guessing rows for the `LocalSignaling(X, Y, d)` scenario.
+The `ambiguous_guessing_game` method constructs an ambiguous guessing game Bell inequality with `k`
+guessing rows.
 
-    ambiguous_guessing_game(scenario :: LocalSignaling, k :: Int64) :: BellGame
-
-For exammple,
-```@example ammbiguous_guessing_game
-using BellScenario, SignalingDimension
-
-scenario = LocalSignaling(6, 7, 3)
-k = 4        # num guessing rows
-
-ambiguous_guessing_game(scenario, k)
+```julia
+ambiguous_guessing_game(X::Int64, Y::Int64, d::Int64, k::Int64) :: BellGame
 ```
 
-A `DomainError` is thrown if:
-* `k` does not satisfy `Y ≥ k ≥ 0`
+Parameters:
+* `X` - The number of inputs
+* `Y` - The number of outputs
+* `d` - The signaling dimension
+* `k` - Th number of guessing rows. Must satisfy `Y ≥ k ≥ 0`.
 
+For example, the following constructed ambiguous guessing game has four guessing
+rows and  3 ambiguous rows.
+
+```jldoctest ambiguous_guessing_game
+using SignalingDimension
+
+(X, Y, d) = (6, 7, 3)
+
+k = 4        # num guessing rows
+
+G_Q = ambiguous_guessing_game(X, Y, d, k)
+
+# output
+
+7×6 BellScenario.BellGame:
+ 4  0  0  0  0  0
+ 0  4  0  0  0  0
+ 0  0  4  0  0  0
+ 0  0  0  4  0  0
+ 1  1  1  1  1  1
+ 1  1  1  1  1  1
+ 1  1  1  1  1  1
+```
+
+```jldoctest ambiguous_guessing_game
+G_Q.β
+
+# output
+
+12
+```
+
+Alternatively, the `ambiguous_guessing_game` can accept a `BellScenario.LocalSignaling(X, Y, d)` scenario.
+
+```julia
+ambiguous_guessing_game(scenario :: LocalSignaling, k :: Int64) :: BellGame
+```
 """
 function ambiguous_guessing_game(scenario :: LocalSignaling, k :: Int64) :: BellGame
-
-    X = scenario.X
-    Y = scenario.Y
-    d = scenario.d
-
+    ambiguous_guessing_game(scenario.X,scenario.Y,scenario.d,k)
+end
+function ambiguous_guessing_game(X::Int64, Y::Int64, d::Int64, k::Int64) :: BellGame
     if !(Y ≥ k ≥ 0)
         throw(DomainError(k, "num guessing rows `k` should satisfy `Y ≥ k ≥ 0`."))
     elseif !(min(X,Y) ≥ d ≥ 1)

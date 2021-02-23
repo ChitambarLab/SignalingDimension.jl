@@ -18,6 +18,7 @@ communication.
 Hence if ``\langle\mathbf{G},\mathbf{P}\rangle\nleq \gamma``, then ``\mathbf{P}\notin \mathcal{C}_d^{X \to  Y}``.
 
 ```@docs
+k_guessing_game
 ambiguous_guessing_game
 ```
 
