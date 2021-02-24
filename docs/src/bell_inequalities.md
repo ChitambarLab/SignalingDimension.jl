@@ -25,7 +25,8 @@ reward.
 If they are able to score higher than ``\gamma``, then Alice and Bob "win" the game.
 
 We now discuss a subset of general Bell inequalities for signaling polytopes.
-Further details about these inequalities are provided in [ref to paper](broken link).
+Further details about these inequalities are provided in
+[Certifying the Classical Simulation Cost of a Quantum Channel](broken link).
 
 ```@docs
 k_guessing_game
@@ -40,8 +41,7 @@ Tight Bell inequalities of a signaling polytope ``\mathcal{C}_d^{X \to Y}`` are
 important because their violation witnesses the use of more than  ``d`` dit classical
 communication.
 Hence if ``\langle\mathbf{G},\mathbf{P}\rangle\nleq \gamma``, then ``\mathbf{P}\notin \mathcal{C}_d^{X \to  Y}``.
-We provide a catalog of tight Bell inequality which bound general signaling polytopzes.
-See [ref to paper](broken link) for details.
+The SignalingDimension.jl provides a catalog of tight Bell inequality which bound general signaling polytopes.
 
 ## Computed Facets
 
@@ -59,9 +59,15 @@ Data is provided in two formats:
 * `.txt` files are human readable
 * `.ieq` file format readable by BellScenario.jl.
 
+!!! note "Note: Filenames"
+    The scripts and produced data are named as `X-d-Y.jl` or `X-d-Y.txt`. Numbers
+    replace `X`, `Y`, and `d` when particular signaling polytopes are considered.
+    If the label `X`, `Y`, or `d` is used, then the script runs over a range of
+    that parameter.
+
 ## Theoretical Facets
 
-The following list of Bell inequalities are proven to be tight in Reference [link to paper](broken link).
+The following list of Bell inequalities are proven to be tight in [Certifying the Classical Simulation Cost of a Quantum Channel](broken link).
 Each of the following methods constructs a canonical facet for the signaling polytope ``\mathcal{C}_d^{X \to Y}``.
 The constructed facet inequalities are represented using the `BellScenario.BellGame` type.
 All row and column permutations of facets are also facets of ``\mathcal{C}_d^{X \to Y}``.

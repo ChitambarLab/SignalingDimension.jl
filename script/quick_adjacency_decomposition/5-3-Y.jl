@@ -4,24 +4,24 @@ using XPORTA: write_ieq, IEQ
 
 using BellScenario
 
-@testset "5-4-B scenario" begin
+@testset "5-3-Y scenario" begin
 
-@time for B in 6:10
+@time for Y in 6:8
     filepath = "./data/quick_adjacency_decomposition/"
-    filename = "5-4-$B"
+    filename = "5-3-$Y"
 
     println("$filename scenario")
 
-    PM = PrepareAndMeasure(5,B,4)
+    PM = LocalSignaling(5,Y,3)
     BG_seed = BellGame(cat(
         cat(
-            ones(Int64,B-5),
-            zeros(Int64,B-5,4),
+            ones(Int64,Y-5),
+            zeros(Int64,Y-5,4),
             dims=2
         ),
-        [1 0 0 0 0;0 1 0 0 0;0 0 1 0 0;0 0 0 1 0;0 0 0 0 1],
+        [1 0 0 0 0;1 0 0 0 0;0 1 0 0 0;0 0 1 0 0;0 0 0 1 0],
         dims=1
-    ), 4)
+    ), 3)
 
     vertices = LocalPolytope.vertices(PM)
     canonical_facets = LocalPolytope.adjacency_decomposition(vertices, BG_seed, PM, max_vertices = 100)

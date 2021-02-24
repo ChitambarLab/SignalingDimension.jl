@@ -25,7 +25,8 @@ a fixed signaling device and general channels alike.
 The  signaling dimension is defined with respect to the observed signaling
 correlations and requires no assumptions to be made about the communication process.
 Hence the signaling dimension is a device-independent metric.
-The signaling dimension of quantum channels is elaborated upon in the work [ref to paper](broken link).
+The signaling dimension of quantum channels is elaborated upon in
+[Certifying the Classical Simulation Cost of a Quantum Channel](broken link).
 
 ## Classical Simulation Cost
 

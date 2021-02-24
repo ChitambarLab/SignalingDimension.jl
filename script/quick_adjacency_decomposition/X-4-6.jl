@@ -12,7 +12,7 @@ using BellScenario
 
     println("$filename scenario")
 
-    PM = PrepareAndMeasure(X,6,4)
+    PM = LocalSignaling(X,6,4)
     BG_seed = BellGame(cat(
         [1 0 0 0 0 0;1 0 0 0 0 0;0 1 0 0 0 0;0 0 1 0 0 0;0 0 0 1 0 0;0 0 0 0 1 0],
         zeros(Int64,(6,X-6)),

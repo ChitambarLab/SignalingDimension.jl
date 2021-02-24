@@ -9,8 +9,7 @@ The signaling dimension is discussed in greater detail in the Background section
 of this documentation.
 
 ## Features:
-* Tools to compute signaling correlations (see [Signaling Correlations](@ref)).
-* Tools to assist signaling polytope computations (see [Signaling Polytopes](@ref)).
+* Tools to compute signaling correlations and polytopes (see [Signaling Correlations](@ref) and [Signaling Polytopes](@ref)).
 * A catalog of Bell inequalities for witnessing signaling dimension (see [Bell Inequalities](@ref)).
 * Methods to certify the signaling dimension of signaling systems (see [Certifying Signaling Dimension](@ref)).
 """

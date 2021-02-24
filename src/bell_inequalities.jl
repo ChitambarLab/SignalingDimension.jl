@@ -87,7 +87,7 @@ function k_guessing_game(Y :: Int64, d :: Int64, k :: Int64) :: BellGame
 end
 
 """
-Ambiguous guessing games are a family of Bell inequalities for signaling polytopes [paper link](broken link).
+Ambiguous guessing games are a family of Bell inequalities for signaling polytopes.
 An ambiguous guessing game, denoted by ``(\\mathbf{G}_{\\text{Q}},\\gamma_{\\text{Q}})``, bounds the
 signaling polytope ``\\mathcal{C}_d^{X \\to Y}``.
 The ``Y \\times X`` matrix ``\\mathbf{G}_{\\text{Q}}`` is described as having two types of rows:

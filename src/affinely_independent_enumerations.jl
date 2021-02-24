@@ -11,10 +11,7 @@ export aff_ind_coarse_grained_input_ambiguous_guessing_vertices
 """
     aff_ind_maximum_likelihood_vertices( N :: Int64, d :: Int64 ) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of deterministic, stochastic, `N x N` rank-`d`
-matrices with trace equal to `d`. These matrices are all vertices of the success
-game facet found on the signaling polytope where `N` describes the number of inputs
-and `d` describes the signaling dimension of the communication channel.
+Enumerates an affinely independent set of vertices that maximize the [`maximum_likelihood_facet`](@ref).
 
 A valid input requires `N > 2` and `N > d > 1`.
 """
@@ -54,9 +51,8 @@ end
         num_inputs :: Int64
     ) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of deterministic, stochastic,
-`num_outputs x num_inputs` matrices that satisfy the [`non_negativity_facet`](@ref)
-with equality.
+Enumerates an affinely independent set of deterministic, vertices that maximize
+the [`non_negativity_facet`](@ref)
 
 A valid input requires `N > 2` and `N > d > 1`.
 """
@@ -97,10 +93,7 @@ end
         d :: Int64
     ) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of deterministic, stochastic, `N x (N-1)`
-rank-`d` strategies which saturate the [`ambiguous_guessing_facet`](@ref). The existence
-of the enumeration proves that the ambiguous game is a facet of the signaling
-polytope
+Enumerates an affinely independent set of vertices that maximize the [`ambiguous_guessing_facet`](@ref).
 
 A `DomainError` is thrown if the inputs don't satisfy the following requirements:
 * `N ≥ 4`
@@ -149,10 +142,8 @@ end
         d :: Int64
     ) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of deterministic, stochastic, `n x n`
-rank-`d` strategies which saturate the [`coarse_grained_input_ambiguous_guessing_facet`](@ref).
-The existence of the enumeration proves that the input coarse-graining lifting mechanism
-produces facets of the signaling polytope.
+Enumerates an affinely independent set of vertices for the
+[`coarse_grained_input_ambiguous_guessing_facet`](@ref).
 
 A `DomainError` is thrown if the inputs don't satisfy the following requirements:
 * `n ≥ 4`
@@ -213,8 +204,7 @@ end
 """
     aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, error_size :: Int64) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of vertices for the error game. The vertices
-are `N x N`, rank-`d`, column stochastic matrices.
+Enumerates an affinely independent set of vertices for the [`anti_guessing_facet`](@ref).
 
 Valid inputs are `N > 4`, `N-1 > d > 1`, and `N-d+1 ≥ error_size ≥ 3`.
 """
@@ -338,9 +328,7 @@ end
         N :: Int64, d :: Int64, k :: Int64
     ) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of vertices for the generalized error game.
-The vertices are `N x binomial(N,k)`, rank-`d`, column stochastic matrices.
-This function is restricted to games where `N = d + k`.
+Enumerates an affinely independent set of vertices for the [`k_guessing_facet`](@ref).
 
 Valid inputs are `N ≥ 4`, `d ≥ 2`, and `k ≥ 2`.
 """

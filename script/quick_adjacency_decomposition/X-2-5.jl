@@ -12,7 +12,7 @@ using BellScenario
 
     println("$filename scenario")
 
-    PM = PrepareAndMeasure(X,5,2)
+    PM = LocalSignaling(X,5,2)
     BG_seed = BellGame(cat([1 0 0 0 0;1 0 0 0 0;1 0 0 0 0;0 1 0 0 0;0 0 1 0 0],zeros(Int64,(5,X-5)), dims=2),2)
 
     vertices = LocalPolytope.vertices(PM)

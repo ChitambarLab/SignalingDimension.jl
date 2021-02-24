@@ -4,12 +4,12 @@ using XPORTA
 @testset "closure" begin
 
 include("../../BellScenario.jl/src/BellScenario.jl")
-using BellScenario: Symmetry, LocalPolytope, BellGame, PrepareAndMeasure
+using BellScenario: Symmetry, LocalPolytope, BellGame, LocalSignaling
 ieq = XPORTA.read_ieq("./files/51-2-15_canonical_facets.ieq")
 
 porta_facets = ieq.inequalities
 
-PM = PrepareAndMeasure(5,5,2)
+PM = LocalSignaling(5,5,2)
 
 canonical_games = []
 # iter = 0

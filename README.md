@@ -2,18 +2,16 @@
 
 # SignalingDimension.jl
 
-*Certify the classical simulation cost of signaling systems.*
+*Certify the classical simulation cost of black-box systems.*
 
-This Julia package is the software companion piece to [Certifying the Classical Simulation Cost of a Quantum Channel](link to paper).
+This Julia package is the software companion piece to [Certifying the Classical Simulation Cost of a Quantum Channel](broken link).
 
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://ChitambarLab.github.io/SignalingDimension.jl/dev/)
 
 ## Features:
-* Tools to compute signaling correlations (see [Signaling Correlations](@ref)).
-* Tools to assist signaling polytope computations (see [Signaling Polytopes](@ref)).
-* A catalog of Bell inequalities for witnessing signaling dimension (see [Bell Inequalities](@ref)).
-* Methods to certify the signaling dimension of signaling systems (see [Certifying Signaling Dimension](@ref)).
-
+* Tools to compute signaling correlations and polytopes.
+* Methods to certify the signaling dimension of black-box systems.
+* A catalog of Bell inequalities for witnessing signaling dimension.
 
 ## Overview
 

@@ -4,9 +4,9 @@ CurrentModule = SignalingDimension
 
 # SignalingDimension.jl
 
-*Certify the classical simulation cost of signaling systems.*
+*Certify the classical simulation cost of black-box systems.*
 
-This Julia software package is the companion piece to [Certifying the Classical Simulation Cost of a Quantum Channel](link to paper).
+This Julia software package is the companion piece to [Certifying the Classical SImulation Cost of a Quantum Channel](broken link).
 
 ## Package Overview
 
