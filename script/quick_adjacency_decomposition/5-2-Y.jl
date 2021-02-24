@@ -4,19 +4,19 @@ using XPORTA: write_ieq, IEQ
 
 using BellScenario
 
-@testset "5-2-B scenario" begin
+@testset "5-2-Y scenario" begin
 
-@time for B in 6:8
+@time for Y in 6:8
     filepath = "./data/quick_adjacency_decomposition/"
-    filename = "5-2-$B"
+    filename = "5-2-$Y"
 
     println("$filename scenario")
 
-    PM = PrepareAndMeasure(5,B,2)
+    PM = LocalSignaling(5,Y,2)
     BG_seed = BellGame(cat(
         cat(
-            ones(Int64,B-5),
-            zeros(Int64,B-5,4),
+            ones(Int64,Y-5),
+            zeros(Int64,Y-5,4),
             dims=2
         ),
         [1 0 0 0 0;1 0 0 0 0;1 0 0 0 0;0 1 0 0 0;0 0 1 0 0],

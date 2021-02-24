@@ -1,22 +1,17 @@
 """
-## Overview
+The advent of quantum technology requires new figures of merit to compare the performance
+of quantum and classical systems.
+The signaling dimension quantifies the classical
+simulation cost of black-box devices.
+That is, it specifies the minimum amount of noiseless, classical communication
+needed to exactly simulate the input-output statistics of the device in question.
+The signaling dimension is discussed in greater detail in the Background section
+of this documentation.
 
-With the advent of quantum technology, new figures of merit are needed
-to compare the performance of quantum and classical systems.
-
-The signaling dimension quantifies the performance of a communication channel by the
-minimal amount of classical communication needed to simulate the channel.
-
-The signaling dimension of a channel makes no assumptions of the underlying physics
-and is therefore, a device-independent measure applicable to quantum and classical
-systems alike.
-
-This software provides tests that certify the signaling dimension of a channel.
-
-## Features
-* Methods to test the signaling dimension of a communication system.
-* A catalog of Bell inequalities for witnessing signaling dimension.
-* Verification of Bell inequalities.
+## Features:
+* Tools to compute signaling correlations and polytopes (see [Signaling Correlations](@ref) and [Signaling Polytopes](@ref)).
+* A catalog of Bell inequalities for witnessing signaling dimension (see [Bell Inequalities](@ref)).
+* Methods to certify the signaling dimension of signaling systems (see [Certifying Signaling Dimension](@ref)).
 """
 module SignalingDimension
 
@@ -24,7 +19,7 @@ using LinearAlgebra
 using Combinatorics
 using BellScenario
 
-include("./facets.jl")
+include("./bell_inequalities.jl")
 include("./affinely_independent_enumerations.jl")
 include("./certifying_signaling_dimension.jl")
 

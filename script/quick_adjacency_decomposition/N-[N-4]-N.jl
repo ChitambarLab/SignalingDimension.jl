@@ -14,7 +14,7 @@ using BellScenario
 
         println("$filename scenario")
 
-        PM = PrepareAndMeasure(N, N, d)
+        PM = LocalSignaling(N, N, d)
 
         M = zeros(Int64, N, N)
         M[[1, 2, 3], 1] .= 1

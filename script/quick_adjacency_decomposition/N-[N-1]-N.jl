@@ -14,7 +14,7 @@ using BellScenario
 
     println("$filename scenario")
 
-    PM = PrepareAndMeasure(N,N,d)
+    PM = LocalSignaling(N,N,d)
     BG_seed = BellGame(Matrix{Int64}(I,(N,N)), d)
 
     vertices = LocalPolytope.vertices(PM)

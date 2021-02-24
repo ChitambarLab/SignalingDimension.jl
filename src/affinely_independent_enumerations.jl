@@ -1,24 +1,21 @@
-export aff_ind_success_game_strategies, aff_ind_error_game_strategies
+export aff_ind_maximum_likelihood_vertices, aff_ind_anti_guessing_vertices
 
-export aff_ind_non_negativity_game_strategies
+export aff_ind_non_negativity_vertices
 
-export aff_ind_ambiguous_game_strategies
+export aff_ind_ambiguous_guessing_vertices
 
-export aff_ind_generalized_error_game_strategies
+export aff_ind_k_guessing_vertices
 
-export aff_ind_coarse_grained_input_ambiguous_game_strategies
+export aff_ind_coarse_grained_input_ambiguous_guessing_vertices
 
 """
-    aff_ind_success_game_strategies( N :: Int64, d :: Int64 ) :: Vector{Matrix{Int64}}
+    aff_ind_maximum_likelihood_vertices( N :: Int64, d :: Int64 ) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of deterministic, stochastic, `N x N` rank-`d`
-matrices with trace equal to `d`. These matrices are all vertices of the success
-game facet found on the signaling polytope where `N` describes the number of inputs
-and `d` describes the signaling dimension of the communication channel.
+Enumerates an affinely independent set of vertices that maximize the [`maximum_likelihood_facet`](@ref).
 
 A valid input requires `N > 2` and `N > d > 1`.
 """
-function aff_ind_success_game_strategies(N :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
+function aff_ind_maximum_likelihood_vertices(N :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
     aff_ind_vecs = _aff_ind_vecs(d-1, N-d)
 
     matrices = Vector{Matrix{Int64}}(undef, N*(N-1))
@@ -49,18 +46,17 @@ function aff_ind_success_game_strategies(N :: Int64, d :: Int64) :: Vector{Matri
 end
 
 """
-    aff_ind_non_negativity_game_strategies(
+    aff_ind_non_negativity_vertices(
         num_outputs :: Int64,
         num_inputs :: Int64
     ) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of deterministic, stochastic,
-`num_outputs x num_inputs` matrices that satisfy the [`non_negativity_game`](@ref)
-with equality.
+Enumerates an affinely independent set of deterministic, vertices that maximize
+the [`non_negativity_facet`](@ref)
 
 A valid input requires `N > 2` and `N > d > 1`.
 """
-function aff_ind_non_negativity_game_strategies(num_outputs :: Int64, num_inputs :: Int64) :: Vector{Matrix{Int64}}
+function aff_ind_non_negativity_vertices(num_outputs :: Int64, num_inputs :: Int64) :: Vector{Matrix{Int64}}
     if !(num_outputs > 1)
         throw(DomainError(num_outputs, "Inputs must satisfy `num_outputs > 1`"))
     elseif !(num_inputs > 1)
@@ -92,21 +88,18 @@ function aff_ind_non_negativity_game_strategies(num_outputs :: Int64, num_inputs
 end
 
 """
-    aff_ind_ambiguous_game_strategies(
+    aff_ind_ambiguous_guessing_vertices(
         N :: Int64,
         d :: Int64
     ) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of deterministic, stochastic, `N x (N-1)`
-rank-`d` strategies which saturate the [`ambiguous_game`](@ref). The existence
-of the enumeration proves that the ambiguous game is a facet of the signaling
-polytope
+Enumerates an affinely independent set of vertices that maximize the [`ambiguous_guessing_facet`](@ref).
 
 A `DomainError` is thrown if the inputs don't satisfy the following requirements:
 * `N ≥ 4`
 * `(N - 2) ≥ d ≥ 2`
 """
-function aff_ind_ambiguous_game_strategies(N :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
+function aff_ind_ambiguous_guessing_vertices(N :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
     if !(N ≥ 4)
         throw(DomainError(N, "N must satisfy `N ≥ 4`"))
     elseif !(N-2 ≥ d ≥ 2)
@@ -116,9 +109,9 @@ function aff_ind_ambiguous_game_strategies(N :: Int64, d :: Int64) :: Vector{Mat
     matrices = Vector{Matrix{Int64}}(undef, (N-1)*(N-1))
     matrix_id = 1
 
-    success_game_strats = aff_ind_success_game_strategies(N-1, d)
+    maximum_likelihood_facet_strats = aff_ind_maximum_likelihood_vertices(N-1, d)
 
-    for strat in success_game_strats
+    for strat in maximum_likelihood_facet_strats
         m = cat(strat, zeros(Int64,(1,N-1)), dims=1)
 
         matrices[matrix_id] = m
@@ -144,21 +137,19 @@ function aff_ind_ambiguous_game_strategies(N :: Int64, d :: Int64) :: Vector{Mat
 end
 
 """
-    aff_ind_coarse_grained_input_ambiguous_game_strategies(
+    aff_ind_coarse_grained_input_ambiguous_guessing_vertices(
         n :: Int64,
         d :: Int64
     ) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of deterministic, stochastic, `n x n`
-rank-`d` strategies which saturate the [`coarse_grained_input_ambiguous_game`](@ref).
-The existence of the enumeration proves that the input coarse-graining lifting mechanism
-produces facets of the signaling polytope.
+Enumerates an affinely independent set of vertices for the
+[`coarse_grained_input_ambiguous_guessing_facet`](@ref).
 
 A `DomainError` is thrown if the inputs don't satisfy the following requirements:
 * `n ≥ 4`
 * `(n - 2) ≥ d ≥ 2`
 """
-function aff_ind_coarse_grained_input_ambiguous_game_strategies(n :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
+function aff_ind_coarse_grained_input_ambiguous_guessing_vertices(n :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
     if !(n ≥ 4)
         throw(DomainError(N, "n must satisfy `n ≥ 4`"))
     elseif !(n-2 ≥ d ≥ 2)
@@ -168,7 +159,7 @@ function aff_ind_coarse_grained_input_ambiguous_game_strategies(n :: Int64, d ::
     matrices = Vector{Matrix{Int64}}(undef, (n*(n-1)))
     matrix_id = 1
 
-    for strat in aff_ind_ambiguous_game_strategies(n,d)
+    for strat in aff_ind_ambiguous_guessing_vertices(n,d)
         target_rows = findall(i -> i ≠ 0, sum.(eachrow(strat)))
 
         target_row = (n-1) in target_rows ? (n-1) : min(target_rows...)
@@ -211,14 +202,13 @@ function aff_ind_coarse_grained_input_ambiguous_game_strategies(n :: Int64, d ::
 end
 
 """
-    aff_ind_error_game_strategies(N :: Int64, d :: Int64, error_size :: Int64) :: Vector{Matrix{Int64}}
+    aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, error_size :: Int64) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of vertices for the error game. The vertices
-are `N x N`, rank-`d`, column stochastic matrices.
+Enumerates an affinely independent set of vertices for the [`anti_guessing_facet`](@ref).
 
 Valid inputs are `N > 4`, `N-1 > d > 1`, and `N-d+1 ≥ error_size ≥ 3`.
 """
-function aff_ind_error_game_strategies(N :: Int64, d :: Int64, error_size :: Int64) :: Vector{Matrix{Int64}}
+function aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, error_size :: Int64) :: Vector{Matrix{Int64}}
     # affiely independent vectors used to enumerate error block strategies
     error_vecs = sort(_aff_ind_vecs(d-1, N - (error_size + d - 2))) # sorting ensures the first element has a leading 0.
 
@@ -334,17 +324,15 @@ function aff_ind_error_game_strategies(N :: Int64, d :: Int64, error_size :: Int
 end
 
 """
-    aff_ind_generalized_error_game_strategies(
+    aff_ind_k_guessing_vertices(
         N :: Int64, d :: Int64, k :: Int64
     ) :: Vector{Matrix{Int64}}
 
-Enumerates an affinely independent set of vertices for the generalized error game.
-The vertices are `N x binomial(N,k)`, rank-`d`, column stochastic matrices.
-This function is restricted to games where `N = d + k`.
+Enumerates an affinely independent set of vertices for the [`k_guessing_facet`](@ref).
 
 Valid inputs are `N ≥ 4`, `d ≥ 2`, and `k ≥ 2`.
 """
-function aff_ind_generalized_error_game_strategies(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
+function aff_ind_k_guessing_vertices(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
     if !(N == k + d)
         throw(DomainError(N, "`N = k + d` must be satisfied"))
     elseif !( N ≥ 4 && d ≥ 2 && k ≥ 2 )
@@ -352,15 +340,15 @@ function aff_ind_generalized_error_game_strategies(N :: Int64, d :: Int64, k :: 
     end
 
     if d == 2
-        return _aff_ind_generalized_error_game_strategies_d2(N, d, k)
+        return _aff_ind_k_guessing_vertices_d2(N, d, k)
     elseif k == 2
-        return _aff_ind_generalized_error_game_strategies_k2(N, d, k)
+        return _aff_ind_k_guessing_vertices_k2(N, d, k)
     else
         matrices = Vector{Matrix{Int64}}(undef, (N-1)*binomial(N,k))
         matrix_id = 1
 
         # getting affinely independent matrices in the bottom right subblock
-        br_subblock_matrices = aff_ind_generalized_error_game_strategies(N-1, d-1, k)
+        br_subblock_matrices = aff_ind_k_guessing_vertices(N-1, d-1, k)
 
         # expanding bottom right subblock strategies with constant top row
         for br_subblock in br_subblock_matrices
@@ -372,7 +360,7 @@ function aff_ind_generalized_error_game_strategies(N :: Int64, d :: Int64, k :: 
             matrix_id += 1
         end
 
-        br_subblock_game = generalized_error_game(N-1,d-1,k)
+        br_subblock_game = k_guessing_facet(N-1,d-1,k)
 
         # placing a 1 in each 0 element of top row
         for combo in combinations(1:N-1, d-1)
@@ -399,7 +387,7 @@ function aff_ind_generalized_error_game_strategies(N :: Int64, d :: Int64, k :: 
             matrix_id += 1
         end
 
-        bl_subblock_game = generalized_error_game(N-1,d-1,k-1)
+        bl_subblock_game = k_guessing_facet(N-1,d,k-1)
 
         # placing a 0 in each 1 element of the top row
         for col_id in 1:binomial(N-1,k-1)
@@ -433,7 +421,7 @@ function aff_ind_generalized_error_game_strategies(N :: Int64, d :: Int64, k :: 
         end
 
         # affinely independent matrices for bottom left subblock
-        bl_subblock_matrices = aff_ind_generalized_error_game_strategies(N-1,d,k-1)
+        bl_subblock_matrices = aff_ind_k_guessing_vertices(N-1,d,k-1)
 
         # enumerating strategies in bottom left subblock not using top row
         for bl_subblock in bl_subblock_matrices
@@ -469,18 +457,18 @@ function aff_ind_generalized_error_game_strategies(N :: Int64, d :: Int64, k :: 
 end
 
 """
-    _aff_ind_generalized_error_game_strategies_k2(
+    _aff_ind_k_guessing_vertices_k2(
         N :: Int64, d :: Int64, k :: Int64
     ) :: Vector{Matrix{Int64}}
 
-Helper method for aff_ind_generalized_error_game_strategies.
+Helper method for aff_ind_k_guessing_vertices.
 Enumerates an affinely independent set of vertices for the generalized error game.
 The vertices are `N x binomial(N,k)`, rank-`d`, column stochastic matrices.
 This function is restricted to `k = 2` and `N = d + k`.
 
 Valid inputs are `N > 4`, `k = 2`, and `d = N - k`.
 """
-function _aff_ind_generalized_error_game_strategies_k2(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
+function _aff_ind_k_guessing_vertices_k2(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
     if !(k == 2)
         throw(DomainError(k, "k > 2 not supported by this function"))
     elseif !(N == k+d)
@@ -488,13 +476,13 @@ function _aff_ind_generalized_error_game_strategies_k2(N :: Int64, d :: Int64, k
     end
 
     if N == 4 && d == 2
-        return _aff_ind_generalized_error_game_strategies_d2(N, d, k)
+        return _aff_ind_k_guessing_vertices_d2(N, d, k)
     else
         matrices = Vector{Matrix{Int64}}(undef, (N-1)*binomial(N,k))
         matrix_id = 1
 
         # expanding bottom right subblock strategies with constant top row
-        br_subblock_matrices = _aff_ind_generalized_error_game_strategies_k2(N-1, d-1, k)
+        br_subblock_matrices = _aff_ind_k_guessing_vertices_k2(N-1, d-1, k)
 
         for br_subblock in br_subblock_matrices
             m = zeros(Int64, N, binomial(N,k))
@@ -530,7 +518,7 @@ function _aff_ind_generalized_error_game_strategies_k2(N :: Int64, d :: Int64, k
         end
 
         # enumerating all d-success game strategies
-        subblock_game = generalized_error_game(N-1,d-1,k)
+        subblock_game = k_guessing_facet(N-1,d-1,k)
 
         for combo in combinations(1:N-1, d)
             m = zeros(Int64, N, binomial(N,k))
@@ -588,18 +576,18 @@ function _aff_ind_generalized_error_game_strategies_k2(N :: Int64, d :: Int64, k
 end
 
 """
-    _aff_ind_generalized_error_game_strategies_d2(
+    _aff_ind_k_guessing_vertices_d2(
         N :: Int64, d :: Int64, k :: Int64
     ) :: Vector{Matrix{Int64}}
 
-Helper method for aff_ind_generalized_error_game_strategies.
+Helper method for aff_ind_k_guessing_vertices.
 Enumerates an affinely independent set of vertices for the generalized error game.
 The vertices are `N x binomial(N,k)`, rank-`d`, column stochastic matrices.
 This function is restricted to games where `d = 2` and `N = d + k`.
 
 Valid inputs are `N > 4`, `d = 2`, and `k = N - d`.
 """
-function _aff_ind_generalized_error_game_strategies_d2(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
+function _aff_ind_k_guessing_vertices_d2(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
     if !(d==2)
         throw(DomainError(d, "d > 2 not implemented yet"))
     elseif !(N == k+d)
@@ -609,7 +597,7 @@ function _aff_ind_generalized_error_game_strategies_d2(N :: Int64, d :: Int64, k
     matrices = Vector{Matrix{Int64}}(undef, (N-1)*binomial(N,k))
     matrix_id = 1
 
-    game = generalized_error_game(N,d,k)
+    game = k_guessing_facet(N,d,k)
 
     considered_cols = []
     prev_target_row = 1
@@ -671,7 +659,7 @@ function _aff_ind_generalized_error_game_strategies_d2(N :: Int64, d :: Int64, k
 end
 
 """
-Helper function for `aff_ind_success_game_strategies()`. Generates a set of binary
+Helper function for `aff_ind_maximum_likelihood_vertices()`. Generates a set of binary
 vectors with `num_zeros` and `num_ones`. The set contains `n` affinely independent
 vectors where `n` is the length of the binary vectors.
 """
