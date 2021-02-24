@@ -198,20 +198,19 @@ end
         k = 1
 
         for N in 3:6
-            for d in 2:N-1
-                gen_err_game = k_guessing_facet(N, d, k)
+            d = N - k
+            gen_err_game = k_guessing_facet(N, d, k)
 
-                succ_game = maximum_likelihood_facet(N, d)
+            succ_game = maximum_likelihood_facet(N, d)
 
-                @test gen_err_game isa BellGame
-                @test gen_err_game == succ_game
-                @test gen_err_game.β == succ_game.β
-            end
+            @test gen_err_game isa BellGame
+            @test gen_err_game == succ_game
+            @test gen_err_game.β == succ_game.β
         end
     end
 
     @testset "errors" begin
-        @test_throws DomainError k_guessing_facet(2,2,1)
+        @test_throws DomainError k_guessing_facet(2,1,1)
         @test_throws DomainError k_guessing_facet(5,2,5)
         @test_throws DomainError k_guessing_facet(5,2,0)
         @test_throws DomainError k_guessing_facet(5,4,2)
@@ -232,8 +231,8 @@ end
             @test gen_err_game.β == 5
         end
 
-        @testset "10-2-5 polytope" begin
-            gen_err_game1 = k_guessing_facet(5, 2, 2)
+        @testset "10-d-5 polytope" begin
+            gen_err_game1 = k_guessing_facet(5, 3, 2)
 
             @test gen_err_game1 isa BellGame
             @test gen_err_game1 == [
@@ -243,7 +242,7 @@ end
                 0 0 1 0 0 1 0 1 0 1;
                 0 0 0 1 0 0 1 0 1 1;
             ]
-            @test gen_err_game1.β == 7
+            @test gen_err_game1.β == 9
 
             gen_err_game2 = k_guessing_facet(5,2,3)
 
@@ -256,21 +255,6 @@ end
                 0 0 1 0 1 1 0 1 1 1;
             ]
             @test gen_err_game2.β == 9
-        end
-
-        @testset "10-3-5 polytope" begin
-            gen_err_game = k_guessing_facet(5,3,2)
-
-            @test gen_err_game isa BellGame
-            @test gen_err_game == [
-                1 1 1 1 0 0 0 0 0 0;
-                1 0 0 0 1 1 1 0 0 0;
-                0 1 0 0 1 0 0 1 1 0;
-                0 0 1 0 0 1 0 1 0 1;
-                0 0 0 1 0 0 1 0 1 1;
-            ]
-
-            @test gen_err_game.β == 9
         end
     end
 end

@@ -22,8 +22,8 @@ a fixed signaling device and general channels alike.
 1. Given the signaling correlations ``\mathbf{P}\in\mathcal{P}^{X \to Y}`` the signaling dimension ``\kappa(\mathbf{P})`` is defined as the smallest integer ``d`` such that ``\mathbf{P} \in \mathcal{C}_d^{X \to Y}``.
 2. Given a quantum channel ``\mathcal{N}`` the signaling dimension ``\kappa(\mathcal{N})`` is the smallest integer ``d`` such that ``\mathcal{Q}_{\mathcal{N}}^{X\to Y}\subset\mathcal{C}_d^{X\to Y}`` for any choice of numbers of classical inputs ``X`` and outputs ``Y``.
 
-Since the  signaling dimension is defined with respect to the observed signaling
-correlations, it requires no assumptions to be made about the communication process.
+The  signaling dimension is defined with respect to the observed signaling
+correlations and requires no assumptions to be made about the communication process.
 Hence the signaling dimension is a device-independent metric.
 The signaling dimension of quantum channels is elaborated upon in the work [ref to paper](broken link).
 
@@ -44,36 +44,32 @@ Hilbert space dimension ``d`` is contained by the set of noiseless classical cha
 ``\mathcal{C}_d^{X \to  Y}`` and ``\text{Conv}(\mathcal{Q}_d^{X \to Y}) = \mathcal{C}_d^{X \to  Y}``[^Frenkel2015]
 where ``\text{Conv}(\cdot)}`` is the convex hull.
 This result is remarkable because  it implies that ``\kappa(\text{id}_d) = d``;
-that is, classical dit and shared randomness can exactly simulate any quantum channel of
-``d`` dimensions.
+that is, one dit of classical communication and shared randomness can exactly
+simulate any quantum channel of ``d`` dimensions.
 
 ## Significance
 
-As a device-independent metric of the minimum amount of
-classical commmunication needed to simulate a signaling device, the signaling dimension
+As a device-independent metric of the classical simulation cost, the signaling dimension
 has broad applications in quantum  technology.
-Nammely, the signaling dimension can be certified for any quantum computing,
-memory, and communication device that process classical information.
-Hence a direct comparison between quantum and classical resources can be established.
+Namely, the signaling dimension can be certified for any quantum computing,
+memory, or communication device that process classical information.
+Hence a direct comparison between quantum and classical resources is established.
 That is,
 
 ```math
     \text{qudit}\subset \text{dit} + \text{shared randomness}
 ```
 
-and
-
-```math
-    \text{qudit} + \text{shared randomness} = \text{dit} + \text{shared randomness}.
-```
-
 Since the statistics of a quantum system and its classical simulation are indistinguishable
-such signaling devices can be considered as operationally equivalent.
+such signaling devices are considered to be operationally equivalent.
 Therefore, the classical simulation cost can help justify (or reject) the use of quantum technology
 for a particular task.
-Although, it should be noted that certain fundamental quantum properties such as no-cloning
-or non-locality are not captured by the signaling correlations of local signaling devices.
-Hence the discussed classical simulations cannot faithfully simulate these phenomena.
+
+!!! note "Note:"    
+    Certain fundamental quantum properties such as no-cloning or non-locality
+    cannot be simulated classically. These properties are not reflected in the
+    signaling correlations. To observe these phenomena additional assumptions
+    must be made.
 
 ## Certification
 

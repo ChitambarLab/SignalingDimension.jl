@@ -32,7 +32,7 @@ For example,
 ```jldoctest k_guessing_game
 using SignalingDimension
 
-G_K = k_guessing_game(6,3,3)
+G_K = k_guessing_game(6,2,3)
 
 # output
 
@@ -52,7 +52,7 @@ G_K.β
 
 # output
 
-19
+16
 ```
 
 The `k_guessing_game` can alternatively take a `BellScenario.LocalSignaling(X, Y, d)` scenario as input.
@@ -181,9 +181,45 @@ function ambiguous_guessing_game(X::Int64, Y::Int64, d::Int64, k::Int64) :: Bell
 end
 
 """
-    maximum_likelihood_facet( N :: Int64, d :: Int64 ) :: BellGame
+The maximum likelihood facet ``(\\mathbf{G}_{\\text{ML}},d)`` tightly bounds the
+``\\mathcal{C}_d^{N \\to N}``  signaling polytope for ``N > d > 1``.
+The matrix ``\\mathbf{G}_{\\text{ML}}`` is a ``(k=1)``-guessing game (see [`k_guessing_game`](@ref)),
+hence, ``\\mathbf{G}_{\\text{ML}}=\\mathbb{I}_{N}`` the ``N\\times N`` identity matrix.
+The upper bound is  ``d \\geq \\langle \\mathbf{G}_{\\text{ML}}, \\mathbf{P}\\rangle``
+for any channel ``\\mathbf{P}\\in\\mathcal{C}_d^{N \\to N}``.
 
-Constructs the success game bound for the N-d-N polytope.
+```julia
+maximum_likelihood_facet( N :: Int64, d :: Int64 ) :: BellGame
+```
+
+Construct the maximum likelihood facet for the ``\\mathcal{C}_d^{N \\to N}``
+signaling polytope. Note that `N` specifies the number of inputs and outputs.
+For example,
+
+```jldoctest maximum_likelihood_facet
+using SignalingDimension
+
+N = 4    # number of inputs and outputs
+d = 2    # bit signaling
+
+G_ML = maximum_likelihood_facet(N, d)
+
+# output
+
+4×4 BellScenario.BellGame:
+ 1  0  0  0
+ 0  1  0  0
+ 0  0  1  0
+ 0  0  0  1
+```
+
+```jldoctest maximum_likelihood_facet
+G_ML.β   # the upper bound
+
+# output
+
+2
+```
 
 A `DomainError` is thrown if the following requirements aren't satisfied:
 * `N > 2
@@ -192,7 +228,7 @@ A `DomainError` is thrown if the following requirements aren't satisfied:
 function maximum_likelihood_facet(N :: Int64, d :: Int64) :: BellGame
     if N ≤ 2
         throw(DomainError(N, "Input N must satisfy `N > 2`"))
-    elseif d ≥ N || d < 2
+    elseif !(N > d > 1)
         throw(DomainError(d, "Input d must satisfy `N > d > 1`"))
     end
 
@@ -202,8 +238,40 @@ end
 """
     anti_guessing_facet( N :: Int64, d :: Int64, ε :: Int64 ) :: BellGame
 
-Constructs the error game bound for the N-d-N polytope. Input `ε` sets the size
-of the anti-distinguishability matrix block.
+Constructs the anti-guessing facet of the ``\\mathcal{C}_d^{N \\to N}`` signaling polytope.
+Input `ε` sets the size of the ``(k=N-1)``-guessing game block while the remaining
+unit elements are arranged along the diagonal.
+The upper bound of the anti-guessing game Bell inequality is ``\\gamma = \\varepsilon + d - 2``.
+For example,
+
+```jldoctest anti_guessing_game
+using SignalingDimension
+
+N = 6    # number of inputs and outputs
+d = 2    # dit signaling
+ε = 4    # anti-guessing block size
+
+G_A = anti_guessing_facet(N,d,ε)
+
+# output
+
+6×6 BellScenario.BellGame:
+ 0  1  1  1  0  0
+ 1  0  1  1  0  0
+ 1  1  0  1  0  0
+ 1  1  1  0  0  0
+ 0  0  0  0  1  0
+ 0  0  0  0  0  1
+```
+```jldoctest anti_guessing_game
+G_A.β    # upper bound
+
+# output
+
+4
+```
+
+Note in the above example that
 
 A `DomainError` is thrown if the following requirements aren't satisfied:
 * `N ≥ 4`
@@ -230,74 +298,114 @@ function anti_guessing_facet(N :: Int64, d :: Int64, ε :: Int64) :: BellGame
 end
 
 """
-    ambiguous_guessing_facet( N :: Int64, d :: Int64 ) :: BellGame
+    ambiguous_guessing_facet( Y :: Int64, d :: Int64 ) :: BellGame
 
-Constructs the ambiguous game for the (N-1)-d-N polytope.
+Constructs the ambiguous guessing facet for the ``\\mathcal{C}_d^{(Y-1)\\to Y} polytope.
+This is a special case of the [`ambiguous_guessing_game`](@ref) where `Y = X - 1`.
+For example,
+
+```jldoctest ambiguous_guessing_facet
+using SignalingDimension
+
+Y = 5
+d = 3
+
+G_Q = ambiguous_guessing_facet(Y, d)
+
+# output
+
+5×4 BellScenario.BellGame:
+ 2  0  0  0
+ 0  2  0  0
+ 0  0  2  0
+ 0  0  0  2
+ 1  1  1  1
+```
+```jldoctest ambiguous_guessing_facet
+G_Q.β
+
+# output
+
+6
+```
 
 A `DomainError` is thrown if the inputs don't satisfy the following requirements:
-* `N ≥ 4`
-* `(N - 2) ≥ d ≥ 2`
+* `Y ≥ 4`
+* `(Y - 2) ≥ d ≥ 2`
 """
-function ambiguous_guessing_facet(N :: Int64, d :: Int64) :: BellGame
-    if !(N ≥ 4)
-        throw(DomainError(N, "Input N must satisfy `N ≥ 4`"))
-    elseif !(N-2 ≥ d ≥ 2)
-        throw(DomainError(d, "Input d must satisfy `(N - 2) ≥ d ≥ 2`"))
+function ambiguous_guessing_facet(Y :: Int64, d :: Int64) :: BellGame
+    if !(Y ≥ 4)
+        throw(DomainError(Y, "Input Y must satisfy `Y ≥ 4`"))
+    elseif !(Y-2 ≥ d ≥ 2)
+        throw(DomainError(d, "Input d must satisfy `(Y - 2) ≥ d ≥ 2`"))
     end
 
-    succ_game = (N-d)*Matrix{Int64}(I, N-1, N-1)
+    succ_game = (Y-d)*Matrix{Int64}(I, Y-1, Y-1)
 
-    BellGame( cat(succ_game, ones(Int64, 1, N-1), dims = 1), d*(N-d))
+    BellGame( cat(succ_game, ones(Int64, 1, Y-1), dims = 1), d*(Y-d))
 end
 
 """
-    k_guessing_facet( N :: Int64, d :: Int64, k :: Int64 ) :: BellGame
+    k_guessing_facet( Y :: Int64, d :: Int64, k :: Int64 ) :: BellGame
 
-Constructs the generalized error game for the specified parameters:
-* `N` is the number of outputs
-* `d` is the signaling dimension
-* `k` is the number of non-zero terms in each column
+Constructs the ``k``-guessing facet for the ``\\mathcal{C}_d^{\\binom{Y}{k}\\to Y}``
+signaling polytope. A ``k``-guessing game is tight when ``Y = d + k``.
+Note that `k` is the number of unit elements in each column.
 
 A `DomainError` is satisfied if the following requirements aren't satisfied:
-* `(N - k) ≥ d ≥ 2`
-* `(N - 1) ≥ k ≥ 1`
-* `N ≥ 3`
+* `Y == k + d`
+* `Y ≥ 3`
 """
-function k_guessing_facet(N :: Int64, d :: Int64, k :: Int64) :: BellGame
-    if !(N - k ≥ d ≥ 2)
-        throw(DomainError(d, "Input d must satisfy `(N - k) ≥ d ≥ 2`"))
-    elseif !(N - 1 ≥ k ≥ 1)
-        throw(DomainError(k, "Input k must satisfy `(N - 1) ≥ k ≥ 1`"))
-    elseif !(N ≥ 3)
-        throw(DomainError(N, "Input N must satisfy `N ≥ 3`"))
+function k_guessing_facet(Y :: Int64, d :: Int64, k :: Int64) :: BellGame
+    if Y != k + d
+        throw(DomainError(d, "Input `d` must satisfy `Y == k + d`."))
+    elseif !(Y ≥ 3)
+        throw(DomainError(Y, "Input N must satisfy `Y ≥ 3`"))
     end
 
-    err_game = hcat(map( combo -> begin
-        a = zeros(Int64, N)
-        a[combo] .= 1
-        return a
-    end, combinations(1:N, k))...)
-
-    max_score = sum(map(i -> binomial(N-i, k-1), 1:d))
-
-    BellGame(err_game, max_score)
+    k_guessing_game(Y, d, k)
 end
 
 """
-    non_negativity_facet( num_outputs :: Int64, num_inputs :: Int64 ) :: BellGame
+A non-negativity facet reflects the fact that ``P(y|x) \\geq 0``. These facets
+bound all signaling polytopes.
 
-Constructs the non-negativity game for a channel with `num_outputs` and `num_inputs`.
+    non_negativity_facet( X :: Int64, Y :: Int64 ) :: BellGame
 
-A `DomainError` is thrown if `num_outputs` or `num_inputs` is not greater than 1.
+Constructs the non-negativity game for a channel with `X` inputs and `Y` outputs.
+For example
+
+```jldoctest non_negativity_facet
+using SignalingDimension
+
+G = non_negativity_facet(3, 4)
+
+# output
+
+4×3 BellScenario.BellGame:
+ 1  0  0
+ 1  0  0
+ 1  0  0
+ 0  0  0
+```
+```jldoctest non_negativity_facet
+G.β
+
+# output
+
+1
+```
+
+A `DomainError` is thrown if `X` or `Y` is not greater than 1.
 """
-function non_negativity_facet(num_outputs :: Int64, num_inputs :: Int64) :: BellGame
-    if !(num_outputs > 1)
-        throw(DomainError(num_outputs, "Inputs must satisfy `num_outputs > 1`"))
-    elseif !(num_inputs > 1)
-        throw(DomainError(num_inputs, "Inputs must satisfy `num_inputs > 1`"))
+function non_negativity_facet(X :: Int64, Y :: Int64) :: BellGame
+    if !(Y > 1)
+        throw(DomainError(Y, "Inputs must satisfy `Y > 1`"))
+    elseif !(X > 1)
+        throw(DomainError(X, "Inputs must satisfy `X > 1`"))
     end
 
-    m = zeros(Int64, num_outputs, num_inputs)
+    m = zeros(Int64, Y, X)
     m[1:end-1,1] .= 1
 
     BellGame(m, 1)
@@ -305,24 +413,41 @@ end
 
 """
     coarse_grained_input_ambiguous_guessing_facet(
-        num_outputs :: Int64,
+        Y :: Int64,
         d :: Int64
     ) :: BellGame
 
 Constructs a canonical form for a input coarse-grained ambiguous game.
+For example
+
+```jldoctest
+using SignalingDimension
+
+Y = 4
+d = 2
+
+G = coarse_grained_input_ambiguous_guessing_facet(Y, d)
+
+# output
+
+4×4 BellScenario.BellGame:
+ 2  0  0  0
+ 0  2  0  0
+ 0  0  1  1
+ 1  1  1  0
+```
 
 A `DomainError` is thrown if the inputs don't satisfy the following requirements:
-* `num_outputs ≥ 4`
-* `(num_outputs - 2) ≥ d ≥ 2`
+* `Y ≥ 4`
+* `(Y - 2) ≥ d ≥ 2`
 """
-function coarse_grained_input_ambiguous_guessing_facet(num_outputs :: Int64, d :: Int64) :: BellGame
-    G_Q = ambiguous_guessing_facet(num_outputs, d)
+function coarse_grained_input_ambiguous_guessing_facet(Y :: Int64, d :: Int64) :: BellGame
+    G_Q = ambiguous_guessing_facet(Y, d)
 
-    game = zeros(Int64,num_outputs,num_outputs)
-    game[1:num_outputs,1:end-1] = G_Q
-    game[num_outputs-1,num_outputs] = game[num_outputs-1,num_outputs-1] - 1
-    game[num_outputs-1,num_outputs-1] = 1
-
+    game = zeros(Int64,Y,Y)
+    game[1:Y,1:end-1] = G_Q
+    game[Y-1,Y] = game[Y-1,Y-1] - 1
+    game[Y-1,Y-1] = 1
 
     BellGame(game, G_Q.β)
 end

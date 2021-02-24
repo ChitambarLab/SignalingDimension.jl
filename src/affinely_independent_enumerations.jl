@@ -399,7 +399,7 @@ function aff_ind_k_guessing_vertices(N :: Int64, d :: Int64, k :: Int64) :: Vect
             matrix_id += 1
         end
 
-        bl_subblock_game = k_guessing_facet(N-1,d-1,k-1)
+        bl_subblock_game = k_guessing_facet(N-1,d,k-1)
 
         # placing a 0 in each 1 element of the top row
         for col_id in 1:binomial(N-1,k-1)

@@ -1,13 +1,17 @@
 # Certifying Signaling Dimension
 
-It is difficult to determine the signaling dimension in general cases, however,
-the methods described below assist this certification process by finding upper
-and lower bounds of the signaling dimension.  
+Formally, certifying the signaling dimension requires that a channel ``\mathbf{P}\in\mathcal{P}^{X \to Y}``
+is checked against all tight Bell inequalities bounding the signaling polytopes.
+In general cases, it is difficult derive these Bell inequalities and test them all.
+Despite this challenge, the signaling dimension can be bounded.
+We now provide methods that efficiently compute upper and lower bounds on the signaling
+dimension.
+For more details please refer to our work [Certifying the Classical Simulation Cost of a Quantum Channel](broken link).
 
 ## Bounds
 
 In most cases, it is not feasible to compute the exact signaling of a channel, however,
-lower and upper bounds can be determined with efficiency.
+loose lower and upper bounds can be determined with efficiency.
 
 ### Lower Bounds
 
@@ -24,12 +28,12 @@ attains_trivial_upper_bound
 upper_bound
 ```
 
-## Quantum Channels
+## Quantum Channel Certification
 
 The signaling dimension is a device-independent metric which can be applied to
 quantum and classical channels alike.
 To certify a quantum channel, the signaling correlations must first be obtained.
-This can be done by selecting a set of input states ``\Psi = \{\rho_x\}`` and
+This can be done by selecting a set of input states ``\Psi := \{\rho_x\}_{x\in\mathcal{X}}`` and
 using semi-definite programming to optimize the POVM.
 The objective function of the optimization is expressed as a `BellScenario.BellGame`.
 

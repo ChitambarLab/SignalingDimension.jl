@@ -251,7 +251,7 @@ end
     @testset "scanning through cases" begin
         for num_inputs in 2:30
             for num_outputs in 2:30
-                game = non_negativity_facet(num_outputs, num_inputs)
+                game = non_negativity_facet(num_inputs, num_outputs)
                 strats = aff_ind_non_negativity_vertices(num_outputs, num_inputs)
 
                 @test all(s -> sum(game[:].*s[:]) == game.β, strats)

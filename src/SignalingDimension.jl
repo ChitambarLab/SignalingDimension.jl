@@ -1,28 +1,12 @@
 """
 The advent of quantum technology requires new figures of merit to compare the performance
 of quantum and classical systems.
-Such metrics should be device-independent meaning that they only depend on the statistics
-of a system while making no assumptions about the physics applied within the system.
-Device-independent metrics are important because they allow an observer to learn
-about the inner-workings of uncharacterized or untrusted devices without having
-to investigate the hardware or software used within the device.
-
-The signaling dimension is a device-independent metric that quantifies the classical
-simulation cost of a device.
+The signaling dimension quantifies the classical
+simulation cost of black-box devices.
 That is, it specifies the minimum amount of noiseless, classical communication
-needed to exactly simulate the input-output statistics of the device in question
-when an unlimited amount of randomness is shared between the transmitter and receiver.
-The signaling dimension is discussed in greater detail in the [Signaling Dimension](@ref)
-section while the supporting definitions and notation are outlined in  the [Signaling Correlations](@ref)
-section.
-
-The signaling dimension is significant because it applies to computation,
-communication, and memory task.
-In fact, the signaling dimension describes the classical simulation cost of any
-physical system with a classical input and a classical output.
-Hence, it is a versatile metric that can be used to compare quantum and classical
-resources.
-
+needed to exactly simulate the input-output statistics of the device in question.
+The signaling dimension is discussed in greater detail in the Background section
+of this documentation.
 
 ## Features:
 * Tools to compute signaling correlations (see [Signaling Correlations](@ref)).
