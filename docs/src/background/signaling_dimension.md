@@ -78,7 +78,7 @@ Certifying the signaling dimension of classical and quantum channels requires
 one to verify whether or not ``\mathbf{P}\in\mathcal{C}_d^{X \to Y}``.
 In general, this is a challenging task and can only be done with certainty in special
 cases.
-The [`SignalingDimension.jl`](@ref) module provides tools that assist the certification
+The SignalingDimension.jl package provides tools that assist the certification
 of signaling dimension.
 We elaborate on these certification procedures in the [Certifying Signaling Dimension](@ref) section.
 
