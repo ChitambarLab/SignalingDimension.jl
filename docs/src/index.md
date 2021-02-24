@@ -47,7 +47,7 @@ julia> using Pkg; Pkg.add("QBase")
 ## Contents
 
 ```@contents
-Pages = ["signaling_correlations.md", "signaling_dimension.md", "SignalingPolytope/overview.md", "SignalingPolytope/general_facets.md", "certifying_signaling_dimension.md"]
+Pages = ["background/signaling_correlations.md", "background/signaling_polytopes.md", "background/signaling_dimension.md", "bell_inequalities.md", "certifying_signaling_dimension.md"]
 Depth = 2
 ```
 
