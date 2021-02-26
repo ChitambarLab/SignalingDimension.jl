@@ -1,7 +1,7 @@
 # Documentation: https://github.com/JuliaCI/Appveyor.jl
 environment:
   matrix:
-    - julia_version: 1.4
+    - julia_version: 1
 platform:
   - x64
 cache:
@@ -24,7 +24,4 @@ build_script:
   - C:\julia\bin\julia -e "%JL_BUILD_SCRIPT%"
 test_script:
   - echo "%JL_TEST_SCRIPT%"
-  - C:\julia\bin\julia -e "%JL_TEST_SCRIPT%"
-on_success:
-  - echo "%JL_CODECOV_SCRIPT%"
-  - C:\julia\bin\julia -e "%JL_CODECOV_SCRIPT%"
+  - C:\julia\bin\julia -e "%JL_TEST_SCRIPT%
