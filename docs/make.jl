@@ -4,8 +4,11 @@ using Documenter
 using BellScenario
 using QBase
 
+include("../script/utilities.jl")
+using .ScriptUtilities
+
 makedocs(;
-    modules=[SignalingDimension],
+    modules=[SignalingDimension, ScriptUtilities],
     authors="Brian Doolittle <brian.d.doolittle@gmail.com> and contributors",
     repo="https://github.com/ChitambarLab/SignalingDimension.jl/blob/{commit}{path}#L{line}",
     sitename="SignalingDimension.jl",
@@ -23,6 +26,7 @@ makedocs(;
         ],
         "Bell Inequalities" => "bell_inequalities.md",
         "Certifying Signaling Dimension" => "certifying_signaling_dimension.md",
+        "Script Utilities" => "script_utilities.md",
     ],
 )
 
