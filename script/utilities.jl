@@ -5,7 +5,11 @@ using Test, Pkg, Suppressor, Dates
 export print_test_results, capture_test
 
 """
-    print_test_results(test_func; params=[] :: Array{1, Any}, stdout=true :: Bool)
+    print_test_results( test_func;
+        params=[] :: Vector{Any},
+        stdout=true :: Bool,
+        dir="./" :: String
+    )
 
 Prints the results the test results and meta data to `.txt.` file or `STDOUT`.
 If results are printed to `.txt` file, then the file name is `"test_func_datetime.txt"`
@@ -15,6 +19,7 @@ Arguments:
 * `test_func` - a generic method that runs a `@testset`.
 * `params` - optional keyword argument, which contains the parameters to run `test_func`.
 * `stdout` - optional keyword argument, if `true` print results to `STDOUT` instead of `.txt` file.
+* `dir` - optional keyword argument, directory to which `.txt` file is saved.
 
 Results are printed in the form:
 
@@ -34,11 +39,11 @@ Test Summary:                                                     | Pass  Total
 Testing all maximum likelihood facets of size `(30, 30)` or less. |  406    406
 ```
 """
-function print_test_results(test_func; params=[] :: Array{1, Any}, stdout=true :: Bool)
+function print_test_results(test_func; params=[] :: Vector{Any}, stdout=true :: Bool, dir="./" :: String)
     name = string(test_func)
     datetime = string(now())
 
-    filename = join([name, "_", datetime, ".txt"])
+    filename = join([dir, "/", name, "_", datetime, ".txt"])
 
     elapsed_time = @elapsed (pass, results) = capture_test(test_func, params=params)
 
@@ -64,7 +69,7 @@ function print_test_results(test_func; params=[] :: Array{1, Any}, stdout=true :
 end
 
 """
-    capture_test(test_func; params=[] :: Array{1, Any}) :: Tuple{Bool, String}
+    capture_test(test_func; params=[] :: Vector{Any}) :: Tuple{Bool, String}
 
 Captures the `STDOUT` and pass staus of the provided `test_func`.
 A tuple is returned as `(pass, results)` where `pass` is a boolean indicating if
@@ -74,10 +79,10 @@ Arguments:
 * `test_func` - a generic method that runs a `@testset`.
 * `params` - optional keyword argument, which contains the parameters to run `test_func`.
 """
-function capture_test(test_func; params=[] :: Array{1, Any}) :: Tuple{Bool, String}
+function capture_test(test_func; params=[] :: Vector{Any}) :: Tuple{Bool, String}
     pass = nothing
     results = @capture_out try
-        func(params...); pass = true
+        test_func(params...); pass = true
     catch err
         println(err); pass = false
     end
