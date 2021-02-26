@@ -14,27 +14,19 @@ using SignalingDimension
         ]
     end
 
-    @testset "scanning over simple examples" begin
-        for N in 3:12
-            for d in 2:N-1
-                strats = aff_ind_maximum_likelihood_vertices(N,d)
-                succ_game = maximum_likelihood_facet(N,d)
+    @testset "spot checks" begin
+        N = 7
+        d = 3
+        @test verify_facet(d, maximum_likelihood_facet(N, d), aff_ind_maximum_likelihood_vertices(N, d))
+    end
 
-                @test all(s ->
-                    rank(s) == d
-                    && succ_game[:]'*s[:] == succ_game.β
-                    && DeterministicStrategy(s) isa BellScenario.DeterministicStrategy,
-                strats)
-
-                @test length(strats) == N*(N-1)
-                @test LocalPolytope.dimension(strats) == N*(N-1) - 1
-            end
-        end
+    @testset "errors" begin
+        @test_throws DomainError aff_ind_maximum_likelihood_vertices(3, 1)
+        @test_throws DomainError aff_ind_maximum_likelihood_vertices(3, 3)
     end
 end
 
 @testset "aff_ind_anti_guessing_vertices()" begin
-
     @testset "simple examples" begin
         @test aff_ind_anti_guessing_vertices(4,2,3) == [
             [0 1 0 1; 1 0 1 0; 0 0 0 0; 0 0 0 0],[0 0 1 1; 0 0 0 0; 1 1 0 0; 0 0 0 0],
@@ -46,31 +38,27 @@ end
         ]
     end
 
-    @testset "scanning over simple cases" begin
-        for N in 4:20
-            for d in 2:N-2
-                for ε in 3:N-d+1
-                    strats = aff_ind_anti_guessing_vertices(N, d, ε)
-                    err_game = anti_guessing_facet(N,d,ε)
+    @testset "spot checks" begin
+        N = 10
+        d = 4
+        ε = 4
 
-                    @test all(s ->
-                        rank(s) == d
-                        && err_game[:]' * s[:] == err_game.β
-                        && DeterministicStrategy(s) isa BellScenario.DeterministicStrategy,
-                    strats)
+        vertices = aff_ind_anti_guessing_vertices(N, d, ε)
+        facet = anti_guessing_facet(N, d, ε)
 
-                    @test length(strats) == N*(N-1)
-                    @test LocalPolytope.dimension(strats) == N*(N-1) - 1
-                end
-            end
-        end
+        @test verify_facet(d, facet, vertices)
+    end
+
+    @testset "errors" begin
+        @test_throws DomainError aff_ind_anti_guessing_vertices(3,2,3)
+        @test_throws DomainError aff_ind_anti_guessing_vertices(4,2,2)
+        @test_throws DomainError aff_ind_anti_guessing_vertices(4,3,3)
     end
 end
 
-
 @testset "_aff_ind_vecs()" begin
 
-    @testset "base cases" begin
+    @testset "edge cases" begin
         @test SignalingDimension._aff_ind_vecs(0,1) == [[1]]
         @test SignalingDimension._aff_ind_vecs(1,0) == [[0]]
         @test SignalingDimension._aff_ind_vecs(3,0) == [[0,0,0]]
@@ -88,143 +76,119 @@ end
         ]
     end
 
-    @time @testset "scanning over simple cases" begin
-        for num_zeros in 1:20
-            for num_ones in 1:20
-                vecs = SignalingDimension._aff_ind_vecs(num_zeros,num_ones)
+    @testset "spot checks" begin
+        num_zeros = 25
+        num_ones = 13
 
-                @test all( v ->
-                    length(filter(isequal(0), v)) == num_zeros
-                    && length(filter(isequal(1), v)) == num_ones,
-                vecs)
+        vecs = SignalingDimension._aff_ind_vecs(num_zeros, num_ones)
 
-                @test length(vecs) == num_zeros + num_ones
-                @test LocalPolytope.dimension(vecs) == num_zeros + num_ones - 1
-            end
-        end
+        @test all( v ->
+            length(filter(isequal(0), v)) == num_zeros
+            && length(filter(isequal(1), v)) == num_ones,
+        vecs)
+
+        @test length(vecs) == num_zeros + num_ones
+        @test LocalPolytope.dimension(vecs) == num_zeros + num_ones - 1
     end
-
 end
 
 @testset "aff_ind_k_guessing_vertices()" begin
-    @testset "N = k + d: scanning over cases" begin
-        for N in 6:10
-            for d in 3:N-3
-                k = N - d
+    @testset "6-2-4 base case" begin
+        Y = 4
+        k = 2
+        d = 2
 
-                strats = aff_ind_k_guessing_vertices(N,d,k)
-                game = k_guessing_facet(N,d,k)
+        vertices = aff_ind_k_guessing_vertices(Y,d,k)
+        facet = k_guessing_facet(Y,d,k)
 
-                strats = strats[filter(i -> isassigned(strats,i), 1:length(strats))]
+        @test vertices == [
+            [0 1 1 0 0 1; 1 0 0 1 1 0; 0 0 0 0 0 0; 0 0 0 0 0 0],
+            [1 1 1 0 0 1; 0 0 0 1 1 0; 0 0 0 0 0 0; 0 0 0 0 0 0],
+            [1 1 1 0 0 0; 0 0 0 1 1 1; 0 0 0 0 0 0; 0 0 0 0 0 0],
+            [1 0 1 0 1 0; 0 0 0 0 0 0; 0 1 0 1 0 1; 0 0 0 0 0 0],
+            [1 1 1 0 1 0; 0 0 0 0 0 0; 0 0 0 1 0 1; 0 0 0 0 0 0],
+            [1 1 1 0 0 0; 0 0 0 0 0 0; 0 0 0 1 1 1; 0 0 0 0 0 0],
+            [1 1 0 1 0 0; 0 0 0 0 0 0; 0 0 0 0 0 0; 0 0 1 0 1 1],
+            [1 1 1 1 0 0; 0 0 0 0 0 0; 0 0 0 0 0 0; 0 0 0 0 1 1],
+            [1 1 1 0 0 0; 0 0 0 0 0 0; 0 0 0 0 0 0; 0 0 0 1 1 1],
+            [0 0 0 0 0 0; 1 0 1 1 1 0; 0 1 0 0 0 1; 0 0 0 0 0 0],
+            [0 0 0 0 0 0; 1 0 0 1 1 0; 0 1 1 0 0 1; 0 0 0 0 0 0],
+            [0 0 0 0 0 0; 1 0 1 0 1 0; 0 1 0 1 0 1; 0 0 0 0 0 0],
+            [0 0 0 0 0 0; 1 1 0 1 1 0; 0 0 0 0 0 0; 0 0 1 0 0 1],
+            [0 0 0 0 0 0; 1 0 0 1 1 0; 0 0 0 0 0 0; 0 1 1 0 0 1],
+            [0 0 0 0 0 0; 1 1 0 1 0 0; 0 0 0 0 0 0; 0 0 1 0 1 1],
+            [0 0 0 0 0 0; 0 0 0 0 0 0; 1 1 0 1 0 1; 0 0 1 0 1 0],
+            [0 0 0 0 0 0; 0 0 0 0 0 0; 0 1 0 1 0 1; 1 0 1 0 1 0],
+            [0 0 0 0 0 0; 0 0 0 0 0 0; 1 1 0 1 0 0; 0 0 1 0 1 1]
+        ]
 
-                @test all(s -> sum(sum(game.*s)) == game.β, strats)
-                @test all(s -> rank(s) == d, strats)
-                @test all(s -> is_deterministic(s), strats)
-
-                @test length(strats) == (N-1)*binomial(N,k)
-                @test LocalPolytope.dimension(strats) == (N-1)*binomial(N,k) - 1
-            end
-        end
+        @test verify_facet(d, facet, vertices)
     end
 
-    @testset "N = k + d: spot check" begin
-        N = 11
-        k = 7
-        d = 4
+    @testset "Y = k + d: spot check" begin
+        Y = 7
+        k = 4
+        d = 3
 
-        strats = aff_ind_k_guessing_vertices(N,d,k)
-        game = k_guessing_facet(N,d,k)
+        vertices = aff_ind_k_guessing_vertices(Y,d,k)
+        facet = k_guessing_facet(Y,d,k)
 
-        strats = strats[filter(i -> isassigned(strats,i), 1:length(strats))]
-
-        @test all(s -> sum(sum(game.*s)) == game.β, strats)
-        @test all(s -> rank(s) == d, strats)
-        @test all(s -> is_deterministic(s), strats)
-
-        @test length(strats) == (N-1)*binomial(N,k)
-        @test LocalPolytope.dimension(strats) == (N-1)*binomial(N,k) - 1
+        @test verify_facet(d, facet, vertices)
     end
 
-    @testset "k = 2, d = N-k" begin
-        for N in 4:15
-            k = 2
-            d = N-k
+    @testset "spot check: k = 2" begin
+        Y = 11
+        k = 2
+        d = 9
 
-            game = k_guessing_facet(N,d,k)
-            strats = SignalingDimension._aff_ind_k_guessing_vertices_k2(N,d,k)
+        facet = k_guessing_facet(Y,d,k)
+        vertices = aff_ind_k_guessing_vertices(Y,d,k)
 
-            @test all(s -> sum(sum(game.*s)) == game.β, strats)
-            @test all(s -> rank(s) == d, strats)
-            @test all(s -> is_deterministic(s), strats)
-
-            @test length(strats) == (N-1)*binomial(N,k)
-            @test LocalPolytope.dimension(strats) == (N-1)*binomial(N,k) - 1
-        end
+        @test verify_facet(d, facet, vertices)
     end
 
-    @testset "d = 2, k = N-d" begin
-        for N in 4:15
-            d = 2
-            k = N-d
+    @testset "spot check: d = 2" begin
+        Y = 10
+        d = 2
+        k = 8
 
-            game = k_guessing_facet(N,d,k)
-            strats = SignalingDimension._aff_ind_k_guessing_vertices_d2(N,d,k)
+        facet = k_guessing_facet(Y,d,k)
+        vertices = aff_ind_k_guessing_vertices(Y,d,k)
 
-            @test all(s -> sum(sum(game.*s)) == game.β, strats)
-            @test all(s -> rank(s) == d, strats)
-            @test all(s -> is_deterministic(s), strats)
+        @test verify_facet(d, facet, vertices)
+    end
 
-            @test length(strats) == (N-1)*binomial(N,k)
-            @test LocalPolytope.dimension(strats) == (N-1)*binomial(N,k) - 1
-        end
+    @testset "errors" begin
+        @test_throws DomainError aff_ind_k_guessing_vertices(7,3,3)
+        @test_throws DomainError aff_ind_k_guessing_vertices(6,2,1)
+        @test_throws DomainError aff_ind_k_guessing_vertices(7,1,3)
     end
 end
 
 @testset "aff_ind_ambiguous_guessing_facet()" begin
     @testset "simplest example" begin
-        strats = aff_ind_ambiguous_guessing_vertices(4,2)
+        vertices = aff_ind_ambiguous_guessing_vertices(4,2)
 
-        @test strats[1] == [1 1 0;0 0 0;0 0 1;0 0 0]
-        @test strats[2] == [1 0 1;0 1 0;0 0 0;0 0 0]
-        @test strats[3] == [0 0 0;1 1 0;0 0 1;0 0 0]
-        @test strats[4] == [1 0 0;0 1 1;0 0 0;0 0 0]
-        @test strats[5] == [0 0 0;0 1 0;1 0 1;0 0 0]
-        @test strats[6] == [1 0 0;0 0 0;0 1 1;0 0 0]
-        @test strats[7] == [0 0 0;0 1 0;0 0 0;1 0 1]
-        @test strats[8] == [1 0 0;0 0 0;0 0 0;0 1 1]
-        @test strats[9] == [0 0 0;0 0 0;0 0 1;1 1 0]
-    end
-
-    @testset "scanning through cases" begin
-        for N in 4:30
-            for d in 2:N-2
-                strats = aff_ind_ambiguous_guessing_vertices(N,d)
-                game = ambiguous_guessing_facet(N,d)
-
-                @test all(s -> sum(game[:].*s[:]) == game.β, strats)
-                @test all(s -> rank(s) == d, strats)
-                @test all(s -> is_deterministic(s), strats)
-
-                @test length(strats) == (N-1)*(N-1)
-                @test LocalPolytope.dimension(strats) == (N-1)*(N-1) - 1
-            end
-        end
+        @test vertices[1] == [1 1 0;0 0 0;0 0 1;0 0 0]
+        @test vertices[2] == [1 0 1;0 1 0;0 0 0;0 0 0]
+        @test vertices[3] == [0 0 0;1 1 0;0 0 1;0 0 0]
+        @test vertices[4] == [1 0 0;0 1 1;0 0 0;0 0 0]
+        @test vertices[5] == [0 0 0;0 1 0;1 0 1;0 0 0]
+        @test vertices[6] == [1 0 0;0 0 0;0 1 1;0 0 0]
+        @test vertices[7] == [0 0 0;0 1 0;0 0 0;1 0 1]
+        @test vertices[8] == [1 0 0;0 0 0;0 0 0;0 1 1]
+        @test vertices[9] == [0 0 0;0 0 0;0 0 1;1 1 0]
     end
 
     @testset "spot checks" begin
-        @testset "N = 100, d = 77" begin
-            N = 50
-            d = 27
+        @testset "Y = 15, d = 8" begin
+            Y = 15
+            d = 8
 
-            strats = aff_ind_ambiguous_guessing_vertices(N,d)
-            game = ambiguous_guessing_facet(N,d)
+            vertices = aff_ind_ambiguous_guessing_vertices(Y,d)
+            facet = ambiguous_guessing_facet(Y,d)
 
-            @test all(s -> sum(game[:].*s[:]) == game.β, strats)
-            @test all(s -> rank(s) == d, strats)
-            @test all(s -> is_deterministic(s), strats)
-
-            @test length(strats) == (N-1)*(N-1)
-            @test LocalPolytope.dimension(strats) == (N-1)*(N-1) - 1
+            @test verify_facet(d, facet, vertices)
         end
     end
 
@@ -248,21 +212,19 @@ end
         ]
     end
 
-    @testset "scanning through cases" begin
-        for num_inputs in 2:30
-            for num_outputs in 2:30
-                game = non_negativity_facet(num_inputs, num_outputs)
-                strats = aff_ind_non_negativity_vertices(num_outputs, num_inputs)
+    @testset "spot checks" begin
+        X = 5
+        Y = 9
 
-                @test all(s -> sum(game[:].*s[:]) == game.β, strats)
-                @test all(s -> rank(s) <= 2, strats)
-                @test all(s -> is_deterministic(s), strats)
+        facet = non_negativity_facet(X, Y)
+        vertices = aff_ind_non_negativity_vertices(X, Y)
 
-                @test length(strats) == (num_outputs-1)*(num_inputs)
-                @test LocalPolytope.dimension(strats) == (num_outputs-1)*(num_inputs) - 1
+        @test all(v ->
+            facet[:]' * v[:] == facet.β && rank(v) ≤ 2 && is_deterministic(v),
+        vertices)
 
-            end
-        end
+        @test length(vertices) == X*(Y-1)
+        @test LocalPolytope.dimension(vertices) == X*(Y-1) - 1
     end
 
     @testset "DomainErrors" begin
@@ -272,20 +234,38 @@ end
 end
 
 @testset "aff_ind_coarse_grained_input_ambiguous_guessing_vertices()" begin
-    @testset "scanning through cases" begin
-        for n in 4:20
-            for d in 2:n-2
-                game = coarse_grained_input_ambiguous_guessing_facet(n,d)
-                strats = aff_ind_coarse_grained_input_ambiguous_guessing_vertices(n,d)
+    @testset "simple example" begin
+        Y = 4
+        d = 2
 
-                @test all(s -> sum(game[:].*s[:]) == game.β, strats)
-                @test all(s -> rank(s) <= d, strats)
-                @test all(s -> is_deterministic(s), strats)
+        vertices = aff_ind_coarse_grained_input_ambiguous_guessing_vertices(Y,d)
+        facet = coarse_grained_input_ambiguous_guessing_facet(Y,d)
 
-                @test length(strats) == (n-1)*n
-                @test LocalPolytope.dimension(strats) == (n-1)*n - 1
-            end
-        end
+        @test vertices == [
+            [1 1 0 0; 0 0 0 0; 0 0 1 1; 0 0 0 0], [1 0 1 1; 0 1 0 0; 0 0 0 0; 0 0 0 0],
+            [0 0 0 0; 1 1 0 0; 0 0 1 1; 0 0 0 0], [1 0 0 1; 0 1 1 0; 0 0 0 0; 0 0 0 0],
+            [0 0 0 0; 0 1 0 0; 1 0 1 1; 0 0 0 0], [1 0 0 0; 0 0 0 0; 0 1 1 1; 0 0 0 0],
+            [0 0 0 0; 0 1 0 1; 0 0 0 0; 1 0 1 0], [1 0 0 1; 0 0 0 0; 0 0 0 0; 0 1 1 0],
+            [0 0 0 0; 0 0 0 0; 0 0 1 1; 1 1 0 0], [1 0 0 0; 0 1 1 1; 0 0 0 0; 0 0 0 0],
+            [1 0 0 0; 0 0 0 0; 0 0 0 0; 0 1 1 1], [0 0 0 0; 0 0 0 0; 0 0 0 1; 1 1 1 0]
+        ]
+
+        @test verify_facet(d, facet, vertices)
+    end
+
+    @testset "spot checks" begin
+        Y = 8
+        d = 4
+
+        facet = coarse_grained_input_ambiguous_guessing_facet(Y, d)
+        vertices = aff_ind_coarse_grained_input_ambiguous_guessing_vertices(Y, d)
+
+        @test verify_facet(d, facet, vertices)
+    end
+
+    @testset "errors" begin
+        @test_throws DomainError aff_ind_coarse_grained_input_ambiguous_guessing_vertices(3, 2)
+        @test_throws DomainError aff_ind_coarse_grained_input_ambiguous_guessing_vertices(5, 4)
     end
 end
 

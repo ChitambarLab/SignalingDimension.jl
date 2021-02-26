@@ -1,11 +1,8 @@
-export aff_ind_maximum_likelihood_vertices, aff_ind_anti_guessing_vertices
-
+export aff_ind_maximum_likelihood_vertices
+export aff_ind_anti_guessing_vertices
 export aff_ind_non_negativity_vertices
-
 export aff_ind_ambiguous_guessing_vertices
-
 export aff_ind_k_guessing_vertices
-
 export aff_ind_coarse_grained_input_ambiguous_guessing_vertices
 
 """
@@ -13,13 +10,16 @@ export aff_ind_coarse_grained_input_ambiguous_guessing_vertices
 
 Enumerates an affinely independent set of vertices that maximize the [`maximum_likelihood_facet`](@ref).
 
-A valid input requires `N > 2` and `N > d > 1`.
+A `DomainError` is thrown if `N > d > 1` is not satisfied.
 """
 function aff_ind_maximum_likelihood_vertices(N :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
+    if !(N > d > 1)
+        throw(DomainError(d, "input `d` does not satisfy `N > d > 1`."))
+    end
+
     aff_ind_vecs = _aff_ind_vecs(d-1, N-d)
 
     matrices = Vector{Matrix{Int64}}(undef, N*(N-1))
-
     id = 1
     for row_id in 1:N
         for vec in aff_ind_vecs
@@ -47,37 +47,37 @@ end
 
 """
     aff_ind_non_negativity_vertices(
-        num_outputs :: Int64,
-        num_inputs :: Int64
+        X :: Int64,
+        Y :: Int64
     ) :: Vector{Matrix{Int64}}
 
 Enumerates an affinely independent set of deterministic, vertices that maximize
 the [`non_negativity_facet`](@ref)
 
-A valid input requires `N > 2` and `N > d > 1`.
+A `DomainError` is thrown if the inputs do not satisfy `X > 1` and  `Y > 1`.
 """
-function aff_ind_non_negativity_vertices(num_outputs :: Int64, num_inputs :: Int64) :: Vector{Matrix{Int64}}
-    if !(num_outputs > 1)
-        throw(DomainError(num_outputs, "Inputs must satisfy `num_outputs > 1`"))
-    elseif !(num_inputs > 1)
-        throw(DomainError(num_inputs, "Inputs must satisfy `num_inputs > 1`"))
+function aff_ind_non_negativity_vertices(X :: Int64, Y :: Int64) :: Vector{Matrix{Int64}}
+    if !(Y > 1)
+        throw(DomainError(Y, "Inputs must satisfy `Y > 1`"))
+    elseif !(X > 1)
+        throw(DomainError(X, "Inputs must satisfy `X > 1`"))
     end
 
-    matrices = Vector{Matrix{Int64}}(undef, (num_outputs-1)*(num_inputs))
+    matrices = Vector{Matrix{Int64}}(undef, (Y-1)*(X))
 
     matrix_id = 1
-    for row_id in 1:(num_outputs-1)
-        m1 = zeros(Int64, num_outputs, num_inputs)
+    for row_id in 1:(Y-1)
+        m1 = zeros(Int64, Y, X)
         m1[row_id,:] .= 1
 
         matrices[matrix_id] = m1
         matrix_id += 1
 
-        for col_id in 2:num_inputs
-            m2 = zeros(Int64, num_outputs, num_inputs)
+        for col_id in 2:X
+            m2 = zeros(Int64, Y, X)
             m2[row_id,:] .= 1
             m2[row_id,col_id] = 0
-            m2[num_outputs,col_id] = 1
+            m2[Y,col_id] = 1
 
             matrices[matrix_id] = m2
             matrix_id += 1
@@ -89,41 +89,41 @@ end
 
 """
     aff_ind_ambiguous_guessing_vertices(
-        N :: Int64,
+        Y :: Int64,
         d :: Int64
     ) :: Vector{Matrix{Int64}}
 
 Enumerates an affinely independent set of vertices that maximize the [`ambiguous_guessing_facet`](@ref).
 
 A `DomainError` is thrown if the inputs don't satisfy the following requirements:
-* `N ≥ 4`
-* `(N - 2) ≥ d ≥ 2`
+* `Y ≥ 4`
+* `(Y - 2) ≥ d ≥ 2`
 """
-function aff_ind_ambiguous_guessing_vertices(N :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
-    if !(N ≥ 4)
-        throw(DomainError(N, "N must satisfy `N ≥ 4`"))
-    elseif !(N-2 ≥ d ≥ 2)
-        throw(DomainError(d, "d must satisfy `N-2 ≥ d ≥ 2`"))
+function aff_ind_ambiguous_guessing_vertices(Y :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
+    if !(Y ≥ 4)
+        throw(DomainError(Y, "Y must satisfy `Y ≥ 4`"))
+    elseif !(Y-2 ≥ d ≥ 2)
+        throw(DomainError(d, "d must satisfy `Y-2 ≥ d ≥ 2`"))
     end
 
-    matrices = Vector{Matrix{Int64}}(undef, (N-1)*(N-1))
+    matrices = Vector{Matrix{Int64}}(undef, (Y-1)*(Y-1))
     matrix_id = 1
 
-    maximum_likelihood_facet_strats = aff_ind_maximum_likelihood_vertices(N-1, d)
+    maximum_likelihood_facet_strats = aff_ind_maximum_likelihood_vertices(Y-1, d)
 
     for strat in maximum_likelihood_facet_strats
-        m = cat(strat, zeros(Int64,(1,N-1)), dims=1)
+        m = cat(strat, zeros(Int64,(1,Y-1)), dims=1)
 
         matrices[matrix_id] = m
         matrix_id += 1
     end
 
-    vecs = _aff_ind_vecs(d-1, N-d)
+    vecs = _aff_ind_vecs(d-1, Y-d)
     for vec in vecs
-        m = zeros(Int64, (N,N-1))
-        m[N,:] = vec
+        m = zeros(Int64, (Y,Y-1))
+        m[Y,:] = vec
 
-        for id in 1:(N-1)
+        for id in 1:(Y-1)
             if vec[id] == 0
                 m[id,id] = 1
             end
@@ -138,7 +138,7 @@ end
 
 """
     aff_ind_coarse_grained_input_ambiguous_guessing_vertices(
-        n :: Int64,
+        Y :: Int64,
         d :: Int64
     ) :: Vector{Matrix{Int64}}
 
@@ -146,34 +146,34 @@ Enumerates an affinely independent set of vertices for the
 [`coarse_grained_input_ambiguous_guessing_facet`](@ref).
 
 A `DomainError` is thrown if the inputs don't satisfy the following requirements:
-* `n ≥ 4`
-* `(n - 2) ≥ d ≥ 2`
+* `Y ≥ 4`
+* `(Y - 2) ≥ d ≥ 2`
 """
-function aff_ind_coarse_grained_input_ambiguous_guessing_vertices(n :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
-    if !(n ≥ 4)
-        throw(DomainError(N, "n must satisfy `n ≥ 4`"))
-    elseif !(n-2 ≥ d ≥ 2)
-        throw(DomainError(d, "d must satisfy `n-2 ≥ d ≥ 2`"))
+function aff_ind_coarse_grained_input_ambiguous_guessing_vertices(Y :: Int64, d :: Int64) :: Vector{Matrix{Int64}}
+    if !(Y ≥ 4)
+        throw(DomainError(Y, "Y must satisfy `Y ≥ 4`"))
+    elseif !(Y-2 ≥ d ≥ 2)
+        throw(DomainError(d, "d must satisfy `Y-2 ≥ d ≥ 2`"))
     end
 
-    matrices = Vector{Matrix{Int64}}(undef, (n*(n-1)))
+    matrices = Vector{Matrix{Int64}}(undef, (Y*(Y-1)))
     matrix_id = 1
 
-    for strat in aff_ind_ambiguous_guessing_vertices(n,d)
+    for strat in aff_ind_ambiguous_guessing_vertices(Y,d)
         target_rows = findall(i -> i ≠ 0, sum.(eachrow(strat)))
 
-        target_row = (n-1) in target_rows ? (n-1) : min(target_rows...)
+        target_row = (Y-1) in target_rows ? (Y-1) : min(target_rows...)
 
-        m = zeros(Int64, n,n)
-        m[1:n,1:n-1] = strat
-        m[target_row,n] = 1
+        m = zeros(Int64, Y,Y)
+        m[1:Y,1:Y-1] = strat
+        m[target_row,Y] = 1
 
         matrices[matrix_id] = m
         matrix_id += 1
     end
 
-    for target_row in filter(i -> i ≠ n-1, 2:n)
-        m = zeros(Int64, n,n)
+    for target_row in filter(i -> i ≠ Y-1, 2:Y)
+        m = zeros(Int64, Y,Y)
 
         max_d = target_row in 1:d-1 ? d : d-1
         for id in 1:max_d
@@ -186,14 +186,14 @@ function aff_ind_coarse_grained_input_ambiguous_guessing_vertices(n :: Int64, d 
         matrix_id += 1
     end
 
-    m = zeros(Int64 ,n,n)
+    m = zeros(Int64 ,Y,Y)
 
     for id in 1:d-2
         m[id,id] = 1
     end
 
-    m[n,d-1:n-1] .= 1
-    m[n-1,n] = 1
+    m[Y,d-1:Y-1] .= 1
+    m[Y-1,Y] = 1
 
 
     matrices[matrix_id] = m
@@ -202,18 +202,26 @@ function aff_ind_coarse_grained_input_ambiguous_guessing_vertices(n :: Int64, d 
 end
 
 """
-    aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, error_size :: Int64) :: Vector{Matrix{Int64}}
+    aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, ε :: Int64) :: Vector{Matrix{Int64}}
 
 Enumerates an affinely independent set of vertices for the [`anti_guessing_facet`](@ref).
 
-Valid inputs are `N > 4`, `N-1 > d > 1`, and `N-d+1 ≥ error_size ≥ 3`.
+Valid inputs are `N ≥ 4`, `(N - 1) > d > 1`, and `(N - d + 1) ≥ ε ≥ 3`.
 """
-function aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, error_size :: Int64) :: Vector{Matrix{Int64}}
+function aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, ε :: Int64) :: Vector{Matrix{Int64}}
+    if !(N ≥ 4)
+        throw(DomainError(N, "N must satisfy `N ≥ 4`."))
+    elseif !(N - 1 > d > 1)
+        throw(DomainError(d, "d must satisfy `(N - 1) > d > 1`."))
+    elseif !((N - d + 1) ≥ ε ≥ 3)
+        throw(DomainError(ε, "ε must satisfy `(N - d + 1) ≥ ε ≥ 3`"))
+    end
+
     # affiely independent vectors used to enumerate error block strategies
-    error_vecs = sort(_aff_ind_vecs(d-1, N - (error_size + d - 2))) # sorting ensures the first element has a leading 0.
+    error_vecs = sort(_aff_ind_vecs(d-1, N - (ε + d - 2))) # sorting ensures the first element has a leading 0.
 
     # affinely independent vectors used to enumerate success block strategies
-    success_vecs = _aff_ind_vecs(error_size + d - 3, N - error_size - d + 2)
+    success_vecs = _aff_ind_vecs(ε + d - 3, N - ε - d + 2)
 
     # initializing vector to hold matrix data
     matrices = Vector{Matrix{Int64}}(undef, N*(N-1))
@@ -221,20 +229,20 @@ function aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, error_size :: In
     for row_id in 1:N
 
         # rows containing the error block are treated separately
-        if row_id <= error_size
+        if row_id <= ε
 
             # creating a strategy for each column in the error block excludin
             # the zero column at col_id = row_id.
-            for i in filter(j -> j != row_id, 1:error_size)
+            for i in filter(j -> j != row_id, 1:ε)
                 m = zeros(Int64, N,N)
 
                 # maximize error block
                 m[row_id, i] = 1
-                m[i, filter(j -> j != i, 1:error_size)] .= 1
+                m[i, filter(j -> j != i, 1:ε)] .= 1
 
                 # filling success block to saturate inequality
-                for col_id in (error_size+1):N
-                    el = error_vecs[1][col_id - (error_size - 1)]
+                for col_id in (ε+1):N
+                    el = error_vecs[1][col_id - (ε - 1)]
 
                     if el == 0
                         m[col_id,col_id] = 1
@@ -254,7 +262,7 @@ function aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, error_size :: In
                 m = zeros(Int64, N,N)
 
                 # setting error block columns
-                m[row_id, filter(j -> j != row_id, 1:error_size)] .= 1
+                m[row_id, filter(j -> j != row_id, 1:ε)] .= 1
                 if vec[1] == 0
                     r_id = row_id == 1 ? 2 : 1
                     m[r_id,row_id] = 1
@@ -263,8 +271,8 @@ function aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, error_size :: In
                 end
 
                 # setting success block columns
-                for col_id in (error_size+1):N
-                    el = vec[col_id - (error_size - 1)]
+                for col_id in (ε+1):N
+                    el = vec[col_id - (ε - 1)]
 
                     if el == 0
                         m[col_id,col_id] = 1
@@ -286,19 +294,19 @@ function aff_ind_anti_guessing_vertices(N :: Int64, d :: Int64, error_size :: In
                 c_id = findfirst(j -> j == 1, vec)
 
                 # filling in error block columns
-                if c_id <= error_size
+                if c_id <= ε
                     m[row_id, c_id] = 1
-                    m[c_id, filter(j -> j != c_id, 1:error_size)] .= 1
+                    m[c_id, filter(j -> j != c_id, 1:ε)] .= 1
                 else
                     c_id = 1
                     r_id = d > 2 ? 2 : 1
 
                     m[r_id, c_id] = 1
-                    m[c_id, filter(j -> j != c_id, 1:error_size)] .= 1
+                    m[c_id, filter(j -> j != c_id, 1:ε)] .= 1
                 end
 
                 # filling in success block columns
-                for i in error_size+1:N-1
+                for i in ε+1:N-1
                     el = vec[i]
 
                     col_id = i < row_id ? i : i + 1
@@ -325,59 +333,59 @@ end
 
 """
     aff_ind_k_guessing_vertices(
-        N :: Int64, d :: Int64, k :: Int64
+        Y :: Int64, d :: Int64, k :: Int64
     ) :: Vector{Matrix{Int64}}
 
 Enumerates an affinely independent set of vertices for the [`k_guessing_facet`](@ref).
 
-Valid inputs are `N ≥ 4`, `d ≥ 2`, and `k ≥ 2`.
+A `DomainError` is thrown if the inputs do not satisfy `Y ≥ 4`, `d ≥ 2` and `k ≥ 2`.
 """
-function aff_ind_k_guessing_vertices(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
-    if !(N == k + d)
-        throw(DomainError(N, "`N = k + d` must be satisfied"))
-    elseif !( N ≥ 4 && d ≥ 2 && k ≥ 2 )
-        throw(DomainError((N, k, d), "`N ≥ 4`, `d ≥ 2`, and `k ≥ 2` must be satisfied"))
+function aff_ind_k_guessing_vertices(Y :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
+    if !(Y == k + d)
+        throw(DomainError(Y, "`Y = k + d` must be satisfied"))
+    elseif !( Y ≥ 4 && d ≥ 2 && k ≥ 2 )
+        throw(DomainError((Y, k, d), "`Y ≥ 4`, `d ≥ 2`, and `k ≥ 2` must be satisfied"))
     end
 
     if d == 2
-        return _aff_ind_k_guessing_vertices_d2(N, d, k)
+        return _aff_ind_k_guessing_vertices_d2(Y, d, k)
     elseif k == 2
-        return _aff_ind_k_guessing_vertices_k2(N, d, k)
+        return _aff_ind_k_guessing_vertices_k2(Y, d, k)
     else
-        matrices = Vector{Matrix{Int64}}(undef, (N-1)*binomial(N,k))
+        matrices = Vector{Matrix{Int64}}(undef, (Y-1)*binomial(Y,k))
         matrix_id = 1
 
         # getting affinely independent matrices in the bottom right subblock
-        br_subblock_matrices = aff_ind_k_guessing_vertices(N-1, d-1, k)
+        br_subblock_matrices = aff_ind_k_guessing_vertices(Y-1, d-1, k)
 
         # expanding bottom right subblock strategies with constant top row
         for br_subblock in br_subblock_matrices
-            m = zeros(Int64, N, binomial(N,k))
-            m[2:end, (binomial(N-1,k-1)+1):end] = br_subblock
-            m[1, 1:(binomial(N-1,k-1))] .= 1
+            m = zeros(Int64, Y, binomial(Y,k))
+            m[2:end, (binomial(Y-1,k-1)+1):end] = br_subblock
+            m[1, 1:(binomial(Y-1,k-1))] .= 1
 
             matrices[matrix_id] = m
             matrix_id += 1
         end
 
-        br_subblock_game = k_guessing_facet(N-1,d-1,k)
+        br_subblock_game = k_guessing_facet(Y-1,d-1,k)
 
         # placing a 1 in each 0 element of top row
-        for combo in combinations(1:N-1, d-1)
-            m = zeros(Int64, N, binomial(N,k))
-            m[1, 1:(binomial(N-1,k-1))] .= 1
+        for combo in combinations(1:Y-1, d-1)
+            m = zeros(Int64, Y, binomial(Y,k))
+            m[1, 1:(binomial(Y-1,k-1))] .= 1
 
             for combo_id in combo
-                m[1+combo_id, (binomial(N-1,k-1)+1):end] = br_subblock_game[combo_id,:]
+                m[1+combo_id, (binomial(Y-1,k-1)+1):end] = br_subblock_game[combo_id,:]
 
-                for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+                for col_id in (binomial(Y-1,k-1)+1):binomial(Y,k)
                     if sum(m[:,col_id]) > 1
                         m[1+combo_id, col_id] = 0
                     end
                 end
             end
 
-            for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+            for col_id in (binomial(Y-1,k-1)+1):binomial(Y,k)
                 if sum(m[:,col_id]) == 0
                     m[1,col_id] = 1
                 end
@@ -387,12 +395,12 @@ function aff_ind_k_guessing_vertices(N :: Int64, d :: Int64, k :: Int64) :: Vect
             matrix_id += 1
         end
 
-        bl_subblock_game = k_guessing_facet(N-1,d,k-1)
+        bl_subblock_game = k_guessing_facet(Y-1,d,k-1)
 
         # placing a 0 in each 1 element of the top row
-        for col_id in 1:binomial(N-1,k-1)
-            m = zeros(Int64, N, binomial(N,k))
-            m[1,filter(i -> i != col_id, 1:binomial(N-1,k-1))] .= 1
+        for col_id in 1:binomial(Y-1,k-1)
+            m = zeros(Int64, Y, binomial(Y,k))
+            m[1,filter(i -> i != col_id, 1:binomial(Y-1,k-1))] .= 1
 
             target_row_id = findfirst(i -> i == 1, bl_subblock_game[:,col_id]) + 1
 
@@ -401,16 +409,16 @@ function aff_ind_k_guessing_vertices(N :: Int64, d :: Int64, k :: Int64) :: Vect
             max_row_id = (target_row_id <= d) ? d : target_row_id
 
             for row_id in [2:d-1..., max_row_id]
-                m[row_id, (binomial(N-1,k-1)+1):end] = br_subblock_game[row_id-1,:]
+                m[row_id, (binomial(Y-1,k-1)+1):end] = br_subblock_game[row_id-1,:]
 
-                for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+                for col_id in (binomial(Y-1,k-1)+1):binomial(Y,k)
                     if sum(m[:,col_id]) > 1
                         m[row_id, col_id] = 0
                     end
                 end
             end
 
-            for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+            for col_id in (binomial(Y-1,k-1)+1):binomial(Y,k)
                 if sum(m[:,col_id]) == 0
                     m[max_row_id, col_id] = 1
                 end
@@ -421,27 +429,27 @@ function aff_ind_k_guessing_vertices(N :: Int64, d :: Int64, k :: Int64) :: Vect
         end
 
         # affinely independent matrices for bottom left subblock
-        bl_subblock_matrices = aff_ind_k_guessing_vertices(N-1,d,k-1)
+        bl_subblock_matrices = aff_ind_k_guessing_vertices(Y-1,d,k-1)
 
         # enumerating strategies in bottom left subblock not using top row
         for bl_subblock in bl_subblock_matrices
-            m = zeros(Int64, N, binomial(N,k))
+            m = zeros(Int64, Y, binomial(Y,k))
 
-            m[2:end, 1:binomial(N-1,k-1)] = bl_subblock
+            m[2:end, 1:binomial(Y-1,k-1)] = bl_subblock
 
-            non_zero_row_ids = filter(i -> sum(bl_subblock[i,1:end]) > 0, 1:N-1)
+            non_zero_row_ids = filter(i -> sum(bl_subblock[i,1:end]) > 0, 1:Y-1)
 
             for row_id in non_zero_row_ids
-                m[1+row_id, (binomial(N-1,k-1)+1):end] = br_subblock_game[row_id,:]
+                m[1+row_id, (binomial(Y-1,k-1)+1):end] = br_subblock_game[row_id,:]
 
-                for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+                for col_id in (binomial(Y-1,k-1)+1):binomial(Y,k)
                     if sum(m[:,col_id]) > 1
                         m[1+row_id, col_id] = 0
                     end
                 end
             end
 
-            for col_id in (binomial(N-1,k-1)+1):binomial(N,k)
+            for col_id in (binomial(Y-1,k-1)+1):binomial(Y,k)
                 if sum(m[:,col_id]) == 0
                     m[non_zero_row_ids[end], col_id] = 1
                 end
@@ -450,7 +458,6 @@ function aff_ind_k_guessing_vertices(N :: Int64, d :: Int64, k :: Int64) :: Vect
             matrices[matrix_id] = m
             matrix_id += 1
         end
-
 
         return matrices
     end
@@ -471,8 +478,6 @@ Valid inputs are `N > 4`, `k = 2`, and `d = N - k`.
 function _aff_ind_k_guessing_vertices_k2(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
     if !(k == 2)
         throw(DomainError(k, "k > 2 not supported by this function"))
-    elseif !(N == k+d)
-        throw(DomainError(d, "N ≂̸ k+d not implemented yet"))
     end
 
     if N == 4 && d == 2
@@ -590,8 +595,6 @@ Valid inputs are `N > 4`, `d = 2`, and `k = N - d`.
 function _aff_ind_k_guessing_vertices_d2(N :: Int64, d :: Int64, k :: Int64) :: Vector{Matrix{Int64}}
     if !(d==2)
         throw(DomainError(d, "d > 2 not implemented yet"))
-    elseif !(N == k+d)
-        throw(DomainError(k, "k + d ≠ N not implemented yet"))
     end
 
     matrices = Vector{Matrix{Int64}}(undef, (N-1)*binomial(N,k))
