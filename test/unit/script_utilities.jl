@@ -14,6 +14,14 @@ not_test_fail() = throw(ErrorException("Hello World Failure!"))
 not_test_args(x) = println(x)
 
 @testset "print_test_results()" begin
+    @testset "Boolean pass return values" begin
+        pass = @suppress print_test_results(not_test_pass)
+        @test pass
+
+        pass = @suppress print_test_results(not_test_fail)
+        @test !pass
+    end
+
     @testset "test_pass() results print to STDOUT" begin
         output = @capture_out print_test_results(test_pass)
 
@@ -24,6 +32,8 @@ not_test_args(x) = println(x)
         @test occursin(r"Test Method : test_pass\n", output)
         @test occursin(r"Test Args : \(\)\n", output)
         @test occursin(r"Test Pass : true\n", output)
+
+        @test pass
     end
 
     @testset "test_args(1) results print to STDOUT" begin
