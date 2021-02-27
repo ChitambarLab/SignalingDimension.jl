@@ -24,7 +24,7 @@ goes as follows:
     `$ julia ./script/path/to/script.jl --arg1 value1 --arg2`.
     However, care must be taken to ensure that all dependencies are properly installed.
 
-## Utilities for Printing Test Results
+## Printing Test Results
 
 ```@docs
 print_test_results
