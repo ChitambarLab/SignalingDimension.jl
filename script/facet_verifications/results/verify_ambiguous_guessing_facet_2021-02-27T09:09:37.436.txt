@@ -1,0 +1,14 @@
+Version :
+
+Status `~/.julia/dev/SignalingDimension.jl/script/Project.toml`
+  [96aab1c2] SignalingDimension v0.1.1 [`..`]
+
+Test Completed : 2021-02-27T09:09:37.436
+Elapsed Time : 540.417890703
+Test Method : verify_ambiguous_guessing_facet
+Test Args : (45)
+Test Pass : true
+
+Test Summary:                                                     | Pass  Total
+Testing all maximum likelihood facets with `Y ∈ [4, 45]` or less. |  903    903
+

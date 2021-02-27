@@ -6,7 +6,7 @@ In general cases, it is difficult derive these Bell inequalities and test them a
 Despite this challenge, the signaling dimension can be bounded.
 We now provide methods that efficiently compute upper and lower bounds on the signaling
 dimension.
-For more details please refer to our work [Certifying the Classical Simulation Cost of a Quantum Channel](broken link).
+For more details please refer to our work [Certifying the Classical Simulation Cost of a Quantum Channel](https://arxiv.org/abs/2102.12543).
 
 ## Bounds
 

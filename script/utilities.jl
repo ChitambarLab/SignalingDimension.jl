@@ -33,7 +33,7 @@ Status `~/.julia/dev/SignalingDimension.jl/script/Project.toml`
 
 Test Completed : 2021-02-26T10:17:26.049        # Datetime of test completion
 Elapsed Time : 16.799114946                     # Time elapsed during test
-Test Method : verify_maximumlikelihood_facet    # Test method used
+Test Method : verify_maximum_likelihood_facet    # Test method used
 Test Args : (30)                                # Arguments used for test method
 Test Pass : true                                # All tests pass
 

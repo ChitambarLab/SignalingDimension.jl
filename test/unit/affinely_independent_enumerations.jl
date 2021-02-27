@@ -39,8 +39,8 @@ end
     end
 
     @testset "spot checks" begin
-        N = 10
-        d = 4
+        N = 7
+        d = 3
         ε = 4
 
         vertices = aff_ind_anti_guessing_vertices(N, d, ε)
@@ -137,9 +137,9 @@ end
     end
 
     @testset "spot check: k = 2" begin
-        Y = 11
+        Y = 8
         k = 2
-        d = 9
+        d = 6
 
         facet = k_guessing_facet(Y,d,k)
         vertices = aff_ind_k_guessing_vertices(Y,d,k)
@@ -148,9 +148,9 @@ end
     end
 
     @testset "spot check: d = 2" begin
-        Y = 10
+        Y = 8
         d = 2
-        k = 8
+        k = 6
 
         facet = k_guessing_facet(Y,d,k)
         vertices = aff_ind_k_guessing_vertices(Y,d,k)
@@ -181,9 +181,9 @@ end
     end
 
     @testset "spot checks" begin
-        @testset "Y = 15, d = 8" begin
-            Y = 15
-            d = 8
+        @testset "Y = 10, d = 4" begin
+            Y = 10
+            d = 4
 
             vertices = aff_ind_ambiguous_guessing_vertices(Y,d)
             facet = ambiguous_guessing_facet(Y,d)
@@ -214,7 +214,7 @@ end
 
     @testset "spot checks" begin
         X = 5
-        Y = 9
+        Y = 7
 
         facet = non_negativity_facet(X, Y)
         vertices = aff_ind_non_negativity_vertices(X, Y)

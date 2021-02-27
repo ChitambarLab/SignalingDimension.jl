@@ -1,0 +1,14 @@
+Version :
+
+Status `~/.julia/dev/SignalingDimension.jl/script/Project.toml`
+  [96aab1c2] SignalingDimension v0.1.1 [`..`]
+
+Test Completed : 2021-02-27T10:13:02.68
+Elapsed Time : 594.467665107
+Test Method : verify_maximum_likelihood_facet
+Test Args : (45)
+Test Pass : true
+
+Test Summary:                                                     | Pass  Total
+Testing all maximum likelihood facets of size `(45, 45)` or less. |  946    946
+

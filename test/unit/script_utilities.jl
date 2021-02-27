@@ -26,21 +26,19 @@ not_test_args(x) = println(x)
         output = @capture_out print_test_results(test_pass)
 
         @test occursin(r"Version :", output)
-        @test occursin(r"\[96aab1c2\] SignalingDimension", output)
+        @test occursin(r"(\[96aab1c2\])? SignalingDimension", output)
         @test occursin(r"Test Completed : \d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d+\n", output)
         @test occursin(r"Elapsed Time : \d+\.\d+\n", output)
         @test occursin(r"Test Method : test_pass\n", output)
         @test occursin(r"Test Args : \(\)\n", output)
         @test occursin(r"Test Pass : true\n", output)
-
-        @test pass
     end
 
     @testset "test_args(1) results print to STDOUT" begin
         output = @capture_out print_test_results(test_args, params=[1])
 
         @test occursin(r"Version :", output)
-        @test occursin(r"\[96aab1c2\] SignalingDimension", output)
+        @test occursin(r"(\[96aab1c2\])? SignalingDimension", output)
         @test occursin(r"Test Completed : \d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d+\n", output)
         @test occursin(r"Elapsed Time : \d+\.\d+\n", output)
         @test occursin(r"Test Method : test_args\n", output)
@@ -48,17 +46,17 @@ not_test_args(x) = println(x)
         @test occursin(r"Test Pass : true\n", output)
     end
 
-    @testset "not_test_pass() results print to STDOUT" begin
-        output = @capture_out print_test_results(not_test_pass)
+    @testset "not_test_fail() results print to STDOUT" begin
+        output = @capture_out print_test_results(not_test_fail)
 
         @test occursin(r"Version :", output)
-        @test occursin(r"\[96aab1c2\] SignalingDimension", output)
+        @test occursin(r"(\[96aab1c2\])? SignalingDimension", output)
         @test occursin(r"Test Completed : \d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d+\n", output)
         @test occursin(r"Elapsed Time : \d+\.\d+\n", output)
-        @test occursin(r"Test Method : not_test_pass\n", output)
+        @test occursin(r"Test Method : not_test_fail\n", output)
         @test occursin(r"Test Args : \(\)\n", output)
-        @test occursin(r"Test Pass : true\n", output)
-        @test occursin(r"Hello World!", output)
+        @test occursin(r"Test Pass : false\n", output)
+        @test occursin(r"Hello World Failure!", output)
     end
 
     @testset "prints to file" begin
@@ -74,7 +72,7 @@ not_test_args(x) = println(x)
         output = read(test_dir * "/" * files[1], String)
 
         @test occursin(r"Version :", output)
-        @test occursin(r"\[96aab1c2\] SignalingDimension", output)
+        @test occursin(r"(\[96aab1c2\])? SignalingDimension", output)
         @test occursin(r"Test Completed : \d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d+\n", output)
         @test occursin(r"Elapsed Time : \d+\.\d+\n", output)
         @test occursin(r"Test Method : test_pass\n", output)
