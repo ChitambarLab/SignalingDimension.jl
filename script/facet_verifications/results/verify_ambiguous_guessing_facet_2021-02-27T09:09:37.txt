@@ -11,4 +11,3 @@ Test Pass : true
 
 Test Summary:                                                     | Pass  Total
 Testing all maximum likelihood facets with `Y ∈ [4, 45]` or less. |  903    903
-
