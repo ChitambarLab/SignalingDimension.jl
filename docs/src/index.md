@@ -6,7 +6,7 @@ CurrentModule = SignalingDimension
 
 *Certify the classical simulation cost of black-box systems.*
 
-This Julia software package is the companion piece to [Certifying the Classical SImulation Cost of a Quantum Channel](broken link).
+This Julia software package is the companion piece to [Certifying the Classical Simulation Cost of a Quantum Channel](https://arxiv.org/abs/2102.12543).
 
 ## Package Overview
 
@@ -20,15 +20,15 @@ Our computed facets of the signaling polytope are found in the [`data/`](https:/
 directory. Please review the [Computed Facets](@ref) section for details regarding
 individual data sets.
 
+## Facet Verifications
+
+This work provides scripts that verifies the tightness of the Bell inequalities
+described in the [Bell Inequalities](@ref) section.
+These scripts and their results are found in the [`script/facet_verifications/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/master/script/facet_verifications)
+directory.
+Please refer to the [Verification of Theoretical Facets](@ref) section for more details.
 
 ## Quick Start
-
-!!! warning "Package Registration in Progress"
-    Until SignalingDimension.jl is registered add the package typing `]` to enter `pkg>` mode and enter
-
-    ```julia
-    pkg> add https://github.com/ChitambarLab/SignalingDimension.jl.git
-    ```
 
 * Install Julia: [https://julialang.org/downloads/](https://julialang.org/downloads/)
 * Add the SignalingDimension.jl package (run from julia prompt):
@@ -47,7 +47,14 @@ julia> using Pkg; Pkg.add("QBase")
 ## Contents
 
 ```@contents
-Pages = ["background/signaling_correlations.md", "background/signaling_polytopes.md", "background/signaling_dimension.md", "bell_inequalities.md", "certifying_signaling_dimension.md"]
+Pages = [
+    "background/signaling_correlations.md",
+    "background/signaling_polytopes.md",
+    "background/signaling_dimension.md",
+    "bell_inequalities.md",
+    "certifying_signaling_dimension.md",
+    "script_utilities.md",
+]
 Depth = 2
 ```
 

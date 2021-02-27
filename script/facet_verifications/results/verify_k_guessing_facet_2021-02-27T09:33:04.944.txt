@@ -1,0 +1,14 @@
+Version :
+
+Status `~/.julia/dev/SignalingDimension.jl/script/Project.toml`
+  [96aab1c2] SignalingDimension v0.1.1 [`..`]
+
+Test Completed : 2021-02-27T09:33:04.944
+Elapsed Time : 1437.52935996
+Test Method : verify_k_guessing_facet
+Test Args : (12)
+Test Pass : true
+
+Test Summary:                                                      | Pass  Total
+Testing all k-guessing facets with `k > 2`, `d > 2`, and `Y ≤ 12`. |   28     28
+

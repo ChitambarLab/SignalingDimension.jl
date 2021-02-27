@@ -26,7 +26,7 @@ If they are able to score higher than ``\gamma``, then Alice and Bob "win" the g
 
 We now discuss a subset of general Bell inequalities for signaling polytopes.
 Further details about these inequalities are provided in
-[Certifying the Classical Simulation Cost of a Quantum Channel](broken link).
+[Certifying the Classical Simulation Cost of a Quantum Channel](https://arxiv.org/abs/2102.12543).
 
 ```@docs
 k_guessing_game
@@ -67,7 +67,7 @@ Data is provided in two formats:
 
 ## Theoretical Facets
 
-The following list of Bell inequalities are proven to be tight in [Certifying the Classical Simulation Cost of a Quantum Channel](broken link).
+The following list of Bell inequalities are proven to be tight in [Certifying the Classical Simulation Cost of a Quantum Channel](https://arxiv.org/abs/2102.12543).
 Each of the following methods constructs a canonical facet for the signaling polytope ``\mathcal{C}_d^{X \to Y}``.
 The constructed facet inequalities are represented using the `BellScenario.BellGame` type.
 All row and column permutations of facets are also facets of ``\mathcal{C}_d^{X \to Y}``.
@@ -85,9 +85,16 @@ non_negativity_facet
 
 To verify the tightness of a Bell inequality, ``X(Y-1)`` affinely independent
 vertices must be found to satisfy ``\gamma = \langle \mathbf{G}, \mathbf{V} \rangle``.
-We demonstrate these enumerations for the set of facets described above.
-The [`test/unit/affinely_independent_enumerations.jl`](https://github.com/ChitambarLab/SignalingDimension.jl/blob/master/test/unit/affinely_independent_enumerations.jl)
-verify that each of these enumerations scale across a wide range of scenarios.
+This procedure is facilitated by the following method.
+
+```@docs
+verify_facet
+```
+
+To apply `verify_facet`, a Bell inequality and set of affinely independent vertices
+are required.
+For each cataloged signaling polytope facet, an enumeration of
+affinely independent vertices that saturate the Bell inequality is provided.
 
 ```@docs
 aff_ind_maximum_likelihood_vertices
@@ -97,3 +104,16 @@ aff_ind_coarse_grained_input_ambiguous_guessing_vertices
 aff_ind_anti_guessing_vertices
 aff_ind_k_guessing_vertices
 ```
+
+These enumerations are used to verify the tight Bell inequalities above over a
+broad range of signaling polytopes.
+These facet verifications are performed in the
+[`script/facet_verifications/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/master/script/facet_verifications)
+directory.
+Each verification runs as a script and prints the results to a `.txt` file or `STDOUT`.
+By default the scripts do not require arguments.
+The default parameter are set to run the test over several minutes.
+Arguments vary slightly for each script so refer to individual scripts for more details
+about their command line arguments and default parameters.
+For more details on how to run the scripts and interpret their results please refer
+to the [Script Utilities](@ref) section.

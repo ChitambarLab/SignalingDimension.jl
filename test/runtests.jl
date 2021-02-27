@@ -1,4 +1,4 @@
-using Test
+using Test, BellScenario, LinearAlgebra, Suppressor
 
 println("importing SignalingDimension.jl")
 @time using SignalingDimension

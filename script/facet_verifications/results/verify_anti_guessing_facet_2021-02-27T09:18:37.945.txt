@@ -1,0 +1,14 @@
+Version :
+
+Status `~/.julia/dev/SignalingDimension.jl/script/Project.toml`
+  [96aab1c2] SignalingDimension v0.1.1 [`..`]
+
+Test Completed : 2021-02-27T09:18:37.945
+Elapsed Time : 866.942732493
+Test Method : verify_anti_guessing_facet
+Test Args : (35)
+Test Pass : true
+
+Test Summary:                                                | Pass  Total
+Testing all anti-guessing facets of size `(35, 35)` or less. | 5984   5984
+

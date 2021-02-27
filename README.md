@@ -4,9 +4,11 @@
 
 *Certify the classical simulation cost of black-box systems.*
 
-This Julia package is the software companion piece to [Certifying the Classical Simulation Cost of a Quantum Channel](broken link).
+This Julia package is the software companion piece to [Certifying the Classical Simulation Cost of a Quantum Channel](https://arxiv.org/abs/2102.12543).
 
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://ChitambarLab.github.io/SignalingDimension.jl/dev/)
+| Documentation |
+|:-------------:|
+|[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://ChitambarLab.github.io/SignalingDimension.jl/dev/)|
 
 ## Features:
 * Tools to compute signaling correlations and polytopes.
@@ -25,12 +27,6 @@ The signaling dimension is discussed in greater detail in the Background section
 of this documentation.
 
 ## Quick Start
-
-Note: Until SignalingDimension.jl is registered, add the package by typing `]` to enter `pkg>` mode and entering
-
-```julia
-pkg> add https://github.com/ChitambarLab/SignalingDimension.jl.git
-```
 
 * Install Julia: [https://julialang.org/downloads/](https://julialang.org/downloads/)
 * Add the SignalingDimension.jl package (run from julia prompt):
@@ -52,7 +48,7 @@ julia> using Pkg; Pkg.add("QBase")
 * `docs/` - [Documentation](https://chitambarlab.github.io/SignalingDimension.jl/dev/) source code.
 * `src/` - Software for certifying signaling dimension.
 * `test/` - Unit tests for code in `src/`.
-* `script/` - Code for data computation and verification.
+* `script/` - Scripts for computing signaling polytopes and verifying tight Bell inequalities.
 
 ## Citing
 
