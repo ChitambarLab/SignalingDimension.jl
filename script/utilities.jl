@@ -31,7 +31,7 @@ Version :    # SignalingDimension.jl version used
 Status `~/.julia/dev/SignalingDimension.jl/script/Project.toml`
   [96aab1c2] SignalingDimension v0.1.1 [`..`]
 
-Test Completed : 2021-02-26T10:17:26.049        # Datetime of test completion
+Test Completed : 2021-02-26T10:17:26        # Datetime of test completion
 Elapsed Time : 16.799114946                     # Time elapsed during test
 Test Method : verify_maximum_likelihood_facet    # Test method used
 Test Args : (30)                                # Arguments used for test method
@@ -48,7 +48,7 @@ Testing all maximum likelihood facets of size `(30, 30)` or less. |  406    406
 """
 function print_test_results(test_func; params=[] :: Vector{Any}, stdout=true :: Bool, dir="./" :: String) :: Bool
     name = string(test_func)
-    datetime = string(now())
+    datetime = replace(string(now()), r"\.\d+$" => "")
 
     filename = join([dir, "/", name, "_", datetime, ".txt"])
 
