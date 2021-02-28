@@ -49,8 +49,9 @@ Testing all maximum likelihood facets of size `(30, 30)` or less. |  406    406
 function print_test_results(test_func; params=[] :: Vector{Any}, stdout=true :: Bool, dir="./" :: String) :: Bool
     name = string(test_func)
     datetime = replace(string(now()), r"\.\d+$" => "")
+    datetime_file = replace(datetime, ":" => "-")
 
-    filename = join([dir, "/", name, "_", datetime, ".txt"])
+    filename = join([dir, "/", name, "_", datetime_file, ".txt"])
 
     elapsed_time = @elapsed (pass, results) = capture_test(test_func, params=params)
 

@@ -67,7 +67,7 @@ not_test_args(x) = println(x)
         files = readdir(test_dir)
 
         @test length(files) == 1
-        @test occursin(r"^test_pass_\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.txt$", files[1])
+        @test occursin(r"^test_pass_\d\d\d\d-\d\d-\d\dT\d\d-\d\d-\d\d\.txt$", files[1])
 
         output = read(test_dir * "/" * files[1], String)
 
