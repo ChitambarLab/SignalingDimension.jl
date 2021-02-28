@@ -22,7 +22,7 @@ individual data sets.
 
 ## Facet Verifications
 
-This work provides scripts that verifies the tightness of the Bell inequalities
+This work provides scripts that verify the tightness of the Bell inequalities
 described in the [Bell Inequalities](@ref) section.
 These scripts and their results are found in the [`script/facet_verifications/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/master/script/facet_verifications)
 directory.
