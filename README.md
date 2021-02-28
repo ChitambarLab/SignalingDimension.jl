@@ -6,9 +6,9 @@
 
 This Julia package is the software companion piece to [Certifying the Classical Simulation Cost of a Quantum Channel](https://arxiv.org/abs/2102.12543).
 
-| Documentation |
-|:-------------:|
-|[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://ChitambarLab.github.io/SignalingDimension.jl/dev/)|
+| Documentation |     Tests    |
+|:-------------:|:------------:|
+|[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://ChitambarLab.github.io/SignalingDimension.jl/dev/)|[![Build status](https://ci.appveyor.com/api/projects/status/0yy3uu9ho9x4g4gi?svg=true)](https://ci.appveyor.com/project/bdoolittle/signalingdimension-jl)|
 
 ## Features:
 * Tools to compute signaling correlations and polytopes.
