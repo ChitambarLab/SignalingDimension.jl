@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Signaling Polytopes · SignalingDimension.jl</title><link rel="canonical" href="https://ChitambarLab.github.io/SignalingDimension.jl/background/signaling_polytopes/"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/custom.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img src="../../assets/logo.png" alt="SignalingDimension.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit">SignalingDimension.jl</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Background</span><ul><li><a class="tocitem" href="../signaling_correlations/">Signaling Correlations</a></li><li class="is-active"><a class="tocitem" href>Signaling Polytopes</a><ul class="internal"><li><a class="tocitem" href="#Vertices"><span>Vertices</span></a></li><li><a class="tocitem" href="#Facets"><span>Facets</span></a></li><li><a class="tocitem" href="#Adjacency-Decomposition"><span>Adjacency Decomposition</span></a></li></ul></li><li><a class="tocitem" href="../signaling_dimension/">Signaling Dimension</a></li></ul></li><li><a class="tocitem" href="../../bell_inequalities/">Bell Inequalities</a></li><li><a class="tocitem" href="../../certifying_signaling_dimension/">Certifying Signaling Dimension</a></li><li><a class="tocitem" href="../../script_utilities/">Script Utilities</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Background</a></li><li class="is-active"><a href>Signaling Polytopes</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Signaling Polytopes</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/ChitambarLab/SignalingDimension.jl/blob/master/docs/src/background/signaling_polytopes.md#L" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Signaling-Polytopes"><a class="docs-heading-anchor" href="#Signaling-Polytopes">Signaling Polytopes</a><a id="Signaling-Polytopes-1"></a><a class="docs-heading-anchor-permalink" href="#Signaling-Polytopes" title="Permalink"></a></h1><p>Let <span>$\mathcal{C}_d^{X\to Y}$</span> denote the  set of classical signaling correlations produced using one-way, noiseless classical communication and shared randomness. This set is a convex polyhedron that we refer to as the <em>signaling polytope</em>. As a convex polyhedron, the signaling polytope <span>$\mathcal{C}_d^{X \to Y}$</span> admits two equivalent descriptions<sup class="footnote-reference"><a id="citeref-Ziegler2012" href="#footnote-Ziegler2012">[Ziegler2012]</a></sup>:</p><ul><li><strong>Vertex Description:</strong> Let <span>$\mathcal{V}_d^{X\to Y}\subset\mathcal{C}_d^{X\to Y}$</span>   denote the set of signaling polytope vertices.   Then, the signaling polytope is defined as the convex-hull of its vertices <span>$\mathcal{V}_d^{X\to Y}$</span>,</li></ul><p class="math-container">\[    \mathcal{C}_d^{X \to Y} = \text{Conv}(\mathcal{V}_d^{X \to Y}).\]</p><ul><li><strong>Half-Space Description:</strong> Let <span>$\mathcal{F}_d^{X \to Y}$</span> denote the set of   closed half-space inequalities on <span>$\mathbb{R}^{Y \times X}$</span> that tightly bound   the signaling polytope <span>$\mathcal{C}_d^{X\to Y}$</span>.   We  refer to an inequality in <span>$\mathcal{F}_d^{X \to Y}$</span> as a <em>facet</em>. Then, the signaling   polytope is defined as the intersection of all inequalities in <span>$\mathcal{F}_d^{X\to Y}$</span>,</li></ul><p class="math-container">\[    \mathcal{C}_d^{X\to Y} = \cap\{\mathcal{F}_d^{X \to Y}\}.\]</p><p>The <a href="https://chitambarlab.github.io/BellScenario.jl/stable/LocalPolytope/overview/#BellScenario.LocalPolytope"><code>BellScenario.LocalPolytope</code></a> module provides tools for computing each of these representations.</p><h2 id="Vertices"><a class="docs-heading-anchor" href="#Vertices">Vertices</a><a id="Vertices-1"></a><a class="docs-heading-anchor-permalink" href="#Vertices" title="Permalink"></a></h2><p>A signaling polytope vertex <span>$\mathbf{V}\in\mathcal{V}_d^{X \to Y}$</span> must satisfy:</p><ul><li>Elements <span>$V(y|x) \in \{0,1\}$</span> for all <span>$y\in\mathcal{Y}$</span> and <span>$x\in\mathcal{X}$</span></li><li><span>$\text{Rank}(\mathbf{V}) \leq d$</span></li></ul><p>The total number of vertices in <span>$\mathcal{V}_d^{X \to Y}$</span> is then counted by <sup class="footnote-reference"><a id="citeref-DallArno2017" href="#footnote-DallArno2017">[DallArno2017]</a></sup></p><p class="math-container">\[|\mathcal{V}_d^{X \to Y}| = \sum_{c=1}^d \left\{X \atop c \right\}\binom{Y}{c}c!,\]</p><p>where <span>$\{\}$</span> denotes Stirling&#39;s number of the second kind and <span>$\binom{Y}{c}$</span> denotes <span>$Y$</span> <span>$choose$</span> <span>$c$</span>.</p><h3 id="Code-Example:-Counting-Vertices"><a class="docs-heading-anchor" href="#Code-Example:-Counting-Vertices">Code Example: Counting Vertices</a><a id="Code-Example:-Counting-Vertices-1"></a><a class="docs-heading-anchor-permalink" href="#Code-Example:-Counting-Vertices" title="Permalink"></a></h3><p>Signaling polytope vertices can be counted using the <a href="https://chitambarlab.github.io/BellScenario.jl/dev/LocalPolytope/vertices/#BellScenario.LocalPolytope.num_vertices"><code>BellScenario.LocalPolytope.num_vertices</code></a> method.</p><pre><code class="language-julia">using BellScenario
+
+X = 4    # num inputs
+Y = 4    # num outputs
+d = 2    # dit signaling
+
+scenario = LocalSignaling(X, Y, d)
+
+# Count the number of vertices for the signaling polytope
+num_vertices = LocalPolytope.num_vertices(scenario)</code></pre><pre class="documenter-example-output">88</pre><h3 id="Code-Example:-Enumerating-Vertices"><a class="docs-heading-anchor" href="#Code-Example:-Enumerating-Vertices">Code Example: Enumerating Vertices</a><a id="Code-Example:-Enumerating-Vertices-1"></a><a class="docs-heading-anchor-permalink" href="#Code-Example:-Enumerating-Vertices" title="Permalink"></a></h3><p>The set of vertices <span>$\mathcal{V}_d^{X \to Y}$</span> can be enumerated  using the <a href="https://chitambarlab.github.io/BellScenario.jl/dev/LocalPolytope/vertices/#BellScenario.LocalPolytope.vertices"><code>BellScenario.LocalPolytope.vertices</code></a> method. Since vertices have 0/1 elements, they can be represented by <a href="https://chitambarlab.github.io/BellScenario.jl/dev/BellScenario/strategies/#BellScenario.DeterministicStrategy"><code>BellScenario.DeterministicStrategy</code></a>.</p><div class="admonition is-info"><header class="admonition-header">Vertex Normalization</header><div class="admonition-body"><p>The columns of a channel <span>$\mathbf{P}\in\mathcal{P}^{X \to Y}$</span> are normalized such that <span>$\sum_{y=1}^Y P(y|x) = 1$</span> for all <span>$x$</span>. Therefore, <span>$\mathbf{P}$</span> can be represented in a <code>&quot;normalized&quot;</code> subspace where the <span>$Y$</span>-th row of matrix <span>$\mathbf{P}$</span> is removed.</p></div></div><div class="admonition is-info"><header class="admonition-header">Vectorization</header><div class="admonition-body"><p>The polytope transformation software used by the <code>BellScenario.LocalPolytope</code> module requires vertices to be represented as vectors. Hence a column-major vectorization is used both vertices and facets in the polytope computations.</p></div></div><pre><code class="language-julia">using BellScenario
+
+X = 4    # num inputs
+Y = 4    # num outputs
+d = 2    # dit signaling
+
+scenario = LocalSignaling(X, Y, d)
+
+# Compute vertices in the &quot;normalized&quot; subspace.
+# These vertices can be fed directly into polytope transformation methods.
+vertices = LocalPolytope.vertices(scenario)
+
+# Convert each vertex into a `DeterministicStrategy` matrix form.
+deterministic_strategies = map(v -&gt; convert(DeterministicStrategy, v, scenario), vertices)</code></pre><pre class="documenter-example-output">88-element Array{DeterministicStrategy,1}:
+ [1 1 1 1; 0 0 0 0; 0 0 0 0; 0 0 0 0]
+ [0 0 0 0; 1 1 1 1; 0 0 0 0; 0 0 0 0]
+ [0 0 0 0; 0 0 0 0; 1 1 1 1; 0 0 0 0]
+ [0 0 0 0; 0 0 0 0; 0 0 0 0; 1 1 1 1]
+ [1 1 1 0; 0 0 0 1; 0 0 0 0; 0 0 0 0]
+ [0 0 1 0; 1 1 0 1; 0 0 0 0; 0 0 0 0]
+ [1 1 0 0; 0 0 1 1; 0 0 0 0; 0 0 0 0]
+ [1 0 1 0; 0 1 0 1; 0 0 0 0; 0 0 0 0]
+ [0 1 0 0; 1 0 1 1; 0 0 0 0; 0 0 0 0]
+ [0 1 1 0; 1 0 0 1; 0 0 0 0; 0 0 0 0]
+ ⋮
+ [0 0 0 0; 0 0 0 0; 0 1 1 0; 1 0 0 1]
+ [0 0 0 0; 0 0 0 0; 1 0 0 0; 0 1 1 1]
+ [0 0 0 0; 0 0 0 0; 0 0 0 1; 1 1 1 0]
+ [0 0 0 0; 0 0 0 0; 1 1 0 1; 0 0 1 0]
+ [0 0 0 0; 0 0 0 0; 0 0 1 1; 1 1 0 0]
+ [0 0 0 0; 0 0 0 0; 0 1 0 1; 1 0 1 0]
+ [0 0 0 0; 0 0 0 0; 1 0 1 1; 0 1 0 0]
+ [0 0 0 0; 0 0 0 0; 1 0 0 1; 0 1 1 0]
+ [0 0 0 0; 0 0 0 0; 0 1 1 1; 1 0 0 0]</pre><h2 id="Facets"><a class="docs-heading-anchor" href="#Facets">Facets</a><a id="Facets-1"></a><a class="docs-heading-anchor-permalink" href="#Facets" title="Permalink"></a></h2><p>Let the tuple <span>$(\mathbf{G},\gamma) \in \mathcal{F}_d^{X \to Y}$</span> designate a facet of <span>$\mathcal{C}_d^{X \to Y}$</span> where <span>$\mathbf{G}\in \mathbb{R}^{Y\times X}$</span> and <span>$\gamma\in \mathbb{R}$</span>. The half-space inequality is then expressed as</p><p class="math-container">\[\gamma \geq \langle \mathbf{G}, \mathbf{P}\rangle = \sum_{x,y}G_{y,x}P(y|x)\]</p><p>where <span>$\langle\mathbf{G},\mathbf{P}\rangle$</span> is the Euclidean inner product with some matrix <span>$\mathbf{P}\in\mathcal{P}^{X\to Y}$</span>. A facet <span>$(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}$</span> must satisfy:</p><ul><li><span>$\gamma \geq \langle \mathbf{G}, \mathbf{V} \rangle$</span> for all vertices <span>$\mathbf{V} \in \mathcal{V}_d^{X \to Y}$</span>.</li><li><span>$\gamma = \langle \mathbf{G}, \mathbf{V} \rangle$</span> for at least <span>$X(Y-1)$</span> affinely independent vertices <span>$\mathcal{V}_d^{X \to Y}$</span>.</li></ul><p>A facet inequaliity <span>$(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}$</span> tightly bounds the signaling polytope <span>$\mathcal{C}_d^{X\to Y}$</span>, therefore, if <span>$\gamma \ngeq \langle\mathbf{G},\mathbf{P}\rangle$</span>, then <span>$\mathbf{P}\notin\mathcal{C}_d^{X \to Y}$</span>. Hence the inequalities <span>$(\mathbf{G},\gamma)\in\mathcal{F}_d^{X \to Y}$</span> can verify whether a channel <span>$\mathbf{P}\in\mathcal{P}^{X\to Y}$</span> is also contained by the signaling polytope <span>$\mathcal{C}_d^{X \to Y}$</span>. Within the context of Bell scenarios, these facets are referred to as tight Bell inequalities and are discussed in greater detail in the <a href="../../bell_inequalities/#Bell-Inequalities">Bell Inequalities</a> section.</p><h3 id="Code-Example:-Complete-Facet-Enumeration"><a class="docs-heading-anchor" href="#Code-Example:-Complete-Facet-Enumeration">Code Example: Complete Facet Enumeration</a><a id="Code-Example:-Complete-Facet-Enumeration-1"></a><a class="docs-heading-anchor-permalink" href="#Code-Example:-Complete-Facet-Enumeration" title="Permalink"></a></h3><p>A facet inequality is represented by the  <a href="https://chitambarlab.github.io/BellScenario.jl/dev/BellScenario/games/#BellScenario.BellGame"><code>BellScenario.BellGame</code></a> type. Note however, that the polytope computation software represents  mmatrix <span>$\mathbf{G}$</span> with a column-major vectorization in the <span>$&quot;normalized&quot;$</span> subspace.</p><div class="admonition is-info"><header class="admonition-header">Facet Normal Form</header><div class="admonition-body"><p>For any half-space inequality <span>$(\mathbf{G},\gamma)$</span>,  <span>$\gamma$</span> and <span>$\mathbf{G}$</span> are not unique. Therefore, a <em>normal form</em> must be established for facets. The normal form used in this work is as follows:     1. The elements of matrix <span>$\mathbf{G}$</span> are non-negative integers and     2. The corresponding bound <span>$\gamma$</span> is a non-negative integer.</p></div></div><div class="admonition is-warning"><header class="admonition-header">Performance of Facet Computations</header><div class="admonition-body"><p>Facet computations fail to perform for large numbers of vertices and vertices with large dimension. The number of vertices scale exponentially with the number of inputs and outputs, while the dimension scales as <span>$X(Y-1)$</span>.</p></div></div><pre><code class="language-julia">using BellScenario
+
+X = 3    # num inputs
+Y = 3    # num outputs
+d = 2    # dit signaling
+
+scenario = LocalSignaling(X, Y, d)
+
+# Compute vertices in the &quot;normalized&quot; subspace.
+vertices = LocalPolytope.vertices(scenario)
+
+# Compute complete set of facets in &quot;normalized&quot; subspace.
+facets = LocalPolytope.facets(vertices)[&quot;facets&quot;]
+
+# Convert each facet into `BellGame` form.
+bell_games = map( f -&gt; convert(BellGame, f, scenario), facets)
+
+# printing γ ≥ G for each bell game
+for bg in bell_games
+    println(bg.β, &quot; ≥ &quot;, bg.game)
+end</code></pre><pre class="documenter-example-output">1 ≥ [0 0 0; 1 0 0; 1 0 0]
+1 ≥ [1 0 0; 0 0 0; 1 0 0]
+1 ≥ [0 0 0; 0 1 0; 0 1 0]
+1 ≥ [0 1 0; 0 0 0; 0 1 0]
+1 ≥ [0 0 0; 0 0 1; 0 0 1]
+1 ≥ [0 0 1; 0 0 0; 0 0 1]
+1 ≥ [0 0 1; 0 0 1; 0 0 0]
+1 ≥ [0 1 0; 0 1 0; 0 0 0]
+1 ≥ [1 0 0; 1 0 0; 0 0 0]
+2 ≥ [0 0 1; 0 1 0; 1 0 0]
+2 ≥ [0 1 0; 0 0 1; 1 0 0]
+2 ≥ [0 0 1; 1 0 0; 0 1 0]
+2 ≥ [0 1 0; 1 0 0; 0 0 1]
+2 ≥ [1 0 0; 0 0 1; 0 1 0]
+2 ≥ [1 0 0; 0 1 0; 0 0 1]</pre><h2 id="Adjacency-Decomposition"><a class="docs-heading-anchor" href="#Adjacency-Decomposition">Adjacency Decomposition</a><a id="Adjacency-Decomposition-1"></a><a class="docs-heading-anchor-permalink" href="#Adjacency-Decomposition" title="Permalink"></a></h2><p>The values of input <span>$x$</span> and output <span>$y$</span> for a signaling scenario are merely labels. Rearranging these labels cannot change the structure of the signaling polytope. Hence the signaling polytope is invariant under permutations of inputs and outputs<sup class="footnote-reference"><a id="citeref-Rosset2014" href="#footnote-Rosset2014">[Rosset2014]</a></sup>. This permutation symmetry results in a transitivity of vertices and facets. That is, any permutation of a vertex (or facet) is also  a vertex (or facet) of <span>$\mathcal{C}_d^{X \to Y}$</span>. Furthermore, we define a vertex class (facet class) as the set of all vertices (facets) generated by taking row/column permutations. Hence, there exists a canonical set of generator vertices and facets whose permutations describe the complete set of signaling polytope facets <span>$\mathcal{F}_d^{X \to Y}$</span>. Since the number of permutations scale as <span>$(X!)$</span> and <span>$(Y!)$</span>, the set of generators is dramatically reduces in the total number vertices and facets needed to describe the polytope.</p><p>Given  the permutation symmetry of singaling polytopes, the adjacency decomposition technique <sup class="footnote-reference"><a id="citeref-Christof2001" href="#footnote-Christof2001">[Christof2001]</a></sup> is an effective algorithm for computing the generator facets of a convex polytope. Key advantages of the adjacency decomposition technique include:</p><ul><li>The complete set of facets does not need to be stored in memory, only the generator facets.</li><li>If not run to completion, a partial list of generator facets is obtained.</li><li>The computation can be widely parallelized.</li></ul><h3 id="Code-Example:-Adjacency-Decomposition"><a class="docs-heading-anchor" href="#Code-Example:-Adjacency-Decomposition">Code Example: Adjacency Decomposition</a><a id="Code-Example:-Adjacency-Decomposition-1"></a><a class="docs-heading-anchor-permalink" href="#Code-Example:-Adjacency-Decomposition" title="Permalink"></a></h3><p>The adjacency decomposition greatly reduces facet computation times and can be performed on signaling polytopes using the <a href="https://chitambarlab.github.io/BellScenario.jl/stable/LocalPolytope/adjacency_decomposition/#BellScenario.LocalPolytope.adjacency_decomposition"><code>BellScenario.LocalPolytope.adjacency_decomposition</code></a> method. Please refer to BellScenario.jl documentation for additional details on the arguments, outputs, and implementation of the adjacency decomposition algorithm.</p><div class="admonition is-info"><header class="admonition-header">Lexicographic Normal Form</header><div class="admonition-body"><p>The generator facet for a facet class is arbitrary. Therefore, we establish a lexicographic ordering for each permutation in a facet class. The facets computed by <code>BellScenario.LocalPolytope.adjacency_decompostion</code> are presented in their <em>lexicographic normal form</em> which is maximal in the lexicographic ordering of the facet class.</p></div></div><pre><code class="language-julia">using BellScenario
+
+X = 6    # num inputs
+Y = 4    # num outputs
+d = 2    # dit signaling
+
+scenario = LocalSignaling(X, Y, d)
+
+# Compute vertices in the &quot;normalized&quot; subspace.
+vertices = LocalPolytope.vertices(scenario)
+
+# The adjacency decomposition requires a facet to seed the algorithm.
+facet_seed = BellGame([1 0 0 0 0 0;0 1 0 0 0 0;0 0 1 0 0 0;0 0 0 1 0 0], 2)
+
+# Compute the complete set of generator facets
+adj_dict = LocalPolytope.adjacency_decomposition(vertices, facet_seed, scenario)
+
+# The generator facets are the keys of returned dictionary
+for bell_game in keys(adj_dict)
+    println(bell_game.β, &quot; ≥ &quot;, bell_game.game, &quot;\n&quot;)
+end</code></pre><pre class="documenter-example-output">5 ≥ [1 1 1 0 0 0; 1 0 0 1 1 0; 0 1 0 1 0 1; 0 0 1 0 1 1]
+
+4 ≥ [2 0 0 0 0 0; 1 1 1 0 0 0; 0 2 0 0 0 0; 0 0 2 0 0 0]
+
+4 ≥ [2 0 0 0 0 0; 1 1 1 0 0 0; 0 2 0 0 0 0; 0 0 1 1 0 0]
+
+1 ≥ [1 0 0 0 0 0; 1 0 0 0 0 0; 1 0 0 0 0 0; 0 0 0 0 0 0]
+
+2 ≥ [1 0 0 0 0 0; 1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 1 0 0 0]
+
+3 ≥ [1 1 0 0 0 0; 1 0 1 0 0 0; 0 1 1 0 0 0; 0 0 0 1 0 0]
+
+2 ≥ [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 1 0 0 0; 0 0 0 1 0 0]
+
+4 ≥ [2 0 0 0 0 0; 1 1 1 0 0 0; 0 1 0 1 0 0; 0 0 1 0 1 0]
+
+4 ≥ [1 1 1 0 0 0; 1 0 0 1 0 0; 0 1 0 0 1 0; 0 0 1 0 0 1]</pre><h3 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h3><section class="footnotes is-size-7"><ul><li class="footnote" id="footnote-Ziegler2012"><a class="tag is-link" href="#citeref-Ziegler2012">Ziegler2012</a>Ziegler, Günter M. Lectures on polytopes. Vol. 152. Springer Science &amp; Business Media, 2012.</li><li class="footnote" id="footnote-DallArno2017"><a class="tag is-link" href="#citeref-DallArno2017">DallArno2017</a>Dall’Arno, Michele, et al. &quot;No-hypersignaling principle.&quot; Physical Review Letters 119.2 (2017): 020401.</li><li class="footnote" id="footnote-Rosset2014"><a class="tag is-link" href="#citeref-Rosset2014">Rosset2014</a>Rosset, Denis, Jean-Daniel Bancal, and Nicolas Gisin. &quot;Classifying 50 years of Bell inequalities.&quot; Journal of Physics A: Mathematical and Theoretical 47.42 (2014): 424022.</li><li class="footnote" id="footnote-Christof2001"><a class="tag is-link" href="#citeref-Christof2001">Christof2001</a>Christof, Thomas, and Gerhard Reinelt. &quot;Decomposition and parallelization techniques for enumerating the facets of combinatorial polytopes.&quot; International Journal of Computational Geometry &amp; Applications 11.04 (2001): 423-437.</li></ul></section></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../signaling_correlations/">« Signaling Correlations</a><a class="docs-footer-nextpage" href="../signaling_dimension/">Signaling Dimension »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Sunday 28 February 2021 01:41">Sunday 28 February 2021</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
