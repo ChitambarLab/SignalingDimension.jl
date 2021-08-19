@@ -45,7 +45,7 @@ julia> using Pkg; Pkg.add("QBase")
 
 ## Project Structure
 
-* `data/` - Computed Bell inequalities for signaling polytopes.
+* `data/` - Computed facet inequalities for signaling polytopes.
 * `docs/` - [Documentation](https://chitambarlab.github.io/SignalingDimension.jl/dev/) source code.
 * `src/` - Software for certifying signaling dimension.
 * `test/` - Unit tests for code in `src/`.
