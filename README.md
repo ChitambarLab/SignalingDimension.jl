@@ -6,9 +6,10 @@
 
 This Julia package is the software companion piece to [Certifying the Classical Simulation Cost of a Quantum Channel](https://arxiv.org/abs/2102.12543).
 
-| Documentation |     Tests    |
-|:-------------:|:------------:|
-|[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://ChitambarLab.github.io/SignalingDimension.jl/dev/)|[![Build status](https://ci.appveyor.com/api/projects/status/0yy3uu9ho9x4g4gi?svg=true)](https://ci.appveyor.com/project/bdoolittle/signalingdimension-jl)|
+[![Latest](https://img.shields.io/badge/docs-latest-blue.svg)](https://ChitambarLab.github.io/SignalingDimension.jl/dev)
+[![Test Status](https://github.com/ChitambarLab/SignalingDimension.jl/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/ChitambarLab/SignalingDimension.jl/actions/workflows/run_tests.yml)
+[![Coverage](https://codecov.io/gh/ChitambarLab/SignalingDimension.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/chitambarlab/SignalingDimension.jl)
+[![DOI](https://zenodo.org/badge/325364520.svg)](https://zenodo.org/badge/latestdoi/325364520)
 
 ## Features:
 * Tools to compute signaling correlations and polytopes.
@@ -52,7 +53,7 @@ julia> using Pkg; Pkg.add("QBase")
 
 ## Citing
 
-To reference this work, see [`CITATION.bib`](https://github.com/ChitambarLab/SignalingDimension.jl/blob/master/CITATION.bib).
+To reference this work, see [`CITATION.bib`](https://github.com/ChitambarLab/SignalingDimension.jl/blob/main/CITATION.bib).
 
 ## Licensing
 

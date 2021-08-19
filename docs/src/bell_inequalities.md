@@ -46,14 +46,14 @@ The SignalingDimension.jl provides a catalog of tight Bell inequality which boun
 ## Computed Facets
 
 Using the adjacency decomposition technique, we've computed a broad range of signaling polytope facets.
-Computed facets of the signaling polytope are found in the [`data/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/master/data)
+Computed facets of the signaling polytope are found in the [`data/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/main/data)
 directory.
 
 ### Quick Adjacency Decompositions
 
-In the [`data/quick_adjacency_decomposition/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/master/data/quick_adjacency_decomposition)
+In the [`data/quick_adjacency_decomposition/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/main/data/quick_adjacency_decomposition)
 directory, the adjacency decomposition algorithm is used to find the generating facets of the signaling polytope.
-The polytope computation scripts are found in the [`script/quick_adjacency_decomposition/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/master/script/quick_adjacency_decomposition) directory. They are intended to run quickly on a laptop computer.
+The polytope computation scripts are found in the [`script/quick_adjacency_decomposition/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/main/script/quick_adjacency_decomposition) directory. They are intended to run quickly on a laptop computer.
 
 Data is provided in two formats:
 * `.txt` files are human readable
@@ -108,7 +108,7 @@ aff_ind_k_guessing_vertices
 These enumerations are used to verify the tight Bell inequalities above over a
 broad range of signaling polytopes.
 These facet verifications are performed in the
-[`script/facet_verifications/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/master/script/facet_verifications)
+[`script/facet_verifications/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/main/script/facet_verifications)
 directory.
 Each verification runs as a script and prints the results to a `.txt` file or `STDOUT`.
 By default the scripts do not require arguments.
