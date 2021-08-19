@@ -16,7 +16,7 @@ SignalingDimension
 
 ## Signaling Polytope Data
 
-Our computed facets of the signaling polytope are found in the [`data/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/master/data)
+Our computed facets of the signaling polytope are found in the [`data/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/main/data)
 directory. Please review the [Computed Facets](@ref) section for details regarding
 individual data sets.
 
@@ -24,7 +24,7 @@ individual data sets.
 
 This work provides scripts that verify the tightness of the Bell inequalities
 described in the [Bell Inequalities](@ref) section.
-These scripts and their results are found in the [`script/facet_verifications/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/master/script/facet_verifications)
+These scripts and their results are found in the [`script/facet_verifications/`](https://github.com/ChitambarLab/SignalingDimension.jl/tree/main/script/facet_verifications)
 directory.
 Please refer to the [Verification of Theoretical Facets](@ref) section for more details.
 
@@ -60,7 +60,7 @@ Depth = 2
 
 ## Citing
 
-To reference this work, see [`CITATION.bib`](https://github.com/ChitambarLab/SignalingDimension.jl/blob/master/CITATION.bib).
+To reference this work, see [`CITATION.bib`](https://github.com/ChitambarLab/SignalingDimension.jl/blob/main/CITATION.bib).
 
 ## Licensing
 

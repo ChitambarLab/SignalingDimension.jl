@@ -1,5 +1,6 @@
-using SignalingDimension
-using Documenter
+using Documenter, SignalingDimension
+
+DocMeta.setdocmeta!(SignalingDimension, :DocTestSetup, :(using SignalingDimension); recursive=true)
 
 using BellScenario
 using QBase
@@ -9,7 +10,7 @@ using .ScriptUtilities
 
 makedocs(;
     modules=[SignalingDimension, ScriptUtilities],
-    authors="Brian Doolittle <brian.d.doolittle@gmail.com> and contributors",
+    authors="Brian Doolittle <brian.d.doolittle@gmail.com>",
     repo="https://github.com/ChitambarLab/SignalingDimension.jl/blob/{commit}{path}#L{line}",
     sitename="SignalingDimension.jl",
     format=Documenter.HTML(;
@@ -32,4 +33,5 @@ makedocs(;
 
 deploydocs(;
     repo="github.com/ChitambarLab/SignalingDimension.jl",
+    devbranch = "main",
 )
